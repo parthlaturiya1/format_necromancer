@@ -53,6 +53,12 @@ export type EngineConfig = {
   rowRunCrossPenalty: number;
   /** GUESS (recoverer): confidence taken off every row when the layout has no colour table, so each index is shown as a grey level. */
   noTablePenalty: number;
+  /** GUESS (recoverer, T-10): confidence taken off every row when the end table has no lone lead byte before its whole entries (length divides by 3): nothing marks where the table starts, so a table cut or moved by one byte would look the same. */
+  tableNoLeadPenalty: number;
+  /** GUESS (recoverer, T-10): confidence taken off every row when the row length is 2 or more bytes longer than the width: those extra columns are unexplained. */
+  widePadPenalty: number;
+  /** GUESS (recoverer, T-10): confidence taken off every row when the hypothesis lacks a supporting fact (its confidence is below 1), so such a row is never shown as ok. */
+  partialSupportPenalty: number;
   /** GUESS (recoverer): a row below this confidence is shown as uncertain. */
   uncertainBelow: number;
   /** GUESS (recoverer): a row below this confidence is shown as unexplained. */
@@ -88,8 +94,11 @@ export const defaultConfig: EngineConfig = {
   maxBoxCandidates: 64,
   maxHypotheses: 12,
   workBudget: 40_000_000,
-  rowRunCrossPenalty: 0.05,
+  rowRunCrossPenalty: 0.15,
   noTablePenalty: 0.2,
+  tableNoLeadPenalty: 0.2,
+  widePadPenalty: 0.2,
+  partialSupportPenalty: 0.1,
   uncertainBelow: 0.9,
   unexplainedBelow: 0.5,
   maxOutputValues: 16 * 1024 * 1024,

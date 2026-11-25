@@ -1,0 +1,182 @@
+{
+ "files": 297,
+ "threshold": 0.9,
+ "kinds": {
+  "first-byte-changed": {
+   "n": 11,
+   "refusedByPillow": 11,
+   "exact": 11,
+   "unrecovered": 0,
+   "lowConfWrong": 0,
+   "maxLowConfWrong": 0,
+   "highConfWrong": 0
+  },
+  "first-byte-zeroed": {
+   "n": 11,
+   "refusedByPillow": 11,
+   "exact": 11,
+   "unrecovered": 0,
+   "lowConfWrong": 0,
+   "maxLowConfWrong": 0,
+   "highConfWrong": 0
+  },
+  "header-shifted-insert": {
+   "n": 44,
+   "refusedByPillow": 44,
+   "exact": 0,
+   "unrecovered": 38,
+   "lowConfWrong": 6,
+   "maxLowConfWrong": 0.5,
+   "highConfWrong": 0
+  },
+  "header-shifted-remove": {
+   "n": 44,
+   "refusedByPillow": 44,
+   "exact": 0,
+   "unrecovered": 33,
+   "lowConfWrong": 11,
+   "maxLowConfWrong": 0.85,
+   "highConfWrong": 0
+  },
+  "tail-cut": {
+   "n": 44,
+   "refusedByPillow": 6,
+   "exact": 8,
+   "unrecovered": 21,
+   "lowConfWrong": 15,
+   "maxLowConfWrong": 0.8,
+   "highConfWrong": 0
+  },
+  "body-flip": {
+   "n": 88,
+   "refusedByPillow": 68,
+   "exact": 16,
+   "unrecovered": 71,
+   "lowConfWrong": 1,
+   "maxLowConfWrong": 0.5,
+   "highConfWrong": 0
+  },
+  "size-altered": {
+   "n": 55,
+   "refusedByPillow": 22,
+   "exact": 11,
+   "unrecovered": 32,
+   "lowConfWrong": 12,
+   "maxLowConfWrong": 0.8,
+   "highConfWrong": 0
+  }
+ },
+ "oldRuleVsSourceReference": {
+  "first-byte-changed": {
+   "n": 11,
+   "refusedByPillow": 0,
+   "exact": 11,
+   "unrecovered": 0,
+   "lowConfWrong": 0,
+   "maxLowConfWrong": 0,
+   "highConfWrong": 0
+  },
+  "first-byte-zeroed": {
+   "n": 11,
+   "refusedByPillow": 0,
+   "exact": 11,
+   "unrecovered": 0,
+   "lowConfWrong": 0,
+   "maxLowConfWrong": 0,
+   "highConfWrong": 0
+  },
+  "header-shifted-insert": {
+   "n": 44,
+   "refusedByPillow": 0,
+   "exact": 0,
+   "unrecovered": 38,
+   "lowConfWrong": 6,
+   "maxLowConfWrong": 0.5,
+   "highConfWrong": 0
+  },
+  "header-shifted-remove": {
+   "n": 44,
+   "refusedByPillow": 0,
+   "exact": 0,
+   "unrecovered": 33,
+   "lowConfWrong": 11,
+   "maxLowConfWrong": 0.85,
+   "highConfWrong": 0
+  },
+  "tail-cut": {
+   "n": 44,
+   "refusedByPillow": 0,
+   "exact": 3,
+   "unrecovered": 21,
+   "lowConfWrong": 20,
+   "maxLowConfWrong": 0.8,
+   "highConfWrong": 0
+  },
+  "body-flip": {
+   "n": 88,
+   "refusedByPillow": 0,
+   "exact": 0,
+   "unrecovered": 71,
+   "lowConfWrong": 1,
+   "maxLowConfWrong": 0.5,
+   "highConfWrong": 16
+  },
+  "size-altered": {
+   "n": 55,
+   "refusedByPillow": 0,
+   "exact": 0,
+   "unrecovered": 32,
+   "lowConfWrong": 12,
+   "maxLowConfWrong": 0.8,
+   "highConfWrong": 11
+  }
+ },
+ "lowConfidenceWrong": [
+  "corpus/mutations/hgrad-gray-64x48.header-shifted-insert.4.bin: confidence 0.5",
+  "corpus/mutations/hgrad-gray-64x48.tail-cut.1.bin: confidence 0.8",
+  "corpus/mutations/hgrad-gray-64x48.tail-cut.769.bin: confidence 0.6",
+  "corpus/mutations/hgrad-gray-64x48.size-altered.y1-plus1.bin: confidence 0.8",
+  "corpus/mutations/vgrad-fire-97x61.header-shifted-remove.1.bin: confidence 0.8",
+  "corpus/mutations/vgrad-fire-97x61.header-shifted-remove.3.bin: confidence 0.6",
+  "corpus/mutations/vgrad-fire-97x61.header-shifted-remove.4.bin: confidence 0.4",
+  "corpus/mutations/vgrad-fire-97x61.tail-cut.1.bin: confidence 0.8",
+  "corpus/mutations/vgrad-fire-97x61.size-altered.x1-minus1.bin: confidence 0.8",
+  "corpus/mutations/shapes-rand-128x96.header-shifted-remove.2.bin: confidence 0.5",
+  "corpus/mutations/shapes-rand-128x96.tail-cut.1.bin: confidence 0.8",
+  "corpus/mutations/checker8-ocean-80x80.header-shifted-insert.1.bin: confidence 0.1",
+  "corpus/mutations/checker8-ocean-80x80.header-shifted-insert.2.bin: confidence 0.3",
+  "corpus/mutations/checker8-ocean-80x80.tail-cut.1.bin: confidence 0.8",
+  "corpus/mutations/checker1-gray-65x33.header-shifted-remove.1.bin: confidence 0.8",
+  "corpus/mutations/checker1-gray-65x33.tail-cut.1.bin: confidence 0.8",
+  "corpus/mutations/checker1-gray-65x33.size-altered.x1-minus1.bin: confidence 0.8",
+  "corpus/mutations/stripes-rand-200x40.tail-cut.1.bin: confidence 0.8",
+  "corpus/mutations/text-fire-160x32.header-shifted-remove.1.bin: confidence 0.1",
+  "corpus/mutations/text-fire-160x32.header-shifted-insert.2.bin: confidence 0.1",
+  "corpus/mutations/text-fire-160x32.tail-cut.1.bin: confidence 0.8",
+  "corpus/mutations/text-fire-160x32.body-flip.5.bin: confidence 0.5",
+  "corpus/mutations/text-fire-160x32.size-altered.x1-plus1.bin: confidence 0.5",
+  "corpus/mutations/rings-rand-111x111.tail-cut.1.bin: confidence 0.8",
+  "corpus/mutations/rings-rand-111x111.size-altered.x1-minus1.bin: confidence 0.8",
+  "corpus/mutations/rings-rand-111x111.size-altered.y1-plus1.bin: confidence 0.7",
+  "corpus/mutations/diag-ocean-256x16.header-shifted-remove.1.bin: confidence 0.8",
+  "corpus/mutations/diag-ocean-256x16.tail-cut.1.bin: confidence 0.8",
+  "corpus/mutations/diag-ocean-256x16.size-altered.x1-plus1.bin: confidence 0.6",
+  "corpus/mutations/solid-gray-32x32.header-shifted-remove.1.bin: confidence 0.1",
+  "corpus/mutations/solid-gray-32x32.header-shifted-insert.2.bin: confidence 0.1",
+  "corpus/mutations/solid-gray-32x32.tail-cut.1.bin: confidence 0.8",
+  "corpus/mutations/solid-gray-32x32.tail-cut.2.bin: confidence 0.5",
+  "corpus/mutations/solid-gray-32x32.tail-cut.769.bin: confidence 0.6",
+  "corpus/mutations/solid-gray-32x32.size-altered.x1-plus1.bin: confidence 0.5",
+  "corpus/mutations/solid-gray-32x32.size-altered.y1-plus1.bin: confidence 0.3",
+  "corpus/mutations/tiny-rand-7x5.header-shifted-remove.1.bin: confidence 0.4",
+  "corpus/mutations/tiny-rand-7x5.header-shifted-remove.2.bin: confidence 0.5",
+  "corpus/mutations/tiny-rand-7x5.header-shifted-insert.4.bin: confidence 0.4",
+  "corpus/mutations/tiny-rand-7x5.header-shifted-remove.4.bin: confidence 0.85",
+  "corpus/mutations/tiny-rand-7x5.tail-cut.1.bin: confidence 0.8",
+  "corpus/mutations/tiny-rand-7x5.tail-cut.769.bin: confidence 0.6",
+  "corpus/mutations/tiny-rand-7x5.size-altered.x1-minus1.bin: confidence 0.8",
+  "corpus/mutations/tiny-rand-7x5.size-altered.y1-minus1.bin: confidence 0.45",
+  "corpus/mutations/tiny-rand-7x5.size-altered.x1-times2.bin: confidence 0.1"
+ ],
+ "failures": []
+}

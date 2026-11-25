@@ -1,24 +1,32 @@
 # Verification
 
 Overall: **PASS**
-Run: 2026-11-25T11:04:39.688Z, Node v26.13.1
+Run: 2026-11-25T11:16:40.774Z, Node v26.13.1
 
 | Step | Result |
 |---|---|
-| 1 Typecheck | PASS (2.0s) |
-| 2 Lint | PASS (2.8s) |
-| 3 Unit tests | PASS (1.9s) |
-| 4 Property tests | PASS (2.3s) |
-| 5 Golden corpus | PASS (1.1s) |
-| 6 Build | PASS (4.8s) |
-| 7 Playwright e2e | PASS (2.7s) |
+| 1 Typecheck | PASS (3.0s) |
+| 2 Lint | PASS (3.7s) |
+| 3 Unit tests | PASS (1.8s) |
+| 4 Property tests | PASS (4.5s) |
+| 5 Golden corpus | PASS (1.9s) |
+| 6 Build | PASS (5.7s) |
+| 7 Playwright e2e | PASS (2.6s) |
 | 8 Budgets | PASS (stub, 0.0s) |
 | 9a Audit (high/critical) | PASS (1.4s) |
-| 9b Secret scan | PASS (0.2s) |
-| 10 provenance:check | PASS (0.3s) |
+| 9b Secret scan | PASS (0.1s) |
+| 10 provenance:check | PASS (0.2s) |
 
-## Provenance warnings (126)
+## Provenance warnings (134)
 
+- UNATTRIBUTED f7f0006 docs/verification/latest.md
+- UNATTRIBUTED f7f0006 src/engine/pipeline.ts
+- UNATTRIBUTED f7f0006 src/engine/png.ts
+- UNATTRIBUTED f7f0006 src/engine/report.ts
+- UNATTRIBUTED f7f0006 src/engine/verify.ts
+- UNATTRIBUTED f7f0006 tests/engine/golden-report.test.ts
+- UNATTRIBUTED f7f0006 tests/engine/verify.test.ts
+- UNATTRIBUTED f7f0006 tests/property/verify.test.ts
 - UNATTRIBUTED 88c3471 docs/verification/latest.md
 - UNATTRIBUTED 88c3471 scripts/golden/recover-baseline.json
 - UNATTRIBUTED 88c3471 scripts/verify.mjs

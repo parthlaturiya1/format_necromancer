@@ -1,0 +1,3069 @@
+{
+ "version": 1,
+ "seed": 20261125,
+ "rule": "each file must be exact or unrecovered; never recovered, not exact, with confidence >= 0.9",
+ "entries": [
+  {
+   "file": "corpus/mutations/hgrad-gray-64x48.first-byte-changed.plus1.bin",
+   "kind": "first-byte-changed",
+   "param": "plus1",
+   "source": "hgrad-gray-64x48",
+   "bytes": 1053,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/hgrad-gray-64x48.first-byte-changed.plus1.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/hgrad-gray-64x48.first-byte-zeroed.0.bin",
+   "kind": "first-byte-zeroed",
+   "param": "0",
+   "source": "hgrad-gray-64x48",
+   "bytes": 1053,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/hgrad-gray-64x48.first-byte-zeroed.0.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/hgrad-gray-64x48.header-shifted-insert.1.bin",
+   "kind": "header-shifted-insert",
+   "param": "1",
+   "source": "hgrad-gray-64x48",
+   "bytes": 1054,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/hgrad-gray-64x48.header-shifted-insert.1.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/hgrad-gray-64x48.header-shifted-remove.1.bin",
+   "kind": "header-shifted-remove",
+   "param": "1",
+   "source": "hgrad-gray-64x48",
+   "bytes": 1052,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/hgrad-gray-64x48.header-shifted-remove.1.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/hgrad-gray-64x48.header-shifted-insert.2.bin",
+   "kind": "header-shifted-insert",
+   "param": "2",
+   "source": "hgrad-gray-64x48",
+   "bytes": 1055,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/hgrad-gray-64x48.header-shifted-insert.2.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/hgrad-gray-64x48.header-shifted-remove.2.bin",
+   "kind": "header-shifted-remove",
+   "param": "2",
+   "source": "hgrad-gray-64x48",
+   "bytes": 1051,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/hgrad-gray-64x48.header-shifted-remove.2.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/hgrad-gray-64x48.header-shifted-insert.3.bin",
+   "kind": "header-shifted-insert",
+   "param": "3",
+   "source": "hgrad-gray-64x48",
+   "bytes": 1056,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/hgrad-gray-64x48.header-shifted-insert.3.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/hgrad-gray-64x48.header-shifted-remove.3.bin",
+   "kind": "header-shifted-remove",
+   "param": "3",
+   "source": "hgrad-gray-64x48",
+   "bytes": 1050,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/hgrad-gray-64x48.header-shifted-remove.3.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/hgrad-gray-64x48.header-shifted-insert.4.bin",
+   "kind": "header-shifted-insert",
+   "param": "4",
+   "source": "hgrad-gray-64x48",
+   "bytes": 1057,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/hgrad-gray-64x48.header-shifted-insert.4.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/hgrad-gray-64x48.header-shifted-remove.4.bin",
+   "kind": "header-shifted-remove",
+   "param": "4",
+   "source": "hgrad-gray-64x48",
+   "bytes": 1049,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/hgrad-gray-64x48.header-shifted-remove.4.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/hgrad-gray-64x48.tail-cut.1.bin",
+   "kind": "tail-cut",
+   "param": "1",
+   "source": "hgrad-gray-64x48",
+   "bytes": 1052,
+   "reference": {
+    "path": "corpus/mutations/reference/hgrad-gray-64x48.tail-cut.1.png",
+    "sha256": "4a3ac11d94aa8886576ce72e7d4108713c8e42a9c92361532b948e45a91a7a32"
+   }
+  },
+  {
+   "file": "corpus/mutations/hgrad-gray-64x48.tail-cut.2.bin",
+   "kind": "tail-cut",
+   "param": "2",
+   "source": "hgrad-gray-64x48",
+   "bytes": 1051,
+   "reference": {
+    "path": "corpus/mutations/reference/hgrad-gray-64x48.tail-cut.2.png",
+    "sha256": "4a3ac11d94aa8886576ce72e7d4108713c8e42a9c92361532b948e45a91a7a32"
+   }
+  },
+  {
+   "file": "corpus/mutations/hgrad-gray-64x48.tail-cut.768.bin",
+   "kind": "tail-cut",
+   "param": "768",
+   "source": "hgrad-gray-64x48",
+   "bytes": 285,
+   "reference": {
+    "refused": "OSError: [Errno 22] Invalid argument"
+   }
+  },
+  {
+   "file": "corpus/mutations/hgrad-gray-64x48.tail-cut.769.bin",
+   "kind": "tail-cut",
+   "param": "769",
+   "source": "hgrad-gray-64x48",
+   "bytes": 284,
+   "reference": {
+    "refused": "OSError: [Errno 22] Invalid argument"
+   }
+  },
+  {
+   "file": "corpus/mutations/hgrad-gray-64x48.body-flip.1.bin",
+   "kind": "body-flip",
+   "param": "1",
+   "source": "hgrad-gray-64x48",
+   "bytes": 1053,
+   "reference": {
+    "path": "corpus/mutations/reference/hgrad-gray-64x48.body-flip.1.png",
+    "sha256": "c5f42ebd5a6b5d7768f2a1b7028f3a2618473e28af02a346db884c87a822dd8a"
+   }
+  },
+  {
+   "file": "corpus/mutations/hgrad-gray-64x48.body-flip.2.bin",
+   "kind": "body-flip",
+   "param": "2",
+   "source": "hgrad-gray-64x48",
+   "bytes": 1053,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/hgrad-gray-64x48.body-flip.3.bin",
+   "kind": "body-flip",
+   "param": "3",
+   "source": "hgrad-gray-64x48",
+   "bytes": 1053,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/hgrad-gray-64x48.body-flip.4.bin",
+   "kind": "body-flip",
+   "param": "4",
+   "source": "hgrad-gray-64x48",
+   "bytes": 1053,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/hgrad-gray-64x48.body-flip.5.bin",
+   "kind": "body-flip",
+   "param": "5",
+   "source": "hgrad-gray-64x48",
+   "bytes": 1053,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/hgrad-gray-64x48.body-flip.6.bin",
+   "kind": "body-flip",
+   "param": "6",
+   "source": "hgrad-gray-64x48",
+   "bytes": 1053,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/hgrad-gray-64x48.body-flip.7.bin",
+   "kind": "body-flip",
+   "param": "7",
+   "source": "hgrad-gray-64x48",
+   "bytes": 1053,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/hgrad-gray-64x48.body-flip.8.bin",
+   "kind": "body-flip",
+   "param": "8",
+   "source": "hgrad-gray-64x48",
+   "bytes": 1053,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/hgrad-gray-64x48.size-altered.x1-plus1.bin",
+   "kind": "size-altered",
+   "param": "x1-plus1",
+   "source": "hgrad-gray-64x48",
+   "bytes": 1053,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/hgrad-gray-64x48.size-altered.x1-minus1.bin",
+   "kind": "size-altered",
+   "param": "x1-minus1",
+   "source": "hgrad-gray-64x48",
+   "bytes": 1053,
+   "reference": {
+    "path": "corpus/mutations/reference/hgrad-gray-64x48.size-altered.x1-minus1.png",
+    "sha256": "c9d82941c46f28220a0d762c0b88670752bb3366c93b5d1272b46ad9d3b34470"
+   }
+  },
+  {
+   "file": "corpus/mutations/hgrad-gray-64x48.size-altered.y1-plus1.bin",
+   "kind": "size-altered",
+   "param": "y1-plus1",
+   "source": "hgrad-gray-64x48",
+   "bytes": 1053,
+   "reference": {
+    "path": "corpus/mutations/reference/hgrad-gray-64x48.size-altered.y1-plus1.png",
+    "sha256": "88e7eb407ef4b5b5a7cc4ef8adcdacdda4c9100c5e7780da431ccfa06748c057"
+   }
+  },
+  {
+   "file": "corpus/mutations/hgrad-gray-64x48.size-altered.y1-minus1.bin",
+   "kind": "size-altered",
+   "param": "y1-minus1",
+   "source": "hgrad-gray-64x48",
+   "bytes": 1053,
+   "reference": {
+    "path": "corpus/mutations/reference/hgrad-gray-64x48.size-altered.y1-minus1.png",
+    "sha256": "fa4ba1e9e79816108ec81d928f36ee77a823a929eb2599512293905e3cdf8fe5"
+   }
+  },
+  {
+   "file": "corpus/mutations/hgrad-gray-64x48.size-altered.x1-times2.bin",
+   "kind": "size-altered",
+   "param": "x1-times2",
+   "source": "hgrad-gray-64x48",
+   "bytes": 1053,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/vgrad-fire-97x61.first-byte-changed.plus1.bin",
+   "kind": "first-byte-changed",
+   "param": "plus1",
+   "source": "vgrad-fire-97x61",
+   "bytes": 8339,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/vgrad-fire-97x61.first-byte-changed.plus1.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/vgrad-fire-97x61.first-byte-zeroed.0.bin",
+   "kind": "first-byte-zeroed",
+   "param": "0",
+   "source": "vgrad-fire-97x61",
+   "bytes": 8339,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/vgrad-fire-97x61.first-byte-zeroed.0.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/vgrad-fire-97x61.header-shifted-insert.1.bin",
+   "kind": "header-shifted-insert",
+   "param": "1",
+   "source": "vgrad-fire-97x61",
+   "bytes": 8340,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/vgrad-fire-97x61.header-shifted-insert.1.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/vgrad-fire-97x61.header-shifted-remove.1.bin",
+   "kind": "header-shifted-remove",
+   "param": "1",
+   "source": "vgrad-fire-97x61",
+   "bytes": 8338,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/vgrad-fire-97x61.header-shifted-remove.1.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/vgrad-fire-97x61.header-shifted-insert.2.bin",
+   "kind": "header-shifted-insert",
+   "param": "2",
+   "source": "vgrad-fire-97x61",
+   "bytes": 8341,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/vgrad-fire-97x61.header-shifted-insert.2.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/vgrad-fire-97x61.header-shifted-remove.2.bin",
+   "kind": "header-shifted-remove",
+   "param": "2",
+   "source": "vgrad-fire-97x61",
+   "bytes": 8337,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/vgrad-fire-97x61.header-shifted-remove.2.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/vgrad-fire-97x61.header-shifted-insert.3.bin",
+   "kind": "header-shifted-insert",
+   "param": "3",
+   "source": "vgrad-fire-97x61",
+   "bytes": 8342,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/vgrad-fire-97x61.header-shifted-insert.3.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/vgrad-fire-97x61.header-shifted-remove.3.bin",
+   "kind": "header-shifted-remove",
+   "param": "3",
+   "source": "vgrad-fire-97x61",
+   "bytes": 8336,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/vgrad-fire-97x61.header-shifted-remove.3.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/vgrad-fire-97x61.header-shifted-insert.4.bin",
+   "kind": "header-shifted-insert",
+   "param": "4",
+   "source": "vgrad-fire-97x61",
+   "bytes": 8343,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/vgrad-fire-97x61.header-shifted-insert.4.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/vgrad-fire-97x61.header-shifted-remove.4.bin",
+   "kind": "header-shifted-remove",
+   "param": "4",
+   "source": "vgrad-fire-97x61",
+   "bytes": 8335,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/vgrad-fire-97x61.header-shifted-remove.4.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/vgrad-fire-97x61.tail-cut.1.bin",
+   "kind": "tail-cut",
+   "param": "1",
+   "source": "vgrad-fire-97x61",
+   "bytes": 8338,
+   "reference": {
+    "path": "corpus/mutations/reference/vgrad-fire-97x61.tail-cut.1.png",
+    "sha256": "411cfd443b3f5465920b7fee6c9955d2ab40bd1154405efff647fa3511775f7e"
+   }
+  },
+  {
+   "file": "corpus/mutations/vgrad-fire-97x61.tail-cut.2.bin",
+   "kind": "tail-cut",
+   "param": "2",
+   "source": "vgrad-fire-97x61",
+   "bytes": 8337,
+   "reference": {
+    "path": "corpus/mutations/reference/vgrad-fire-97x61.tail-cut.2.png",
+    "sha256": "411cfd443b3f5465920b7fee6c9955d2ab40bd1154405efff647fa3511775f7e"
+   }
+  },
+  {
+   "file": "corpus/mutations/vgrad-fire-97x61.tail-cut.768.bin",
+   "kind": "tail-cut",
+   "param": "768",
+   "source": "vgrad-fire-97x61",
+   "bytes": 7571,
+   "reference": {
+    "path": "corpus/mutations/reference/vgrad-fire-97x61.tail-cut.768.png",
+    "sha256": "411cfd443b3f5465920b7fee6c9955d2ab40bd1154405efff647fa3511775f7e"
+   }
+  },
+  {
+   "file": "corpus/mutations/vgrad-fire-97x61.tail-cut.769.bin",
+   "kind": "tail-cut",
+   "param": "769",
+   "source": "vgrad-fire-97x61",
+   "bytes": 7570,
+   "reference": {
+    "path": "corpus/mutations/reference/vgrad-fire-97x61.tail-cut.769.png",
+    "sha256": "411cfd443b3f5465920b7fee6c9955d2ab40bd1154405efff647fa3511775f7e"
+   }
+  },
+  {
+   "file": "corpus/mutations/vgrad-fire-97x61.body-flip.1.bin",
+   "kind": "body-flip",
+   "param": "1",
+   "source": "vgrad-fire-97x61",
+   "bytes": 8339,
+   "reference": {
+    "path": "corpus/mutations/reference/vgrad-fire-97x61.body-flip.1.png",
+    "sha256": "480c266132da241b100ecbcf38e1996fd388b7a3b74df2fa7f631a97c16bd298"
+   }
+  },
+  {
+   "file": "corpus/mutations/vgrad-fire-97x61.body-flip.2.bin",
+   "kind": "body-flip",
+   "param": "2",
+   "source": "vgrad-fire-97x61",
+   "bytes": 8339,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/vgrad-fire-97x61.body-flip.3.bin",
+   "kind": "body-flip",
+   "param": "3",
+   "source": "vgrad-fire-97x61",
+   "bytes": 8339,
+   "reference": {
+    "path": "corpus/mutations/reference/vgrad-fire-97x61.body-flip.3.png",
+    "sha256": "a8bd5a7fd8b8e14effe8c8450f6498aa46bee7c510cd651c2d3055960ffbaa2d"
+   }
+  },
+  {
+   "file": "corpus/mutations/vgrad-fire-97x61.body-flip.4.bin",
+   "kind": "body-flip",
+   "param": "4",
+   "source": "vgrad-fire-97x61",
+   "bytes": 8339,
+   "reference": {
+    "path": "corpus/mutations/reference/vgrad-fire-97x61.body-flip.4.png",
+    "sha256": "fcc0dca736a4eb3f91cc00a3a5b6e0237e26e54b195020112a96f13b0bbb1f21"
+   }
+  },
+  {
+   "file": "corpus/mutations/vgrad-fire-97x61.body-flip.5.bin",
+   "kind": "body-flip",
+   "param": "5",
+   "source": "vgrad-fire-97x61",
+   "bytes": 8339,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/vgrad-fire-97x61.body-flip.6.bin",
+   "kind": "body-flip",
+   "param": "6",
+   "source": "vgrad-fire-97x61",
+   "bytes": 8339,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/vgrad-fire-97x61.body-flip.7.bin",
+   "kind": "body-flip",
+   "param": "7",
+   "source": "vgrad-fire-97x61",
+   "bytes": 8339,
+   "reference": {
+    "path": "corpus/mutations/reference/vgrad-fire-97x61.body-flip.7.png",
+    "sha256": "ee761cbc74098779a924c5723f3647347cf3a2b82a653365bf9967ef6789ea87"
+   }
+  },
+  {
+   "file": "corpus/mutations/vgrad-fire-97x61.body-flip.8.bin",
+   "kind": "body-flip",
+   "param": "8",
+   "source": "vgrad-fire-97x61",
+   "bytes": 8339,
+   "reference": {
+    "path": "corpus/mutations/reference/vgrad-fire-97x61.body-flip.8.png",
+    "sha256": "7454c863da8ac8cc7c6c66d526ac69463cdecbdd53ad63093b587bbe1ba31f02"
+   }
+  },
+  {
+   "file": "corpus/mutations/vgrad-fire-97x61.size-altered.x1-plus1.bin",
+   "kind": "size-altered",
+   "param": "x1-plus1",
+   "source": "vgrad-fire-97x61",
+   "bytes": 8339,
+   "reference": {
+    "path": "corpus/mutations/reference/vgrad-fire-97x61.size-altered.x1-plus1.png",
+    "sha256": "9223dc08f6f6dff57d84cf05ac75aca52f29bd38e0360383c0166118190bfaab"
+   }
+  },
+  {
+   "file": "corpus/mutations/vgrad-fire-97x61.size-altered.x1-minus1.bin",
+   "kind": "size-altered",
+   "param": "x1-minus1",
+   "source": "vgrad-fire-97x61",
+   "bytes": 8339,
+   "reference": {
+    "path": "corpus/mutations/reference/vgrad-fire-97x61.size-altered.x1-minus1.png",
+    "sha256": "5620a7008bf781760858bbbe52327d1d97dbc00f56e655b6ca31087e50793d22"
+   }
+  },
+  {
+   "file": "corpus/mutations/vgrad-fire-97x61.size-altered.y1-plus1.bin",
+   "kind": "size-altered",
+   "param": "y1-plus1",
+   "source": "vgrad-fire-97x61",
+   "bytes": 8339,
+   "reference": {
+    "path": "corpus/mutations/reference/vgrad-fire-97x61.size-altered.y1-plus1.png",
+    "sha256": "6deb01d1a3503936805c0e70efdbe674e396b9051d2520aa735b5697647f1305"
+   }
+  },
+  {
+   "file": "corpus/mutations/vgrad-fire-97x61.size-altered.y1-minus1.bin",
+   "kind": "size-altered",
+   "param": "y1-minus1",
+   "source": "vgrad-fire-97x61",
+   "bytes": 8339,
+   "reference": {
+    "path": "corpus/mutations/reference/vgrad-fire-97x61.size-altered.y1-minus1.png",
+    "sha256": "0063d3e9baa2e153d141f13c196b4d6b45aeffa0f037f3bef6914cf758b2bd10"
+   }
+  },
+  {
+   "file": "corpus/mutations/vgrad-fire-97x61.size-altered.x1-times2.bin",
+   "kind": "size-altered",
+   "param": "x1-times2",
+   "source": "vgrad-fire-97x61",
+   "bytes": 8339,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/shapes-rand-128x96.first-byte-changed.plus1.bin",
+   "kind": "first-byte-changed",
+   "param": "plus1",
+   "source": "shapes-rand-128x96",
+   "bytes": 2514,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/shapes-rand-128x96.first-byte-changed.plus1.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/shapes-rand-128x96.first-byte-zeroed.0.bin",
+   "kind": "first-byte-zeroed",
+   "param": "0",
+   "source": "shapes-rand-128x96",
+   "bytes": 2514,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/shapes-rand-128x96.first-byte-zeroed.0.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/shapes-rand-128x96.header-shifted-insert.1.bin",
+   "kind": "header-shifted-insert",
+   "param": "1",
+   "source": "shapes-rand-128x96",
+   "bytes": 2515,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/shapes-rand-128x96.header-shifted-insert.1.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/shapes-rand-128x96.header-shifted-remove.1.bin",
+   "kind": "header-shifted-remove",
+   "param": "1",
+   "source": "shapes-rand-128x96",
+   "bytes": 2513,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/shapes-rand-128x96.header-shifted-remove.1.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/shapes-rand-128x96.header-shifted-insert.2.bin",
+   "kind": "header-shifted-insert",
+   "param": "2",
+   "source": "shapes-rand-128x96",
+   "bytes": 2516,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/shapes-rand-128x96.header-shifted-insert.2.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/shapes-rand-128x96.header-shifted-remove.2.bin",
+   "kind": "header-shifted-remove",
+   "param": "2",
+   "source": "shapes-rand-128x96",
+   "bytes": 2512,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/shapes-rand-128x96.header-shifted-remove.2.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/shapes-rand-128x96.header-shifted-insert.3.bin",
+   "kind": "header-shifted-insert",
+   "param": "3",
+   "source": "shapes-rand-128x96",
+   "bytes": 2517,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/shapes-rand-128x96.header-shifted-insert.3.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/shapes-rand-128x96.header-shifted-remove.3.bin",
+   "kind": "header-shifted-remove",
+   "param": "3",
+   "source": "shapes-rand-128x96",
+   "bytes": 2511,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/shapes-rand-128x96.header-shifted-remove.3.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/shapes-rand-128x96.header-shifted-insert.4.bin",
+   "kind": "header-shifted-insert",
+   "param": "4",
+   "source": "shapes-rand-128x96",
+   "bytes": 2518,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/shapes-rand-128x96.header-shifted-insert.4.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/shapes-rand-128x96.header-shifted-remove.4.bin",
+   "kind": "header-shifted-remove",
+   "param": "4",
+   "source": "shapes-rand-128x96",
+   "bytes": 2510,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/shapes-rand-128x96.header-shifted-remove.4.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/shapes-rand-128x96.tail-cut.1.bin",
+   "kind": "tail-cut",
+   "param": "1",
+   "source": "shapes-rand-128x96",
+   "bytes": 2513,
+   "reference": {
+    "path": "corpus/mutations/reference/shapes-rand-128x96.tail-cut.1.png",
+    "sha256": "e5a79438fe5084c5a43b2924ea2a01ded7b1ad56595a1f1b8b841d76ca92d824"
+   }
+  },
+  {
+   "file": "corpus/mutations/shapes-rand-128x96.tail-cut.2.bin",
+   "kind": "tail-cut",
+   "param": "2",
+   "source": "shapes-rand-128x96",
+   "bytes": 2512,
+   "reference": {
+    "path": "corpus/mutations/reference/shapes-rand-128x96.tail-cut.2.png",
+    "sha256": "e5a79438fe5084c5a43b2924ea2a01ded7b1ad56595a1f1b8b841d76ca92d824"
+   }
+  },
+  {
+   "file": "corpus/mutations/shapes-rand-128x96.tail-cut.768.bin",
+   "kind": "tail-cut",
+   "param": "768",
+   "source": "shapes-rand-128x96",
+   "bytes": 1746,
+   "reference": {
+    "path": "corpus/mutations/reference/shapes-rand-128x96.tail-cut.768.png",
+    "sha256": "e5a79438fe5084c5a43b2924ea2a01ded7b1ad56595a1f1b8b841d76ca92d824"
+   }
+  },
+  {
+   "file": "corpus/mutations/shapes-rand-128x96.tail-cut.769.bin",
+   "kind": "tail-cut",
+   "param": "769",
+   "source": "shapes-rand-128x96",
+   "bytes": 1745,
+   "reference": {
+    "path": "corpus/mutations/reference/shapes-rand-128x96.tail-cut.769.png",
+    "sha256": "e5a79438fe5084c5a43b2924ea2a01ded7b1ad56595a1f1b8b841d76ca92d824"
+   }
+  },
+  {
+   "file": "corpus/mutations/shapes-rand-128x96.body-flip.1.bin",
+   "kind": "body-flip",
+   "param": "1",
+   "source": "shapes-rand-128x96",
+   "bytes": 2514,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/shapes-rand-128x96.body-flip.2.bin",
+   "kind": "body-flip",
+   "param": "2",
+   "source": "shapes-rand-128x96",
+   "bytes": 2514,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/shapes-rand-128x96.body-flip.3.bin",
+   "kind": "body-flip",
+   "param": "3",
+   "source": "shapes-rand-128x96",
+   "bytes": 2514,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/shapes-rand-128x96.body-flip.4.bin",
+   "kind": "body-flip",
+   "param": "4",
+   "source": "shapes-rand-128x96",
+   "bytes": 2514,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/shapes-rand-128x96.body-flip.5.bin",
+   "kind": "body-flip",
+   "param": "5",
+   "source": "shapes-rand-128x96",
+   "bytes": 2514,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/shapes-rand-128x96.body-flip.6.bin",
+   "kind": "body-flip",
+   "param": "6",
+   "source": "shapes-rand-128x96",
+   "bytes": 2514,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/shapes-rand-128x96.body-flip.7.bin",
+   "kind": "body-flip",
+   "param": "7",
+   "source": "shapes-rand-128x96",
+   "bytes": 2514,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/shapes-rand-128x96.body-flip.8.bin",
+   "kind": "body-flip",
+   "param": "8",
+   "source": "shapes-rand-128x96",
+   "bytes": 2514,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/shapes-rand-128x96.size-altered.x1-plus1.bin",
+   "kind": "size-altered",
+   "param": "x1-plus1",
+   "source": "shapes-rand-128x96",
+   "bytes": 2514,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/shapes-rand-128x96.size-altered.x1-minus1.bin",
+   "kind": "size-altered",
+   "param": "x1-minus1",
+   "source": "shapes-rand-128x96",
+   "bytes": 2514,
+   "reference": {
+    "path": "corpus/mutations/reference/shapes-rand-128x96.size-altered.x1-minus1.png",
+    "sha256": "15dc093596d79df3a7d30fd109be3110d7c1aa7d525dc599732fdbf16b98cbe8"
+   }
+  },
+  {
+   "file": "corpus/mutations/shapes-rand-128x96.size-altered.y1-plus1.bin",
+   "kind": "size-altered",
+   "param": "y1-plus1",
+   "source": "shapes-rand-128x96",
+   "bytes": 2514,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/shapes-rand-128x96.size-altered.y1-minus1.bin",
+   "kind": "size-altered",
+   "param": "y1-minus1",
+   "source": "shapes-rand-128x96",
+   "bytes": 2514,
+   "reference": {
+    "path": "corpus/mutations/reference/shapes-rand-128x96.size-altered.y1-minus1.png",
+    "sha256": "d5ee5e7c45a268149edf009bab4131942f37778878da1bd88c33c9d770505a67"
+   }
+  },
+  {
+   "file": "corpus/mutations/shapes-rand-128x96.size-altered.x1-times2.bin",
+   "kind": "size-altered",
+   "param": "x1-times2",
+   "source": "shapes-rand-128x96",
+   "bytes": 2514,
+   "reference": {
+    "refused": "OSError: image file is truncated (0 bytes not processed)"
+   }
+  },
+  {
+   "file": "corpus/mutations/checker8-ocean-80x80.first-byte-changed.plus1.bin",
+   "kind": "first-byte-changed",
+   "param": "plus1",
+   "source": "checker8-ocean-80x80",
+   "bytes": 2497,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/checker8-ocean-80x80.first-byte-changed.plus1.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/checker8-ocean-80x80.first-byte-zeroed.0.bin",
+   "kind": "first-byte-zeroed",
+   "param": "0",
+   "source": "checker8-ocean-80x80",
+   "bytes": 2497,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/checker8-ocean-80x80.first-byte-zeroed.0.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/checker8-ocean-80x80.header-shifted-insert.1.bin",
+   "kind": "header-shifted-insert",
+   "param": "1",
+   "source": "checker8-ocean-80x80",
+   "bytes": 2498,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/checker8-ocean-80x80.header-shifted-insert.1.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/checker8-ocean-80x80.header-shifted-remove.1.bin",
+   "kind": "header-shifted-remove",
+   "param": "1",
+   "source": "checker8-ocean-80x80",
+   "bytes": 2496,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/checker8-ocean-80x80.header-shifted-remove.1.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/checker8-ocean-80x80.header-shifted-insert.2.bin",
+   "kind": "header-shifted-insert",
+   "param": "2",
+   "source": "checker8-ocean-80x80",
+   "bytes": 2499,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/checker8-ocean-80x80.header-shifted-insert.2.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/checker8-ocean-80x80.header-shifted-remove.2.bin",
+   "kind": "header-shifted-remove",
+   "param": "2",
+   "source": "checker8-ocean-80x80",
+   "bytes": 2495,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/checker8-ocean-80x80.header-shifted-remove.2.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/checker8-ocean-80x80.header-shifted-insert.3.bin",
+   "kind": "header-shifted-insert",
+   "param": "3",
+   "source": "checker8-ocean-80x80",
+   "bytes": 2500,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/checker8-ocean-80x80.header-shifted-insert.3.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/checker8-ocean-80x80.header-shifted-remove.3.bin",
+   "kind": "header-shifted-remove",
+   "param": "3",
+   "source": "checker8-ocean-80x80",
+   "bytes": 2494,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/checker8-ocean-80x80.header-shifted-remove.3.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/checker8-ocean-80x80.header-shifted-insert.4.bin",
+   "kind": "header-shifted-insert",
+   "param": "4",
+   "source": "checker8-ocean-80x80",
+   "bytes": 2501,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/checker8-ocean-80x80.header-shifted-insert.4.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/checker8-ocean-80x80.header-shifted-remove.4.bin",
+   "kind": "header-shifted-remove",
+   "param": "4",
+   "source": "checker8-ocean-80x80",
+   "bytes": 2493,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/checker8-ocean-80x80.header-shifted-remove.4.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/checker8-ocean-80x80.tail-cut.1.bin",
+   "kind": "tail-cut",
+   "param": "1",
+   "source": "checker8-ocean-80x80",
+   "bytes": 2496,
+   "reference": {
+    "path": "corpus/mutations/reference/checker8-ocean-80x80.tail-cut.1.png",
+    "sha256": "52bda6bedfb0d593a221525023356a823f30bfdc3eb5c7226e78c5269eb99e3b"
+   }
+  },
+  {
+   "file": "corpus/mutations/checker8-ocean-80x80.tail-cut.2.bin",
+   "kind": "tail-cut",
+   "param": "2",
+   "source": "checker8-ocean-80x80",
+   "bytes": 2495,
+   "reference": {
+    "path": "corpus/mutations/reference/checker8-ocean-80x80.tail-cut.2.png",
+    "sha256": "52bda6bedfb0d593a221525023356a823f30bfdc3eb5c7226e78c5269eb99e3b"
+   }
+  },
+  {
+   "file": "corpus/mutations/checker8-ocean-80x80.tail-cut.768.bin",
+   "kind": "tail-cut",
+   "param": "768",
+   "source": "checker8-ocean-80x80",
+   "bytes": 1729,
+   "reference": {
+    "path": "corpus/mutations/reference/checker8-ocean-80x80.tail-cut.768.png",
+    "sha256": "52bda6bedfb0d593a221525023356a823f30bfdc3eb5c7226e78c5269eb99e3b"
+   }
+  },
+  {
+   "file": "corpus/mutations/checker8-ocean-80x80.tail-cut.769.bin",
+   "kind": "tail-cut",
+   "param": "769",
+   "source": "checker8-ocean-80x80",
+   "bytes": 1728,
+   "reference": {
+    "path": "corpus/mutations/reference/checker8-ocean-80x80.tail-cut.769.png",
+    "sha256": "52bda6bedfb0d593a221525023356a823f30bfdc3eb5c7226e78c5269eb99e3b"
+   }
+  },
+  {
+   "file": "corpus/mutations/checker8-ocean-80x80.body-flip.1.bin",
+   "kind": "body-flip",
+   "param": "1",
+   "source": "checker8-ocean-80x80",
+   "bytes": 2497,
+   "reference": {
+    "path": "corpus/mutations/reference/checker8-ocean-80x80.body-flip.1.png",
+    "sha256": "48c018da8c06738ca507030b47c40438ae4c0435e3a266ced9bab5e1edf9c081"
+   }
+  },
+  {
+   "file": "corpus/mutations/checker8-ocean-80x80.body-flip.2.bin",
+   "kind": "body-flip",
+   "param": "2",
+   "source": "checker8-ocean-80x80",
+   "bytes": 2497,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/checker8-ocean-80x80.body-flip.3.bin",
+   "kind": "body-flip",
+   "param": "3",
+   "source": "checker8-ocean-80x80",
+   "bytes": 2497,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/checker8-ocean-80x80.body-flip.4.bin",
+   "kind": "body-flip",
+   "param": "4",
+   "source": "checker8-ocean-80x80",
+   "bytes": 2497,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/checker8-ocean-80x80.body-flip.5.bin",
+   "kind": "body-flip",
+   "param": "5",
+   "source": "checker8-ocean-80x80",
+   "bytes": 2497,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/checker8-ocean-80x80.body-flip.6.bin",
+   "kind": "body-flip",
+   "param": "6",
+   "source": "checker8-ocean-80x80",
+   "bytes": 2497,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/checker8-ocean-80x80.body-flip.7.bin",
+   "kind": "body-flip",
+   "param": "7",
+   "source": "checker8-ocean-80x80",
+   "bytes": 2497,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/checker8-ocean-80x80.body-flip.8.bin",
+   "kind": "body-flip",
+   "param": "8",
+   "source": "checker8-ocean-80x80",
+   "bytes": 2497,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/checker8-ocean-80x80.size-altered.x1-plus1.bin",
+   "kind": "size-altered",
+   "param": "x1-plus1",
+   "source": "checker8-ocean-80x80",
+   "bytes": 2497,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/checker8-ocean-80x80.size-altered.x1-minus1.bin",
+   "kind": "size-altered",
+   "param": "x1-minus1",
+   "source": "checker8-ocean-80x80",
+   "bytes": 2497,
+   "reference": {
+    "path": "corpus/mutations/reference/checker8-ocean-80x80.size-altered.x1-minus1.png",
+    "sha256": "f796deaf41d3e6c4c0aacfdda5283c7bd49a7f439570e23f1df86dee16cd3885"
+   }
+  },
+  {
+   "file": "corpus/mutations/checker8-ocean-80x80.size-altered.y1-plus1.bin",
+   "kind": "size-altered",
+   "param": "y1-plus1",
+   "source": "checker8-ocean-80x80",
+   "bytes": 2497,
+   "reference": {
+    "path": "corpus/mutations/reference/checker8-ocean-80x80.size-altered.y1-plus1.png",
+    "sha256": "bce3e8ebae90c7c989e990e26bcf3667a7077f0630dd9340ee48b50460f61d69"
+   }
+  },
+  {
+   "file": "corpus/mutations/checker8-ocean-80x80.size-altered.y1-minus1.bin",
+   "kind": "size-altered",
+   "param": "y1-minus1",
+   "source": "checker8-ocean-80x80",
+   "bytes": 2497,
+   "reference": {
+    "path": "corpus/mutations/reference/checker8-ocean-80x80.size-altered.y1-minus1.png",
+    "sha256": "d8f9d2930242a721c3131bc6244fdf12982c4dd42323461d707cca0ab2fab9ec"
+   }
+  },
+  {
+   "file": "corpus/mutations/checker8-ocean-80x80.size-altered.x1-times2.bin",
+   "kind": "size-altered",
+   "param": "x1-times2",
+   "source": "checker8-ocean-80x80",
+   "bytes": 2497,
+   "reference": {
+    "refused": "OSError: image file is truncated (1 bytes not processed)"
+   }
+  },
+  {
+   "file": "corpus/mutations/checker1-gray-65x33.first-byte-changed.plus1.bin",
+   "kind": "first-byte-changed",
+   "param": "plus1",
+   "source": "checker1-gray-65x33",
+   "bytes": 4147,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/checker1-gray-65x33.first-byte-changed.plus1.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/checker1-gray-65x33.first-byte-zeroed.0.bin",
+   "kind": "first-byte-zeroed",
+   "param": "0",
+   "source": "checker1-gray-65x33",
+   "bytes": 4147,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/checker1-gray-65x33.first-byte-zeroed.0.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/checker1-gray-65x33.header-shifted-insert.1.bin",
+   "kind": "header-shifted-insert",
+   "param": "1",
+   "source": "checker1-gray-65x33",
+   "bytes": 4148,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/checker1-gray-65x33.header-shifted-insert.1.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/checker1-gray-65x33.header-shifted-remove.1.bin",
+   "kind": "header-shifted-remove",
+   "param": "1",
+   "source": "checker1-gray-65x33",
+   "bytes": 4146,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/checker1-gray-65x33.header-shifted-remove.1.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/checker1-gray-65x33.header-shifted-insert.2.bin",
+   "kind": "header-shifted-insert",
+   "param": "2",
+   "source": "checker1-gray-65x33",
+   "bytes": 4149,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/checker1-gray-65x33.header-shifted-insert.2.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/checker1-gray-65x33.header-shifted-remove.2.bin",
+   "kind": "header-shifted-remove",
+   "param": "2",
+   "source": "checker1-gray-65x33",
+   "bytes": 4145,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/checker1-gray-65x33.header-shifted-remove.2.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/checker1-gray-65x33.header-shifted-insert.3.bin",
+   "kind": "header-shifted-insert",
+   "param": "3",
+   "source": "checker1-gray-65x33",
+   "bytes": 4150,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/checker1-gray-65x33.header-shifted-insert.3.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/checker1-gray-65x33.header-shifted-remove.3.bin",
+   "kind": "header-shifted-remove",
+   "param": "3",
+   "source": "checker1-gray-65x33",
+   "bytes": 4144,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/checker1-gray-65x33.header-shifted-remove.3.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/checker1-gray-65x33.header-shifted-insert.4.bin",
+   "kind": "header-shifted-insert",
+   "param": "4",
+   "source": "checker1-gray-65x33",
+   "bytes": 4151,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/checker1-gray-65x33.header-shifted-insert.4.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/checker1-gray-65x33.header-shifted-remove.4.bin",
+   "kind": "header-shifted-remove",
+   "param": "4",
+   "source": "checker1-gray-65x33",
+   "bytes": 4143,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/checker1-gray-65x33.header-shifted-remove.4.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/checker1-gray-65x33.tail-cut.1.bin",
+   "kind": "tail-cut",
+   "param": "1",
+   "source": "checker1-gray-65x33",
+   "bytes": 4146,
+   "reference": {
+    "path": "corpus/mutations/reference/checker1-gray-65x33.tail-cut.1.png",
+    "sha256": "4fc8a24d5ea2c47592768997e6c4c59ebbbef12ef7ec0dbbdd40544a7807e698"
+   }
+  },
+  {
+   "file": "corpus/mutations/checker1-gray-65x33.tail-cut.2.bin",
+   "kind": "tail-cut",
+   "param": "2",
+   "source": "checker1-gray-65x33",
+   "bytes": 4145,
+   "reference": {
+    "path": "corpus/mutations/reference/checker1-gray-65x33.tail-cut.2.png",
+    "sha256": "4fc8a24d5ea2c47592768997e6c4c59ebbbef12ef7ec0dbbdd40544a7807e698"
+   }
+  },
+  {
+   "file": "corpus/mutations/checker1-gray-65x33.tail-cut.768.bin",
+   "kind": "tail-cut",
+   "param": "768",
+   "source": "checker1-gray-65x33",
+   "bytes": 3379,
+   "reference": {
+    "path": "corpus/mutations/reference/checker1-gray-65x33.tail-cut.768.png",
+    "sha256": "4fc8a24d5ea2c47592768997e6c4c59ebbbef12ef7ec0dbbdd40544a7807e698"
+   }
+  },
+  {
+   "file": "corpus/mutations/checker1-gray-65x33.tail-cut.769.bin",
+   "kind": "tail-cut",
+   "param": "769",
+   "source": "checker1-gray-65x33",
+   "bytes": 3378,
+   "reference": {
+    "path": "corpus/mutations/reference/checker1-gray-65x33.tail-cut.769.png",
+    "sha256": "4fc8a24d5ea2c47592768997e6c4c59ebbbef12ef7ec0dbbdd40544a7807e698"
+   }
+  },
+  {
+   "file": "corpus/mutations/checker1-gray-65x33.body-flip.1.bin",
+   "kind": "body-flip",
+   "param": "1",
+   "source": "checker1-gray-65x33",
+   "bytes": 4147,
+   "reference": {
+    "path": "corpus/mutations/reference/checker1-gray-65x33.body-flip.1.png",
+    "sha256": "3ad4c4f4073799a33fd3450c936ac0c5002a123d47e1cfe724a0230cb8957958"
+   }
+  },
+  {
+   "file": "corpus/mutations/checker1-gray-65x33.body-flip.2.bin",
+   "kind": "body-flip",
+   "param": "2",
+   "source": "checker1-gray-65x33",
+   "bytes": 4147,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/checker1-gray-65x33.body-flip.3.bin",
+   "kind": "body-flip",
+   "param": "3",
+   "source": "checker1-gray-65x33",
+   "bytes": 4147,
+   "reference": {
+    "path": "corpus/mutations/reference/checker1-gray-65x33.body-flip.3.png",
+    "sha256": "ed5065446972ac3012b836d3ff749e2a5ac48706929eb23a28e5fe46e7733aef"
+   }
+  },
+  {
+   "file": "corpus/mutations/checker1-gray-65x33.body-flip.4.bin",
+   "kind": "body-flip",
+   "param": "4",
+   "source": "checker1-gray-65x33",
+   "bytes": 4147,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/checker1-gray-65x33.body-flip.5.bin",
+   "kind": "body-flip",
+   "param": "5",
+   "source": "checker1-gray-65x33",
+   "bytes": 4147,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/checker1-gray-65x33.body-flip.6.bin",
+   "kind": "body-flip",
+   "param": "6",
+   "source": "checker1-gray-65x33",
+   "bytes": 4147,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/checker1-gray-65x33.body-flip.7.bin",
+   "kind": "body-flip",
+   "param": "7",
+   "source": "checker1-gray-65x33",
+   "bytes": 4147,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/checker1-gray-65x33.body-flip.8.bin",
+   "kind": "body-flip",
+   "param": "8",
+   "source": "checker1-gray-65x33",
+   "bytes": 4147,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/checker1-gray-65x33.size-altered.x1-plus1.bin",
+   "kind": "size-altered",
+   "param": "x1-plus1",
+   "source": "checker1-gray-65x33",
+   "bytes": 4147,
+   "reference": {
+    "path": "corpus/mutations/reference/checker1-gray-65x33.size-altered.x1-plus1.png",
+    "sha256": "c5f09564572918f0288474b3877e4557590f1d0fb774f2c2df563012ee1e2646"
+   }
+  },
+  {
+   "file": "corpus/mutations/checker1-gray-65x33.size-altered.x1-minus1.bin",
+   "kind": "size-altered",
+   "param": "x1-minus1",
+   "source": "checker1-gray-65x33",
+   "bytes": 4147,
+   "reference": {
+    "path": "corpus/mutations/reference/checker1-gray-65x33.size-altered.x1-minus1.png",
+    "sha256": "34f34700ac6315f94f67ac6bba0aa0cda8838b21f28871d6a7f61a6b76c293fa"
+   }
+  },
+  {
+   "file": "corpus/mutations/checker1-gray-65x33.size-altered.y1-plus1.bin",
+   "kind": "size-altered",
+   "param": "y1-plus1",
+   "source": "checker1-gray-65x33",
+   "bytes": 4147,
+   "reference": {
+    "path": "corpus/mutations/reference/checker1-gray-65x33.size-altered.y1-plus1.png",
+    "sha256": "a0e837c73a770daced5660dd09907767e08f42e567c4089677f4fbcfdffd8e3b"
+   }
+  },
+  {
+   "file": "corpus/mutations/checker1-gray-65x33.size-altered.y1-minus1.bin",
+   "kind": "size-altered",
+   "param": "y1-minus1",
+   "source": "checker1-gray-65x33",
+   "bytes": 4147,
+   "reference": {
+    "path": "corpus/mutations/reference/checker1-gray-65x33.size-altered.y1-minus1.png",
+    "sha256": "b4b27359c4d8f48bc543cca20e4ff3ea6005f24e440740b912213e29cf1539f8"
+   }
+  },
+  {
+   "file": "corpus/mutations/checker1-gray-65x33.size-altered.x1-times2.bin",
+   "kind": "size-altered",
+   "param": "x1-times2",
+   "source": "checker1-gray-65x33",
+   "bytes": 4147,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/stripes-rand-200x40.first-byte-changed.plus1.bin",
+   "kind": "first-byte-changed",
+   "param": "plus1",
+   "source": "stripes-rand-200x40",
+   "bytes": 4097,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/stripes-rand-200x40.first-byte-changed.plus1.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/stripes-rand-200x40.first-byte-zeroed.0.bin",
+   "kind": "first-byte-zeroed",
+   "param": "0",
+   "source": "stripes-rand-200x40",
+   "bytes": 4097,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/stripes-rand-200x40.first-byte-zeroed.0.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/stripes-rand-200x40.header-shifted-insert.1.bin",
+   "kind": "header-shifted-insert",
+   "param": "1",
+   "source": "stripes-rand-200x40",
+   "bytes": 4098,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/stripes-rand-200x40.header-shifted-insert.1.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/stripes-rand-200x40.header-shifted-remove.1.bin",
+   "kind": "header-shifted-remove",
+   "param": "1",
+   "source": "stripes-rand-200x40",
+   "bytes": 4096,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/stripes-rand-200x40.header-shifted-remove.1.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/stripes-rand-200x40.header-shifted-insert.2.bin",
+   "kind": "header-shifted-insert",
+   "param": "2",
+   "source": "stripes-rand-200x40",
+   "bytes": 4099,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/stripes-rand-200x40.header-shifted-insert.2.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/stripes-rand-200x40.header-shifted-remove.2.bin",
+   "kind": "header-shifted-remove",
+   "param": "2",
+   "source": "stripes-rand-200x40",
+   "bytes": 4095,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/stripes-rand-200x40.header-shifted-remove.2.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/stripes-rand-200x40.header-shifted-insert.3.bin",
+   "kind": "header-shifted-insert",
+   "param": "3",
+   "source": "stripes-rand-200x40",
+   "bytes": 4100,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/stripes-rand-200x40.header-shifted-insert.3.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/stripes-rand-200x40.header-shifted-remove.3.bin",
+   "kind": "header-shifted-remove",
+   "param": "3",
+   "source": "stripes-rand-200x40",
+   "bytes": 4094,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/stripes-rand-200x40.header-shifted-remove.3.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/stripes-rand-200x40.header-shifted-insert.4.bin",
+   "kind": "header-shifted-insert",
+   "param": "4",
+   "source": "stripes-rand-200x40",
+   "bytes": 4101,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/stripes-rand-200x40.header-shifted-insert.4.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/stripes-rand-200x40.header-shifted-remove.4.bin",
+   "kind": "header-shifted-remove",
+   "param": "4",
+   "source": "stripes-rand-200x40",
+   "bytes": 4093,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/stripes-rand-200x40.header-shifted-remove.4.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/stripes-rand-200x40.tail-cut.1.bin",
+   "kind": "tail-cut",
+   "param": "1",
+   "source": "stripes-rand-200x40",
+   "bytes": 4096,
+   "reference": {
+    "path": "corpus/mutations/reference/stripes-rand-200x40.tail-cut.1.png",
+    "sha256": "009a72c8acdec91e7574c7fb15919b34b8985442292b24d13c731f31f8f9b76a"
+   }
+  },
+  {
+   "file": "corpus/mutations/stripes-rand-200x40.tail-cut.2.bin",
+   "kind": "tail-cut",
+   "param": "2",
+   "source": "stripes-rand-200x40",
+   "bytes": 4095,
+   "reference": {
+    "path": "corpus/mutations/reference/stripes-rand-200x40.tail-cut.2.png",
+    "sha256": "009a72c8acdec91e7574c7fb15919b34b8985442292b24d13c731f31f8f9b76a"
+   }
+  },
+  {
+   "file": "corpus/mutations/stripes-rand-200x40.tail-cut.768.bin",
+   "kind": "tail-cut",
+   "param": "768",
+   "source": "stripes-rand-200x40",
+   "bytes": 3329,
+   "reference": {
+    "path": "corpus/mutations/reference/stripes-rand-200x40.tail-cut.768.png",
+    "sha256": "009a72c8acdec91e7574c7fb15919b34b8985442292b24d13c731f31f8f9b76a"
+   }
+  },
+  {
+   "file": "corpus/mutations/stripes-rand-200x40.tail-cut.769.bin",
+   "kind": "tail-cut",
+   "param": "769",
+   "source": "stripes-rand-200x40",
+   "bytes": 3328,
+   "reference": {
+    "path": "corpus/mutations/reference/stripes-rand-200x40.tail-cut.769.png",
+    "sha256": "009a72c8acdec91e7574c7fb15919b34b8985442292b24d13c731f31f8f9b76a"
+   }
+  },
+  {
+   "file": "corpus/mutations/stripes-rand-200x40.body-flip.1.bin",
+   "kind": "body-flip",
+   "param": "1",
+   "source": "stripes-rand-200x40",
+   "bytes": 4097,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/stripes-rand-200x40.body-flip.2.bin",
+   "kind": "body-flip",
+   "param": "2",
+   "source": "stripes-rand-200x40",
+   "bytes": 4097,
+   "reference": {
+    "path": "corpus/mutations/reference/stripes-rand-200x40.body-flip.2.png",
+    "sha256": "b0da1124b27127104aa21f210535bf18a854fd045eb8d16e54a60c4a4ab36cc0"
+   }
+  },
+  {
+   "file": "corpus/mutations/stripes-rand-200x40.body-flip.3.bin",
+   "kind": "body-flip",
+   "param": "3",
+   "source": "stripes-rand-200x40",
+   "bytes": 4097,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/stripes-rand-200x40.body-flip.4.bin",
+   "kind": "body-flip",
+   "param": "4",
+   "source": "stripes-rand-200x40",
+   "bytes": 4097,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/stripes-rand-200x40.body-flip.5.bin",
+   "kind": "body-flip",
+   "param": "5",
+   "source": "stripes-rand-200x40",
+   "bytes": 4097,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/stripes-rand-200x40.body-flip.6.bin",
+   "kind": "body-flip",
+   "param": "6",
+   "source": "stripes-rand-200x40",
+   "bytes": 4097,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/stripes-rand-200x40.body-flip.7.bin",
+   "kind": "body-flip",
+   "param": "7",
+   "source": "stripes-rand-200x40",
+   "bytes": 4097,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/stripes-rand-200x40.body-flip.8.bin",
+   "kind": "body-flip",
+   "param": "8",
+   "source": "stripes-rand-200x40",
+   "bytes": 4097,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/stripes-rand-200x40.size-altered.x1-plus1.bin",
+   "kind": "size-altered",
+   "param": "x1-plus1",
+   "source": "stripes-rand-200x40",
+   "bytes": 4097,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/stripes-rand-200x40.size-altered.x1-minus1.bin",
+   "kind": "size-altered",
+   "param": "x1-minus1",
+   "source": "stripes-rand-200x40",
+   "bytes": 4097,
+   "reference": {
+    "path": "corpus/mutations/reference/stripes-rand-200x40.size-altered.x1-minus1.png",
+    "sha256": "8ec76418d2a2fb09c4856f6e9583e0829f85f588697c66e9716ce6e4b2ee60e2"
+   }
+  },
+  {
+   "file": "corpus/mutations/stripes-rand-200x40.size-altered.y1-plus1.bin",
+   "kind": "size-altered",
+   "param": "y1-plus1",
+   "source": "stripes-rand-200x40",
+   "bytes": 4097,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/stripes-rand-200x40.size-altered.y1-minus1.bin",
+   "kind": "size-altered",
+   "param": "y1-minus1",
+   "source": "stripes-rand-200x40",
+   "bytes": 4097,
+   "reference": {
+    "path": "corpus/mutations/reference/stripes-rand-200x40.size-altered.y1-minus1.png",
+    "sha256": "46dd01acce5ef51261820db5bc64942d623c4902f3ce8cec4ea27dace7b7e448"
+   }
+  },
+  {
+   "file": "corpus/mutations/stripes-rand-200x40.size-altered.x1-times2.bin",
+   "kind": "size-altered",
+   "param": "x1-times2",
+   "source": "stripes-rand-200x40",
+   "bytes": 4097,
+   "reference": {
+    "refused": "OSError: image file is truncated (0 bytes not processed)"
+   }
+  },
+  {
+   "file": "corpus/mutations/text-fire-160x32.first-byte-changed.plus1.bin",
+   "kind": "first-byte-changed",
+   "param": "plus1",
+   "source": "text-fire-160x32",
+   "bytes": 1968,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/text-fire-160x32.first-byte-changed.plus1.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/text-fire-160x32.first-byte-zeroed.0.bin",
+   "kind": "first-byte-zeroed",
+   "param": "0",
+   "source": "text-fire-160x32",
+   "bytes": 1968,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/text-fire-160x32.first-byte-zeroed.0.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/text-fire-160x32.header-shifted-insert.1.bin",
+   "kind": "header-shifted-insert",
+   "param": "1",
+   "source": "text-fire-160x32",
+   "bytes": 1969,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/text-fire-160x32.header-shifted-insert.1.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/text-fire-160x32.header-shifted-remove.1.bin",
+   "kind": "header-shifted-remove",
+   "param": "1",
+   "source": "text-fire-160x32",
+   "bytes": 1967,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/text-fire-160x32.header-shifted-remove.1.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/text-fire-160x32.header-shifted-insert.2.bin",
+   "kind": "header-shifted-insert",
+   "param": "2",
+   "source": "text-fire-160x32",
+   "bytes": 1970,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/text-fire-160x32.header-shifted-insert.2.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/text-fire-160x32.header-shifted-remove.2.bin",
+   "kind": "header-shifted-remove",
+   "param": "2",
+   "source": "text-fire-160x32",
+   "bytes": 1966,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/text-fire-160x32.header-shifted-remove.2.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/text-fire-160x32.header-shifted-insert.3.bin",
+   "kind": "header-shifted-insert",
+   "param": "3",
+   "source": "text-fire-160x32",
+   "bytes": 1971,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/text-fire-160x32.header-shifted-insert.3.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/text-fire-160x32.header-shifted-remove.3.bin",
+   "kind": "header-shifted-remove",
+   "param": "3",
+   "source": "text-fire-160x32",
+   "bytes": 1965,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/text-fire-160x32.header-shifted-remove.3.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/text-fire-160x32.header-shifted-insert.4.bin",
+   "kind": "header-shifted-insert",
+   "param": "4",
+   "source": "text-fire-160x32",
+   "bytes": 1972,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/text-fire-160x32.header-shifted-insert.4.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/text-fire-160x32.header-shifted-remove.4.bin",
+   "kind": "header-shifted-remove",
+   "param": "4",
+   "source": "text-fire-160x32",
+   "bytes": 1964,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/text-fire-160x32.header-shifted-remove.4.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/text-fire-160x32.tail-cut.1.bin",
+   "kind": "tail-cut",
+   "param": "1",
+   "source": "text-fire-160x32",
+   "bytes": 1967,
+   "reference": {
+    "path": "corpus/mutations/reference/text-fire-160x32.tail-cut.1.png",
+    "sha256": "0559462d0976f97a3d9f386791b87c22fa1e5430625c7d466673c9fddca6b564"
+   }
+  },
+  {
+   "file": "corpus/mutations/text-fire-160x32.tail-cut.2.bin",
+   "kind": "tail-cut",
+   "param": "2",
+   "source": "text-fire-160x32",
+   "bytes": 1966,
+   "reference": {
+    "path": "corpus/mutations/reference/text-fire-160x32.tail-cut.2.png",
+    "sha256": "0559462d0976f97a3d9f386791b87c22fa1e5430625c7d466673c9fddca6b564"
+   }
+  },
+  {
+   "file": "corpus/mutations/text-fire-160x32.tail-cut.768.bin",
+   "kind": "tail-cut",
+   "param": "768",
+   "source": "text-fire-160x32",
+   "bytes": 1200,
+   "reference": {
+    "path": "corpus/mutations/reference/text-fire-160x32.tail-cut.768.png",
+    "sha256": "0559462d0976f97a3d9f386791b87c22fa1e5430625c7d466673c9fddca6b564"
+   }
+  },
+  {
+   "file": "corpus/mutations/text-fire-160x32.tail-cut.769.bin",
+   "kind": "tail-cut",
+   "param": "769",
+   "source": "text-fire-160x32",
+   "bytes": 1199,
+   "reference": {
+    "path": "corpus/mutations/reference/text-fire-160x32.tail-cut.769.png",
+    "sha256": "0559462d0976f97a3d9f386791b87c22fa1e5430625c7d466673c9fddca6b564"
+   }
+  },
+  {
+   "file": "corpus/mutations/text-fire-160x32.body-flip.1.bin",
+   "kind": "body-flip",
+   "param": "1",
+   "source": "text-fire-160x32",
+   "bytes": 1968,
+   "reference": {
+    "path": "corpus/mutations/reference/text-fire-160x32.body-flip.1.png",
+    "sha256": "5be153273191e177bd8f4fb8893075904f316dd08aee5784725bbf25d7893f69"
+   }
+  },
+  {
+   "file": "corpus/mutations/text-fire-160x32.body-flip.2.bin",
+   "kind": "body-flip",
+   "param": "2",
+   "source": "text-fire-160x32",
+   "bytes": 1968,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/text-fire-160x32.body-flip.3.bin",
+   "kind": "body-flip",
+   "param": "3",
+   "source": "text-fire-160x32",
+   "bytes": 1968,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/text-fire-160x32.body-flip.4.bin",
+   "kind": "body-flip",
+   "param": "4",
+   "source": "text-fire-160x32",
+   "bytes": 1968,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/text-fire-160x32.body-flip.5.bin",
+   "kind": "body-flip",
+   "param": "5",
+   "source": "text-fire-160x32",
+   "bytes": 1968,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/text-fire-160x32.body-flip.6.bin",
+   "kind": "body-flip",
+   "param": "6",
+   "source": "text-fire-160x32",
+   "bytes": 1968,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/text-fire-160x32.body-flip.7.bin",
+   "kind": "body-flip",
+   "param": "7",
+   "source": "text-fire-160x32",
+   "bytes": 1968,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/text-fire-160x32.body-flip.8.bin",
+   "kind": "body-flip",
+   "param": "8",
+   "source": "text-fire-160x32",
+   "bytes": 1968,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/text-fire-160x32.size-altered.x1-plus1.bin",
+   "kind": "size-altered",
+   "param": "x1-plus1",
+   "source": "text-fire-160x32",
+   "bytes": 1968,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/text-fire-160x32.size-altered.x1-minus1.bin",
+   "kind": "size-altered",
+   "param": "x1-minus1",
+   "source": "text-fire-160x32",
+   "bytes": 1968,
+   "reference": {
+    "path": "corpus/mutations/reference/text-fire-160x32.size-altered.x1-minus1.png",
+    "sha256": "5fbcdd5551b299ed150ad566d56395a00156b86d998ba1dab47dee9033ff83f6"
+   }
+  },
+  {
+   "file": "corpus/mutations/text-fire-160x32.size-altered.y1-plus1.bin",
+   "kind": "size-altered",
+   "param": "y1-plus1",
+   "source": "text-fire-160x32",
+   "bytes": 1968,
+   "reference": {
+    "path": "corpus/mutations/reference/text-fire-160x32.size-altered.y1-plus1.png",
+    "sha256": "a35ec3665b43254b31ebdf2c3d0a2833eb65fc532f59e367ab04ec8638da195b"
+   }
+  },
+  {
+   "file": "corpus/mutations/text-fire-160x32.size-altered.y1-minus1.bin",
+   "kind": "size-altered",
+   "param": "y1-minus1",
+   "source": "text-fire-160x32",
+   "bytes": 1968,
+   "reference": {
+    "path": "corpus/mutations/reference/text-fire-160x32.size-altered.y1-minus1.png",
+    "sha256": "2245f8a3a96ac089f177a6063cc1977f561f8352415b00929868d9ae63c91b39"
+   }
+  },
+  {
+   "file": "corpus/mutations/text-fire-160x32.size-altered.x1-times2.bin",
+   "kind": "size-altered",
+   "param": "x1-times2",
+   "source": "text-fire-160x32",
+   "bytes": 1968,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/rings-rand-111x111.first-byte-changed.plus1.bin",
+   "kind": "first-byte-changed",
+   "param": "plus1",
+   "source": "rings-rand-111x111",
+   "bytes": 5480,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/rings-rand-111x111.first-byte-changed.plus1.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/rings-rand-111x111.first-byte-zeroed.0.bin",
+   "kind": "first-byte-zeroed",
+   "param": "0",
+   "source": "rings-rand-111x111",
+   "bytes": 5480,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/rings-rand-111x111.first-byte-zeroed.0.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/rings-rand-111x111.header-shifted-insert.1.bin",
+   "kind": "header-shifted-insert",
+   "param": "1",
+   "source": "rings-rand-111x111",
+   "bytes": 5481,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/rings-rand-111x111.header-shifted-insert.1.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/rings-rand-111x111.header-shifted-remove.1.bin",
+   "kind": "header-shifted-remove",
+   "param": "1",
+   "source": "rings-rand-111x111",
+   "bytes": 5479,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/rings-rand-111x111.header-shifted-remove.1.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/rings-rand-111x111.header-shifted-insert.2.bin",
+   "kind": "header-shifted-insert",
+   "param": "2",
+   "source": "rings-rand-111x111",
+   "bytes": 5482,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/rings-rand-111x111.header-shifted-insert.2.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/rings-rand-111x111.header-shifted-remove.2.bin",
+   "kind": "header-shifted-remove",
+   "param": "2",
+   "source": "rings-rand-111x111",
+   "bytes": 5478,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/rings-rand-111x111.header-shifted-remove.2.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/rings-rand-111x111.header-shifted-insert.3.bin",
+   "kind": "header-shifted-insert",
+   "param": "3",
+   "source": "rings-rand-111x111",
+   "bytes": 5483,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/rings-rand-111x111.header-shifted-insert.3.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/rings-rand-111x111.header-shifted-remove.3.bin",
+   "kind": "header-shifted-remove",
+   "param": "3",
+   "source": "rings-rand-111x111",
+   "bytes": 5477,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/rings-rand-111x111.header-shifted-remove.3.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/rings-rand-111x111.header-shifted-insert.4.bin",
+   "kind": "header-shifted-insert",
+   "param": "4",
+   "source": "rings-rand-111x111",
+   "bytes": 5484,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/rings-rand-111x111.header-shifted-insert.4.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/rings-rand-111x111.header-shifted-remove.4.bin",
+   "kind": "header-shifted-remove",
+   "param": "4",
+   "source": "rings-rand-111x111",
+   "bytes": 5476,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/rings-rand-111x111.header-shifted-remove.4.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/rings-rand-111x111.tail-cut.1.bin",
+   "kind": "tail-cut",
+   "param": "1",
+   "source": "rings-rand-111x111",
+   "bytes": 5479,
+   "reference": {
+    "path": "corpus/mutations/reference/rings-rand-111x111.tail-cut.1.png",
+    "sha256": "659f96400958f8a45ba0e52414f8e4081aa9f52c309aff10a471d97f1e8fc976"
+   }
+  },
+  {
+   "file": "corpus/mutations/rings-rand-111x111.tail-cut.2.bin",
+   "kind": "tail-cut",
+   "param": "2",
+   "source": "rings-rand-111x111",
+   "bytes": 5478,
+   "reference": {
+    "path": "corpus/mutations/reference/rings-rand-111x111.tail-cut.2.png",
+    "sha256": "659f96400958f8a45ba0e52414f8e4081aa9f52c309aff10a471d97f1e8fc976"
+   }
+  },
+  {
+   "file": "corpus/mutations/rings-rand-111x111.tail-cut.768.bin",
+   "kind": "tail-cut",
+   "param": "768",
+   "source": "rings-rand-111x111",
+   "bytes": 4712,
+   "reference": {
+    "path": "corpus/mutations/reference/rings-rand-111x111.tail-cut.768.png",
+    "sha256": "659f96400958f8a45ba0e52414f8e4081aa9f52c309aff10a471d97f1e8fc976"
+   }
+  },
+  {
+   "file": "corpus/mutations/rings-rand-111x111.tail-cut.769.bin",
+   "kind": "tail-cut",
+   "param": "769",
+   "source": "rings-rand-111x111",
+   "bytes": 4711,
+   "reference": {
+    "path": "corpus/mutations/reference/rings-rand-111x111.tail-cut.769.png",
+    "sha256": "659f96400958f8a45ba0e52414f8e4081aa9f52c309aff10a471d97f1e8fc976"
+   }
+  },
+  {
+   "file": "corpus/mutations/rings-rand-111x111.body-flip.1.bin",
+   "kind": "body-flip",
+   "param": "1",
+   "source": "rings-rand-111x111",
+   "bytes": 5480,
+   "reference": {
+    "path": "corpus/mutations/reference/rings-rand-111x111.body-flip.1.png",
+    "sha256": "a72b6071e9c0e1a3b1b1ac784a56e050d9fa990b3efa2af56b688ebd3429b03f"
+   }
+  },
+  {
+   "file": "corpus/mutations/rings-rand-111x111.body-flip.2.bin",
+   "kind": "body-flip",
+   "param": "2",
+   "source": "rings-rand-111x111",
+   "bytes": 5480,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/rings-rand-111x111.body-flip.3.bin",
+   "kind": "body-flip",
+   "param": "3",
+   "source": "rings-rand-111x111",
+   "bytes": 5480,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/rings-rand-111x111.body-flip.4.bin",
+   "kind": "body-flip",
+   "param": "4",
+   "source": "rings-rand-111x111",
+   "bytes": 5480,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/rings-rand-111x111.body-flip.5.bin",
+   "kind": "body-flip",
+   "param": "5",
+   "source": "rings-rand-111x111",
+   "bytes": 5480,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/rings-rand-111x111.body-flip.6.bin",
+   "kind": "body-flip",
+   "param": "6",
+   "source": "rings-rand-111x111",
+   "bytes": 5480,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/rings-rand-111x111.body-flip.7.bin",
+   "kind": "body-flip",
+   "param": "7",
+   "source": "rings-rand-111x111",
+   "bytes": 5480,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/rings-rand-111x111.body-flip.8.bin",
+   "kind": "body-flip",
+   "param": "8",
+   "source": "rings-rand-111x111",
+   "bytes": 5480,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/rings-rand-111x111.size-altered.x1-plus1.bin",
+   "kind": "size-altered",
+   "param": "x1-plus1",
+   "source": "rings-rand-111x111",
+   "bytes": 5480,
+   "reference": {
+    "path": "corpus/mutations/reference/rings-rand-111x111.size-altered.x1-plus1.png",
+    "sha256": "c1a26b751acc6ba9eecde326eb5265485247acf8670fc113ba2fe7290b9fc664"
+   }
+  },
+  {
+   "file": "corpus/mutations/rings-rand-111x111.size-altered.x1-minus1.bin",
+   "kind": "size-altered",
+   "param": "x1-minus1",
+   "source": "rings-rand-111x111",
+   "bytes": 5480,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/rings-rand-111x111.size-altered.y1-plus1.bin",
+   "kind": "size-altered",
+   "param": "y1-plus1",
+   "source": "rings-rand-111x111",
+   "bytes": 5480,
+   "reference": {
+    "path": "corpus/mutations/reference/rings-rand-111x111.size-altered.y1-plus1.png",
+    "sha256": "648ca77bc2d1d9c443d26838c6af51dd6d1bc10fc1e222c03e1fbd85d419516c"
+   }
+  },
+  {
+   "file": "corpus/mutations/rings-rand-111x111.size-altered.y1-minus1.bin",
+   "kind": "size-altered",
+   "param": "y1-minus1",
+   "source": "rings-rand-111x111",
+   "bytes": 5480,
+   "reference": {
+    "path": "corpus/mutations/reference/rings-rand-111x111.size-altered.y1-minus1.png",
+    "sha256": "24b9cf168e8af3e2b3bb5af13c2f01b11257ce80f3ff5a3f9ee5023fa02a8a26"
+   }
+  },
+  {
+   "file": "corpus/mutations/rings-rand-111x111.size-altered.x1-times2.bin",
+   "kind": "size-altered",
+   "param": "x1-times2",
+   "source": "rings-rand-111x111",
+   "bytes": 5480,
+   "reference": {
+    "refused": "OSError: image file is truncated (0 bytes not processed)"
+   }
+  },
+  {
+   "file": "corpus/mutations/diag-ocean-256x16.first-byte-changed.plus1.bin",
+   "kind": "first-byte-changed",
+   "param": "plus1",
+   "source": "diag-ocean-256x16",
+   "bytes": 5849,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/diag-ocean-256x16.first-byte-changed.plus1.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/diag-ocean-256x16.first-byte-zeroed.0.bin",
+   "kind": "first-byte-zeroed",
+   "param": "0",
+   "source": "diag-ocean-256x16",
+   "bytes": 5849,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/diag-ocean-256x16.first-byte-zeroed.0.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/diag-ocean-256x16.header-shifted-insert.1.bin",
+   "kind": "header-shifted-insert",
+   "param": "1",
+   "source": "diag-ocean-256x16",
+   "bytes": 5850,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/diag-ocean-256x16.header-shifted-insert.1.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/diag-ocean-256x16.header-shifted-remove.1.bin",
+   "kind": "header-shifted-remove",
+   "param": "1",
+   "source": "diag-ocean-256x16",
+   "bytes": 5848,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/diag-ocean-256x16.header-shifted-remove.1.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/diag-ocean-256x16.header-shifted-insert.2.bin",
+   "kind": "header-shifted-insert",
+   "param": "2",
+   "source": "diag-ocean-256x16",
+   "bytes": 5851,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/diag-ocean-256x16.header-shifted-insert.2.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/diag-ocean-256x16.header-shifted-remove.2.bin",
+   "kind": "header-shifted-remove",
+   "param": "2",
+   "source": "diag-ocean-256x16",
+   "bytes": 5847,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/diag-ocean-256x16.header-shifted-remove.2.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/diag-ocean-256x16.header-shifted-insert.3.bin",
+   "kind": "header-shifted-insert",
+   "param": "3",
+   "source": "diag-ocean-256x16",
+   "bytes": 5852,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/diag-ocean-256x16.header-shifted-insert.3.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/diag-ocean-256x16.header-shifted-remove.3.bin",
+   "kind": "header-shifted-remove",
+   "param": "3",
+   "source": "diag-ocean-256x16",
+   "bytes": 5846,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/diag-ocean-256x16.header-shifted-remove.3.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/diag-ocean-256x16.header-shifted-insert.4.bin",
+   "kind": "header-shifted-insert",
+   "param": "4",
+   "source": "diag-ocean-256x16",
+   "bytes": 5853,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/diag-ocean-256x16.header-shifted-insert.4.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/diag-ocean-256x16.header-shifted-remove.4.bin",
+   "kind": "header-shifted-remove",
+   "param": "4",
+   "source": "diag-ocean-256x16",
+   "bytes": 5845,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/diag-ocean-256x16.header-shifted-remove.4.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/diag-ocean-256x16.tail-cut.1.bin",
+   "kind": "tail-cut",
+   "param": "1",
+   "source": "diag-ocean-256x16",
+   "bytes": 5848,
+   "reference": {
+    "path": "corpus/mutations/reference/diag-ocean-256x16.tail-cut.1.png",
+    "sha256": "f25c8ef11446dab48f1c5dbd6af84b1ab6d7c2fa2057bb6ac8aa65a84490fd70"
+   }
+  },
+  {
+   "file": "corpus/mutations/diag-ocean-256x16.tail-cut.2.bin",
+   "kind": "tail-cut",
+   "param": "2",
+   "source": "diag-ocean-256x16",
+   "bytes": 5847,
+   "reference": {
+    "path": "corpus/mutations/reference/diag-ocean-256x16.tail-cut.2.png",
+    "sha256": "f25c8ef11446dab48f1c5dbd6af84b1ab6d7c2fa2057bb6ac8aa65a84490fd70"
+   }
+  },
+  {
+   "file": "corpus/mutations/diag-ocean-256x16.tail-cut.768.bin",
+   "kind": "tail-cut",
+   "param": "768",
+   "source": "diag-ocean-256x16",
+   "bytes": 5081,
+   "reference": {
+    "path": "corpus/mutations/reference/diag-ocean-256x16.tail-cut.768.png",
+    "sha256": "f25c8ef11446dab48f1c5dbd6af84b1ab6d7c2fa2057bb6ac8aa65a84490fd70"
+   }
+  },
+  {
+   "file": "corpus/mutations/diag-ocean-256x16.tail-cut.769.bin",
+   "kind": "tail-cut",
+   "param": "769",
+   "source": "diag-ocean-256x16",
+   "bytes": 5080,
+   "reference": {
+    "path": "corpus/mutations/reference/diag-ocean-256x16.tail-cut.769.png",
+    "sha256": "f25c8ef11446dab48f1c5dbd6af84b1ab6d7c2fa2057bb6ac8aa65a84490fd70"
+   }
+  },
+  {
+   "file": "corpus/mutations/diag-ocean-256x16.body-flip.1.bin",
+   "kind": "body-flip",
+   "param": "1",
+   "source": "diag-ocean-256x16",
+   "bytes": 5849,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/diag-ocean-256x16.body-flip.2.bin",
+   "kind": "body-flip",
+   "param": "2",
+   "source": "diag-ocean-256x16",
+   "bytes": 5849,
+   "reference": {
+    "path": "corpus/mutations/reference/diag-ocean-256x16.body-flip.2.png",
+    "sha256": "0c4c7a0bbe0eca88e909239b9eed0b1b76f71ec2e464fe71f6b0d9872e053f5d"
+   }
+  },
+  {
+   "file": "corpus/mutations/diag-ocean-256x16.body-flip.3.bin",
+   "kind": "body-flip",
+   "param": "3",
+   "source": "diag-ocean-256x16",
+   "bytes": 5849,
+   "reference": {
+    "path": "corpus/mutations/reference/diag-ocean-256x16.body-flip.3.png",
+    "sha256": "44dba61c50b28d5b52eb06429139a3093c156cc8f376d335e7da7a99cd06b412"
+   }
+  },
+  {
+   "file": "corpus/mutations/diag-ocean-256x16.body-flip.4.bin",
+   "kind": "body-flip",
+   "param": "4",
+   "source": "diag-ocean-256x16",
+   "bytes": 5849,
+   "reference": {
+    "path": "corpus/mutations/reference/diag-ocean-256x16.body-flip.4.png",
+    "sha256": "d368b1da5a2e83d371a85ad99ed59e77e5ca52dd1f8e68c73693926cabf8deda"
+   }
+  },
+  {
+   "file": "corpus/mutations/diag-ocean-256x16.body-flip.5.bin",
+   "kind": "body-flip",
+   "param": "5",
+   "source": "diag-ocean-256x16",
+   "bytes": 5849,
+   "reference": {
+    "path": "corpus/mutations/reference/diag-ocean-256x16.body-flip.5.png",
+    "sha256": "e20f5aafa629354457794fe2ab29db398e76db3a0483f3da4d1292b26fdc8b7d"
+   }
+  },
+  {
+   "file": "corpus/mutations/diag-ocean-256x16.body-flip.6.bin",
+   "kind": "body-flip",
+   "param": "6",
+   "source": "diag-ocean-256x16",
+   "bytes": 5849,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/diag-ocean-256x16.body-flip.7.bin",
+   "kind": "body-flip",
+   "param": "7",
+   "source": "diag-ocean-256x16",
+   "bytes": 5849,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/diag-ocean-256x16.body-flip.8.bin",
+   "kind": "body-flip",
+   "param": "8",
+   "source": "diag-ocean-256x16",
+   "bytes": 5849,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/diag-ocean-256x16.size-altered.x1-plus1.bin",
+   "kind": "size-altered",
+   "param": "x1-plus1",
+   "source": "diag-ocean-256x16",
+   "bytes": 5849,
+   "reference": {
+    "path": "corpus/mutations/reference/diag-ocean-256x16.size-altered.x1-plus1.png",
+    "sha256": "191dbeba2b0b1f8170a41f93b922955811d45cdc8436bf6a1f6e7e1bd56a13bd"
+   }
+  },
+  {
+   "file": "corpus/mutations/diag-ocean-256x16.size-altered.x1-minus1.bin",
+   "kind": "size-altered",
+   "param": "x1-minus1",
+   "source": "diag-ocean-256x16",
+   "bytes": 5849,
+   "reference": {
+    "path": "corpus/mutations/reference/diag-ocean-256x16.size-altered.x1-minus1.png",
+    "sha256": "018115f1d74d436909e3baeb8f65f60c5b86e396e478934ad21a1edbdfe0c193"
+   }
+  },
+  {
+   "file": "corpus/mutations/diag-ocean-256x16.size-altered.y1-plus1.bin",
+   "kind": "size-altered",
+   "param": "y1-plus1",
+   "source": "diag-ocean-256x16",
+   "bytes": 5849,
+   "reference": {
+    "path": "corpus/mutations/reference/diag-ocean-256x16.size-altered.y1-plus1.png",
+    "sha256": "6f9a92775277083b64409f8457c591574170d2f91bb8a278ad9616f97dab6551"
+   }
+  },
+  {
+   "file": "corpus/mutations/diag-ocean-256x16.size-altered.y1-minus1.bin",
+   "kind": "size-altered",
+   "param": "y1-minus1",
+   "source": "diag-ocean-256x16",
+   "bytes": 5849,
+   "reference": {
+    "path": "corpus/mutations/reference/diag-ocean-256x16.size-altered.y1-minus1.png",
+    "sha256": "0ae442614b3124fe62f32e8661068cfd5a2b5225a803da4da498c451ce3ed4ef"
+   }
+  },
+  {
+   "file": "corpus/mutations/diag-ocean-256x16.size-altered.x1-times2.bin",
+   "kind": "size-altered",
+   "param": "x1-times2",
+   "source": "diag-ocean-256x16",
+   "bytes": 5849,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/solid-gray-32x32.first-byte-changed.plus1.bin",
+   "kind": "first-byte-changed",
+   "param": "plus1",
+   "source": "solid-gray-32x32",
+   "bytes": 961,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/solid-gray-32x32.first-byte-changed.plus1.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/solid-gray-32x32.first-byte-zeroed.0.bin",
+   "kind": "first-byte-zeroed",
+   "param": "0",
+   "source": "solid-gray-32x32",
+   "bytes": 961,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/solid-gray-32x32.first-byte-zeroed.0.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/solid-gray-32x32.header-shifted-insert.1.bin",
+   "kind": "header-shifted-insert",
+   "param": "1",
+   "source": "solid-gray-32x32",
+   "bytes": 962,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/solid-gray-32x32.header-shifted-insert.1.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/solid-gray-32x32.header-shifted-remove.1.bin",
+   "kind": "header-shifted-remove",
+   "param": "1",
+   "source": "solid-gray-32x32",
+   "bytes": 960,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/solid-gray-32x32.header-shifted-remove.1.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/solid-gray-32x32.header-shifted-insert.2.bin",
+   "kind": "header-shifted-insert",
+   "param": "2",
+   "source": "solid-gray-32x32",
+   "bytes": 963,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/solid-gray-32x32.header-shifted-insert.2.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/solid-gray-32x32.header-shifted-remove.2.bin",
+   "kind": "header-shifted-remove",
+   "param": "2",
+   "source": "solid-gray-32x32",
+   "bytes": 959,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/solid-gray-32x32.header-shifted-remove.2.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/solid-gray-32x32.header-shifted-insert.3.bin",
+   "kind": "header-shifted-insert",
+   "param": "3",
+   "source": "solid-gray-32x32",
+   "bytes": 964,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/solid-gray-32x32.header-shifted-insert.3.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/solid-gray-32x32.header-shifted-remove.3.bin",
+   "kind": "header-shifted-remove",
+   "param": "3",
+   "source": "solid-gray-32x32",
+   "bytes": 958,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/solid-gray-32x32.header-shifted-remove.3.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/solid-gray-32x32.header-shifted-insert.4.bin",
+   "kind": "header-shifted-insert",
+   "param": "4",
+   "source": "solid-gray-32x32",
+   "bytes": 965,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/solid-gray-32x32.header-shifted-insert.4.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/solid-gray-32x32.header-shifted-remove.4.bin",
+   "kind": "header-shifted-remove",
+   "param": "4",
+   "source": "solid-gray-32x32",
+   "bytes": 957,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/solid-gray-32x32.header-shifted-remove.4.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/solid-gray-32x32.tail-cut.1.bin",
+   "kind": "tail-cut",
+   "param": "1",
+   "source": "solid-gray-32x32",
+   "bytes": 960,
+   "reference": {
+    "path": "corpus/mutations/reference/solid-gray-32x32.tail-cut.1.png",
+    "sha256": "fe70b66dc65eb30141c7932818e28b15e182016d6172e79338864d1a4731c128"
+   }
+  },
+  {
+   "file": "corpus/mutations/solid-gray-32x32.tail-cut.2.bin",
+   "kind": "tail-cut",
+   "param": "2",
+   "source": "solid-gray-32x32",
+   "bytes": 959,
+   "reference": {
+    "path": "corpus/mutations/reference/solid-gray-32x32.tail-cut.2.png",
+    "sha256": "fe70b66dc65eb30141c7932818e28b15e182016d6172e79338864d1a4731c128"
+   }
+  },
+  {
+   "file": "corpus/mutations/solid-gray-32x32.tail-cut.768.bin",
+   "kind": "tail-cut",
+   "param": "768",
+   "source": "solid-gray-32x32",
+   "bytes": 193,
+   "reference": {
+    "refused": "OSError: [Errno 22] Invalid argument"
+   }
+  },
+  {
+   "file": "corpus/mutations/solid-gray-32x32.tail-cut.769.bin",
+   "kind": "tail-cut",
+   "param": "769",
+   "source": "solid-gray-32x32",
+   "bytes": 192,
+   "reference": {
+    "refused": "OSError: [Errno 22] Invalid argument"
+   }
+  },
+  {
+   "file": "corpus/mutations/solid-gray-32x32.body-flip.1.bin",
+   "kind": "body-flip",
+   "param": "1",
+   "source": "solid-gray-32x32",
+   "bytes": 961,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/solid-gray-32x32.body-flip.2.bin",
+   "kind": "body-flip",
+   "param": "2",
+   "source": "solid-gray-32x32",
+   "bytes": 961,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/solid-gray-32x32.body-flip.3.bin",
+   "kind": "body-flip",
+   "param": "3",
+   "source": "solid-gray-32x32",
+   "bytes": 961,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/solid-gray-32x32.body-flip.4.bin",
+   "kind": "body-flip",
+   "param": "4",
+   "source": "solid-gray-32x32",
+   "bytes": 961,
+   "reference": {
+    "path": "corpus/mutations/reference/solid-gray-32x32.body-flip.4.png",
+    "sha256": "444237871020f33994c65381b5a7534869352d18eafca8d3075fa4a3afb34bc4"
+   }
+  },
+  {
+   "file": "corpus/mutations/solid-gray-32x32.body-flip.5.bin",
+   "kind": "body-flip",
+   "param": "5",
+   "source": "solid-gray-32x32",
+   "bytes": 961,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/solid-gray-32x32.body-flip.6.bin",
+   "kind": "body-flip",
+   "param": "6",
+   "source": "solid-gray-32x32",
+   "bytes": 961,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/solid-gray-32x32.body-flip.7.bin",
+   "kind": "body-flip",
+   "param": "7",
+   "source": "solid-gray-32x32",
+   "bytes": 961,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/solid-gray-32x32.body-flip.8.bin",
+   "kind": "body-flip",
+   "param": "8",
+   "source": "solid-gray-32x32",
+   "bytes": 961,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/solid-gray-32x32.size-altered.x1-plus1.bin",
+   "kind": "size-altered",
+   "param": "x1-plus1",
+   "source": "solid-gray-32x32",
+   "bytes": 961,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/solid-gray-32x32.size-altered.x1-minus1.bin",
+   "kind": "size-altered",
+   "param": "x1-minus1",
+   "source": "solid-gray-32x32",
+   "bytes": 961,
+   "reference": {
+    "path": "corpus/mutations/reference/solid-gray-32x32.size-altered.x1-minus1.png",
+    "sha256": "1df7bcf529bc43e149815f73fe2fcb854bbfdc838b78c46b9c01e4aa030ee4fd"
+   }
+  },
+  {
+   "file": "corpus/mutations/solid-gray-32x32.size-altered.y1-plus1.bin",
+   "kind": "size-altered",
+   "param": "y1-plus1",
+   "source": "solid-gray-32x32",
+   "bytes": 961,
+   "reference": {
+    "path": "corpus/mutations/reference/solid-gray-32x32.size-altered.y1-plus1.png",
+    "sha256": "cceed77ae0f8b847f62975b4960594115c2d86be5010513893f70e4588c1a38f"
+   }
+  },
+  {
+   "file": "corpus/mutations/solid-gray-32x32.size-altered.y1-minus1.bin",
+   "kind": "size-altered",
+   "param": "y1-minus1",
+   "source": "solid-gray-32x32",
+   "bytes": 961,
+   "reference": {
+    "path": "corpus/mutations/reference/solid-gray-32x32.size-altered.y1-minus1.png",
+    "sha256": "43626bd7626814b09f3ddb89bb205a771ee7aff5bf8ff183c56a040da7657cbf"
+   }
+  },
+  {
+   "file": "corpus/mutations/solid-gray-32x32.size-altered.x1-times2.bin",
+   "kind": "size-altered",
+   "param": "x1-times2",
+   "source": "solid-gray-32x32",
+   "bytes": 961,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/tiny-rand-7x5.first-byte-changed.plus1.bin",
+   "kind": "first-byte-changed",
+   "param": "plus1",
+   "source": "tiny-rand-7x5",
+   "bytes": 938,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/tiny-rand-7x5.first-byte-changed.plus1.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/tiny-rand-7x5.first-byte-zeroed.0.bin",
+   "kind": "first-byte-zeroed",
+   "param": "0",
+   "source": "tiny-rand-7x5",
+   "bytes": 938,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/tiny-rand-7x5.first-byte-zeroed.0.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/tiny-rand-7x5.header-shifted-insert.1.bin",
+   "kind": "header-shifted-insert",
+   "param": "1",
+   "source": "tiny-rand-7x5",
+   "bytes": 939,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/tiny-rand-7x5.header-shifted-insert.1.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/tiny-rand-7x5.header-shifted-remove.1.bin",
+   "kind": "header-shifted-remove",
+   "param": "1",
+   "source": "tiny-rand-7x5",
+   "bytes": 937,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/tiny-rand-7x5.header-shifted-remove.1.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/tiny-rand-7x5.header-shifted-insert.2.bin",
+   "kind": "header-shifted-insert",
+   "param": "2",
+   "source": "tiny-rand-7x5",
+   "bytes": 940,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/tiny-rand-7x5.header-shifted-insert.2.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/tiny-rand-7x5.header-shifted-remove.2.bin",
+   "kind": "header-shifted-remove",
+   "param": "2",
+   "source": "tiny-rand-7x5",
+   "bytes": 936,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/tiny-rand-7x5.header-shifted-remove.2.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/tiny-rand-7x5.header-shifted-insert.3.bin",
+   "kind": "header-shifted-insert",
+   "param": "3",
+   "source": "tiny-rand-7x5",
+   "bytes": 941,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/tiny-rand-7x5.header-shifted-insert.3.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/tiny-rand-7x5.header-shifted-remove.3.bin",
+   "kind": "header-shifted-remove",
+   "param": "3",
+   "source": "tiny-rand-7x5",
+   "bytes": 935,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/tiny-rand-7x5.header-shifted-remove.3.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/tiny-rand-7x5.header-shifted-insert.4.bin",
+   "kind": "header-shifted-insert",
+   "param": "4",
+   "source": "tiny-rand-7x5",
+   "bytes": 942,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/tiny-rand-7x5.header-shifted-insert.4.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/tiny-rand-7x5.header-shifted-remove.4.bin",
+   "kind": "header-shifted-remove",
+   "param": "4",
+   "source": "tiny-rand-7x5",
+   "bytes": 934,
+   "reference": {
+    "refused": "UnidentifiedImageError: cannot identify image file 'corpus/mutations/tiny-rand-7x5.header-shifted-remove.4.bin'"
+   }
+  },
+  {
+   "file": "corpus/mutations/tiny-rand-7x5.tail-cut.1.bin",
+   "kind": "tail-cut",
+   "param": "1",
+   "source": "tiny-rand-7x5",
+   "bytes": 937,
+   "reference": {
+    "path": "corpus/mutations/reference/tiny-rand-7x5.tail-cut.1.png",
+    "sha256": "bd2715afe589b0f56fd70383ab8c3430d3fc154de5deca984d24d525bae55513"
+   }
+  },
+  {
+   "file": "corpus/mutations/tiny-rand-7x5.tail-cut.2.bin",
+   "kind": "tail-cut",
+   "param": "2",
+   "source": "tiny-rand-7x5",
+   "bytes": 936,
+   "reference": {
+    "path": "corpus/mutations/reference/tiny-rand-7x5.tail-cut.2.png",
+    "sha256": "bd2715afe589b0f56fd70383ab8c3430d3fc154de5deca984d24d525bae55513"
+   }
+  },
+  {
+   "file": "corpus/mutations/tiny-rand-7x5.tail-cut.768.bin",
+   "kind": "tail-cut",
+   "param": "768",
+   "source": "tiny-rand-7x5",
+   "bytes": 170,
+   "reference": {
+    "refused": "OSError: [Errno 22] Invalid argument"
+   }
+  },
+  {
+   "file": "corpus/mutations/tiny-rand-7x5.tail-cut.769.bin",
+   "kind": "tail-cut",
+   "param": "769",
+   "source": "tiny-rand-7x5",
+   "bytes": 169,
+   "reference": {
+    "refused": "OSError: [Errno 22] Invalid argument"
+   }
+  },
+  {
+   "file": "corpus/mutations/tiny-rand-7x5.body-flip.1.bin",
+   "kind": "body-flip",
+   "param": "1",
+   "source": "tiny-rand-7x5",
+   "bytes": 938,
+   "reference": {
+    "path": "corpus/mutations/reference/tiny-rand-7x5.body-flip.1.png",
+    "sha256": "21baf1af74ece4438b7b8a4ba14e8b2fec5f1ac65ea81e3aaba22b2f5dd37e68"
+   }
+  },
+  {
+   "file": "corpus/mutations/tiny-rand-7x5.body-flip.2.bin",
+   "kind": "body-flip",
+   "param": "2",
+   "source": "tiny-rand-7x5",
+   "bytes": 938,
+   "reference": {
+    "path": "corpus/mutations/reference/tiny-rand-7x5.body-flip.2.png",
+    "sha256": "080ec4bc96b25f863956c0840e44fe940e9488b7d26eebc89b98c637fefbd9ab"
+   }
+  },
+  {
+   "file": "corpus/mutations/tiny-rand-7x5.body-flip.3.bin",
+   "kind": "body-flip",
+   "param": "3",
+   "source": "tiny-rand-7x5",
+   "bytes": 938,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/tiny-rand-7x5.body-flip.4.bin",
+   "kind": "body-flip",
+   "param": "4",
+   "source": "tiny-rand-7x5",
+   "bytes": 938,
+   "reference": {
+    "path": "corpus/mutations/reference/tiny-rand-7x5.body-flip.4.png",
+    "sha256": "05dc2c9d8bb9b626bb27e2c3c8887da0525f88a9b25ae0057615b250ee27a72d"
+   }
+  },
+  {
+   "file": "corpus/mutations/tiny-rand-7x5.body-flip.5.bin",
+   "kind": "body-flip",
+   "param": "5",
+   "source": "tiny-rand-7x5",
+   "bytes": 938,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/tiny-rand-7x5.body-flip.6.bin",
+   "kind": "body-flip",
+   "param": "6",
+   "source": "tiny-rand-7x5",
+   "bytes": 938,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/tiny-rand-7x5.body-flip.7.bin",
+   "kind": "body-flip",
+   "param": "7",
+   "source": "tiny-rand-7x5",
+   "bytes": 938,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/tiny-rand-7x5.body-flip.8.bin",
+   "kind": "body-flip",
+   "param": "8",
+   "source": "tiny-rand-7x5",
+   "bytes": 938,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/tiny-rand-7x5.size-altered.x1-plus1.bin",
+   "kind": "size-altered",
+   "param": "x1-plus1",
+   "source": "tiny-rand-7x5",
+   "bytes": 938,
+   "reference": {
+    "path": "corpus/mutations/reference/tiny-rand-7x5.size-altered.x1-plus1.png",
+    "sha256": "162e43b86db9c1c69e3b10641c9ba4057ab33575593459126330bee944f7a61c"
+   }
+  },
+  {
+   "file": "corpus/mutations/tiny-rand-7x5.size-altered.x1-minus1.bin",
+   "kind": "size-altered",
+   "param": "x1-minus1",
+   "source": "tiny-rand-7x5",
+   "bytes": 938,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/tiny-rand-7x5.size-altered.y1-plus1.bin",
+   "kind": "size-altered",
+   "param": "y1-plus1",
+   "source": "tiny-rand-7x5",
+   "bytes": 938,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  },
+  {
+   "file": "corpus/mutations/tiny-rand-7x5.size-altered.y1-minus1.bin",
+   "kind": "size-altered",
+   "param": "y1-minus1",
+   "source": "tiny-rand-7x5",
+   "bytes": 938,
+   "reference": {
+    "path": "corpus/mutations/reference/tiny-rand-7x5.size-altered.y1-minus1.png",
+    "sha256": "650c48bdae31f309616fd27533b3e986cc0e90ad8c62ee5f1a0550d882c1cd28"
+   }
+  },
+  {
+   "file": "corpus/mutations/tiny-rand-7x5.size-altered.x1-times2.bin",
+   "kind": "size-altered",
+   "param": "x1-times2",
+   "source": "tiny-rand-7x5",
+   "bytes": 938,
+   "reference": {
+    "refused": "OSError: buffer overrun when reading image file"
+   }
+  }
+ ],
+ "referenceTool": "Pillow 13.0.0 decode of the mutated file itself, saved as PNG"
+}

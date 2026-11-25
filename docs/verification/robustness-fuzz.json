@@ -1,0 +1,16 @@
+{
+ "seed": 20261125,
+ "runsPerProperty": 600,
+ "cases": 3002,
+ "crashes": 0,
+ "maxMsPerCase": 3000,
+ "groups": {
+  "random-bytes": 600,
+  "tiny-1-15": 600,
+  "truncated-sample": 600,
+  "byte-flip": 600,
+  "byte-run": 600,
+  "empty": 1,
+  "oversized": 1
+ }
+}

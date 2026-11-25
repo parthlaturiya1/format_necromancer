@@ -60,6 +60,19 @@ function run(bytes: Uint8Array, analysis: AnalysisResult, config: EngineConfig):
       conf -= crossings * config.rowRunCrossPenalty;
       notes.push(`a run crosses ${crossings === 2 ? 'both row ends' : row.runFromAbove ? 'its start' : 'its end'}`);
     }
+    // T-10 self-checks (R-X3): each lowers every row, so a layout with an unexplained part is never shown as ok.
+    if (hyp.confidence < 1) {
+      conf -= config.partialSupportPenalty;
+      notes.push('the layout lacks a supporting fact');
+    }
+    if (stride - width >= 2) {
+      conf -= config.widePadPenalty;
+      notes.push(`each row has ${stride - width} values past the width that nothing explains`);
+    }
+    if (tailLength > 0 && tailLength % 3 === 0) {
+      conf -= config.tableNoLeadPenalty;
+      notes.push('nothing marks where the colour table starts, so a table cut or moved by one byte would look the same');
+    }
     if (!tableRange) {
       conf -= config.noTablePenalty;
       notes.push('there is no colour table, so each index is shown as a grey level');

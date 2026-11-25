@@ -43,11 +43,12 @@ const provenanceCheck = () => {
   return r.status === 0 ? 0 : 1;
 };
 
+// T-10: step 4 runs the fuzz set (tests/property/fuzz.test.ts); step 5 runs the mutation rule check (R-X3) and fails on a rule break.
 // Validation (T-03) plus the golden report (T-06): the test regenerates docs/verification/golden-report.md and fails if rank 1 differs from the spike layout.
 const goldenCorpus = () => {
   const code = spawnSync(node, ['scripts/corpus/validate.mjs'], { stdio: 'inherit', env }).status ?? 1;
   if (code !== 0) return code;
-  return spawnSync(node, ['node_modules/vitest/vitest.mjs', 'run', 'tests/engine/golden-report.test.ts', 'tests/engine/golden-v2.test.ts', 'tests/engine/png.test.ts', 'tests/engine/recover.test.ts'], { stdio: 'inherit', env }).status ?? 1;
+  return spawnSync(node, ['node_modules/vitest/vitest.mjs', 'run', 'tests/engine/golden-report.test.ts', 'tests/engine/golden-v2.test.ts', 'tests/engine/png.test.ts', 'tests/engine/recover.test.ts', 'tests/engine/mutations.test.ts'], { stdio: 'inherit', env }).status ?? 1;
 };
 
 const steps = [
