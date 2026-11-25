@@ -43,12 +43,19 @@ const provenanceCheck = () => {
   return r.status === 0 ? 0 : 1;
 };
 
+// Validation is real (T-03). The regression report is still a stub until the engine exists.
+const goldenCorpus = () => {
+  const code = spawnSync(node, ['scripts/corpus/validate.mjs'], { stdio: 'inherit', env }).status ?? 1;
+  console.log('STUB: golden regression report (needs engine, T-05+)');
+  return code;
+};
+
 const steps = [
   ['1 Typecheck', run([...bin('node_modules/typescript/bin/tsc'), '--noEmit'])],
   ['2 Lint', run([...bin('node_modules/eslint/bin/eslint.js'), '.'])],
   ['3 Unit tests', run([...bin('node_modules/vitest/vitest.mjs'), 'run', 'tests/unit', 'src'])],
   ['4 Property tests', run([...bin('node_modules/vitest/vitest.mjs'), 'run', 'tests/property'])],
-  ['5 Golden corpus', stub('no corpus yet (T-03+)')],
+  ['5 Golden corpus', goldenCorpus],
   ['6 Build', run([...bin('node_modules/next/dist/bin/next'), 'build'])],
   ['7 Playwright e2e', run([...bin('node_modules/@playwright/test/cli.js'), 'test'])],
   ['8 Budgets', stub('engine timing, bundle size, Lighthouse CI not configured yet')],

@@ -1,1 +1,2 @@
 {"ts":"2026-11-25T10:20:37.389Z","event":"T-02-first-run","agent":"kiro-worker","taskId":"T-02","summary":"T-02 recorder first run ([REDACTED] would be redacted)","head":"550e27d6cdde650ed2664a0c11ee611d9a668d3b"}
+{"ts":"2026-11-25T10:29:08.557Z","event":"task","agent":"engine-engineer","taskId":"T-03","summary":"corpus: 11 generated PCX, 1 held-out, Pillow refs, manifest, validator, exclusion test","head":"51f0d2687134207f1cd7b502c62bbbed92c7189f","data":{"path":"corpus/manifest.json"}}

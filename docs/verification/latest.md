@@ -1,24 +1,32 @@
 # Verification
 
 Overall: **PASS**
-Run: 2026-11-25T10:21:07.276Z, Node v26.13.1
+Run: 2026-11-25T10:28:58.086Z, Node v26.13.1
 
 | Step | Result |
 |---|---|
-| 1 Typecheck | PASS (2.1s) |
+| 1 Typecheck | PASS (2.2s) |
 | 2 Lint | PASS (2.9s) |
 | 3 Unit tests | PASS (1.9s) |
 | 4 Property tests | PASS (0.8s) |
-| 5 Golden corpus | PASS (stub, 0.0s) |
-| 6 Build | PASS (5.1s) |
-| 7 Playwright e2e | PASS (4.3s) |
+| 5 Golden corpus | PASS (stub, 0.1s) |
+| 6 Build | PASS (4.7s) |
+| 7 Playwright e2e | PASS (2.7s) |
 | 8 Budgets | PASS (stub, 0.0s) |
-| 9a Audit (high/critical) | PASS (1.8s) |
-| 9b Secret scan | PASS (0.2s) |
-| 10 provenance:check | PASS (0.3s) |
+| 9a Audit (high/critical) | PASS (1.5s) |
+| 9b Secret scan | PASS (0.1s) |
+| 10 provenance:check | PASS (0.2s) |
 
-## Provenance warnings (32)
+## Provenance warnings (40)
 
+- UNATTRIBUTED 51f0d26 .kiro/hooks/provenance.json
+- UNATTRIBUTED 51f0d26 docs/provenance/README.md
+- UNATTRIBUTED 51f0d26 docs/verification/latest.md
+- UNATTRIBUTED 51f0d26 package.json
+- UNATTRIBUTED 51f0d26 scripts/provenance/check.mjs
+- UNATTRIBUTED 51f0d26 scripts/provenance/record.mjs
+- UNATTRIBUTED 51f0d26 scripts/verify.mjs
+- UNATTRIBUTED 51f0d26 tests/unit/provenance.test.ts
 - UNATTRIBUTED 550e27d .github/workflows/verify.yml
 - UNATTRIBUTED 550e27d .gitignore
 - UNATTRIBUTED 550e27d .npmrc

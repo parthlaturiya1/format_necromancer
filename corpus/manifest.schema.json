@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Format Necromancer corpus manifest",
+  "type": "object",
+  "required": ["version", "samples", "heldOut"],
+  "additionalProperties": false,
+  "properties": {
+    "version": { "const": 1 },
+    "samples": {
+      "type": "array",
+      "minItems": 10,
+      "items": {
+        "type": "object",
+        "required": ["id", "path", "sha256", "bytes", "width", "height", "source", "license", "reference", "heldOut"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "path": { "type": "string", "pattern": "^corpus/samples/[^/]+\\.pcx$" },
+          "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+          "bytes": { "type": "integer", "minimum": 1 },
+          "width": { "type": "integer", "minimum": 1 },
+          "height": { "type": "integer", "minimum": 1 },
+          "source": { "type": "string", "minLength": 1 },
+          "license": { "type": "string", "minLength": 1 },
+          "reference": {
+            "type": "object",
+            "required": ["path", "sha256", "tool"],
+            "additionalProperties": false,
+            "properties": {
+              "path": { "type": "string", "pattern": "^corpus/reference/[^/]+\\.png$" },
+              "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+              "tool": { "type": "string", "minLength": 1 }
+            }
+          },
+          "heldOut": { "const": false }
+        }
+      }
+    },
+    "heldOut": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "sha256", "heldOut"],
+        "additionalProperties": false,
+        "properties": {
+          "path": { "type": "string", "pattern": "^corpus/heldout/[^/]+\\.pcx$" },
+          "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+          "heldOut": { "const": true }
+        }
+      }
+    }
+  }
+}
