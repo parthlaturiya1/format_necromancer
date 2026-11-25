@@ -28,7 +28,9 @@ describe('corpus', () => {
     // Pattern built from parts so this file does not match itself.
     // Allowed readers: the validator (hashes only) and the T-12 blind run (run once, recorded in
     // docs/verification/blind-test.md, never part of tuning). Any other reader fails this test.
-    const allowed = ['scripts/corpus/validate.mjs', 'tests/blind/run.test.ts'];
+    // scripts/samples/copy-samples.mjs copies the held-out file and its trusted reference to public/samples for the
+    // F-11 blind-test display, after the one-time T-12 run; it never reads or analyses the bytes.
+    const allowed = ['scripts/corpus/validate.mjs', 'tests/blind/run.test.ts', 'scripts/samples/copy-samples.mjs'];
     const re = new RegExp(['corpus', '[\\\\/]+', 'held', 'out'].join(''), 'i');
     const offenders = [...walk('scripts'), ...walk('tests')]
       .filter((f) => !allowed.some((a) => f.replace(/\\/g, '/').endsWith(a)))
