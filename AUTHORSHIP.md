@@ -27,21 +27,22 @@ Kiro wrote all code. No code from another tool was committed.
 
 - Kiro agent hooks were meant to log every Kiro action. They could not be activated in this Kiro version. No hook firing was ever observed (see `docs/provenance/README.md`).
 - Instead, `scripts/provenance/record.mjs` appends one line per task to `docs/provenance/ledger.jsonl` (append only). A line says who reported a task. It is not a per-file record.
-- `npm run provenance:check` lists committed file changes with no ledger line as `UNATTRIBUTED`. The latest run in `docs/verification/latest.md` (2026-11-25) shows 560 warnings. They are shown, not hidden. Many are reports, specs and tests from tasks that wrote no ledger line.
+- `npm run provenance:check` lists committed file changes with no ledger line as `UNATTRIBUTED`. The latest run in `docs/verification/latest.md` (2026-11-25) shows the warning count. They are shown, not hidden. Many are reports, specs and tests from tasks that wrote no ledger line.
 - Three early ledger lines carry `agent: kiro` and `taskId: unknown`: two empty `unknown` events and one `Test` event with the summary "manual". Their origin is not established.
 - Before the first push, all commits had their author email rewritten on 2026-11-25. The author is the same person. Only the email changed.
 - Commit signing (SSH key) was turned on from commit `c354ac9` onward. Every commit after it is signed. Earlier commits are unsigned.
 
 ## Tasks and agents (ledger summary)
 
+`docs/provenance/ledger.jsonl` has 31 lines (2026-11-25), 28 with a task ID.
+
 | Agent | Tasks |
 |---|---|
-| engine-engineer | T-03 to T-10, T-13a |
-| verifier | T-11, T-12 |
-| experience-designer | T-13 to T-16 |
-| conductor | T-02b |
+| engine-engineer | T-03 to T-10, T-13a, W-1, T-21b, T-21d |
+| verifier | T-11, T-12, T-19 |
+| experience-designer | T-13 to T-18, T-20 |
+| conductor | T-02b, T-21c, T-22 |
 | kiro-worker | T-02 |
 
-The full list is in `docs/provenance/ledger.jsonl`. Later tasks may add lines after this file was written.
-
+Not in the ledger as separate lines: reviews R-1 to R-5, judge reviews J-1 and J-2, specs S-01 to S-03, and the docs tasks T-24a, T-24b and P-2. The two Kiro IDE tasks (T-11b, T-21a) are in git history, not in the ledger. P-1 is not listed yet. The full list is in `docs/provenance/ledger.jsonl`; it is the record, and this table can lag it.
 Created by Parth Radheshyam Laturiya. Direction, product decisions and review by the owner; code written by Kiro.

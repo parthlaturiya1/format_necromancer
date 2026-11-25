@@ -1,13 +1,19 @@
-https://format-necromancer.vercel.app
-
 # Format Necromancer
+
+Recovers a dead file from its bytes alone. No specification. Nothing uploaded.
+
+https://format-necromancer.vercel.app
 
 [![verify](https://github.com/parthlaturiya1/format_necromancer/actions/workflows/verify.yml/badge.svg)](https://github.com/parthlaturiya1/format_necromancer/actions/workflows/verify.yml)
 
 ![The finished screen: a recovered picture, the file's bytes with the matching rows lit, the Confidence Grid and the verification panel reading Exact match](docs/verification/screens/t17-done.png)
 
-Created by Parth Radheshyam Laturiya. Direction, product decisions and review by the owner; code written by Kiro.
+- 5 of 5 real CC0 game files from Abuse rebuilt exact against Pillow: [wild-test.md](docs/verification/wild-test.md)
+- Blind test exact, 0 of 13,500 pixels differ: [blind-test.md](docs/verification/blind-test.md)
+- 297 changed files, 0 wrong at confidence 0.9 or more: [robustness-report.md](docs/verification/robustness-report.md)
+- Runs in your browser, no network during analysis: [t19-golden-run.md](docs/verification/t19-golden-run.md)
 
+Created by Parth Radheshyam Laturiya. Direction, product decisions and review by the owner; code written by Kiro.
 ## Vision
 
 Today there is one layout family (PCX images), and every element of the result comes with its evidence. The same evidence-first method is meant to extend to other dead formats, which is not built yet.
@@ -15,7 +21,7 @@ Today there is one layout family (PCX images), and every element of the result c
 ## Try it in 30 seconds
 
 1. Open https://format-necromancer.vercel.app (laptop or phone, no login).
-2. Press **Resurrect a sample**. A dead file's bytes turn into a picture in six steps. **Skip to result** jumps to the end.
+2. Press **Resurrect a sample**. A dead file's bytes turn into a picture in six steps. The sample may be a generated picture or real game art, depending on the build; the steps are the same. **Skip to result** jumps to the end.
 3. Click a row of the picture, or a dot in the Confidence Grid (each dot is one row). The matching bytes light up, with the rule and a confidence value.
 4. Read the verification panel. It says **Exact match** and a line such as "0 of 12,321 pixels differ".
 5. Press **Load the blind test** (in the Bytes panel). This file was never used for tuning. Read its verification.
@@ -32,9 +38,8 @@ Format Necromancer recovers a picture from an old file that nothing opens, using
 Staff and volunteers at small archives, libraries and museums, and anyone with old disks. Scenario: a volunteer at a local museum finds a box of floppy disks with scanned photos in an old picture format. The program that wrote them is gone and the documentation with it. Today they must guess which tool might open each file. Here they drop the file in and see a recovered picture, plus the evidence for each part, so they know how far to trust it.
 
 Scale, as upper bounds and not users. These are the numbers of places that hold collections. They do not count people who need this tool.
-- About 104,000 museums worldwide (UNESCO, as reported by UN News).
-- More than 80,000 academic libraries (IFLA Library Map of the World).
-- About 408,000 public libraries (a national library summary of IFLA data).
+- About 104,000 museums worldwide, in 2021 ([UNESCO](https://www.unesco.org/en/articles/supporting-museums-unesco-report-points-options-future)).
+- Library counts are left out. The IFLA [Library Map of the World](https://librarymap.ifla.org/) holds them, but its pages could not be opened to check a number.
 
 ## The honest claim
 
@@ -51,6 +56,7 @@ Every number comes from a report in this repo.
 
 | Check | Result | Report |
 |---|---|---|
+| Real files, 5 (W-1) | 5 of 5 exact: 0 mismatches against Pillow's decode (truth: Pillow 13.0.0). CC0 files from the game Abuse, run once each with no tuning. All are 8-bit palette PCX with run-length coding, from one source. | [wild-test.md](docs/verification/wild-test.md) |
 | Blind test, 1 held-out file (150 x 90) | Exact: 0 of 13,500 pixels differ from Pillow's decode, confidence 1. Engine time 17.7 ms. | [blind-test.md](docs/verification/blind-test.md) |
 | Mutated files, 297 | 0 wrong at confidence 0.9 or more. 57 exact, 195 unrecovered, 45 wrong at confidence below 0.9 (max 0.85), shown as uncertain. | [robustness-report.md](docs/verification/robustness-report.md) |
 | Fuzz, 3002 cases | 0 crashes. Slowest case 40 ms. | [robustness-report.md](docs/verification/robustness-report.md) |
@@ -60,9 +66,10 @@ Every number comes from a report in this repo.
 | Failure flow (T-18) | corrupt-tail-cut (last 768 bytes cut) ends with no picture and the engine's reason. The corrupted-tail cases end unrecovered for 21 of 44 files in the mutation set. | [t18-failure.md](docs/verification/t18-failure.md) |
 | Signature-changed sample (T-18) | First byte changed: exact, 0 of 12,321 pixels differ, checked against the source sample's reference. | [t18-failure.md](docs/verification/t18-failure.md) |
 | Budgets (T-21c) | Enforced in `npm run verify` step 8 and in CI: landing JS under 250,000 bytes gzipped, engine under 3 s on 1 MiB and on every tuning sample. Lighthouse is not configured. | [t21c-budgets.md](docs/verification/t21c-budgets.md) |
+| Large files (T-21d) | A valid 10.4 MB file is rebuilt exact in 1,591 ms. Nine 10 MB attack files each end unrecovered with a reason, the slowest at 2,762 ms. Times are from one busy machine. | [t21d-large-files.md](docs/verification/t21d-large-files.md) |
 | Full gate | `npm run verify`: see the latest run | [latest.md](docs/verification/latest.md) |
 
-Limits. The blind-test file comes from the same generator as the tuning files, so it shows the path works on a file never seen, not that it works on real-world files. The verify step for performance budgets is a stub, so the budgets in `.kiro/steering/tech.md` (D-10) are not all enforced by the gate. Only the numbers above were measured.
+Limits. The blind-test file comes from the same generator as the tuning files. The five real files (W-1) come from one game and one export tool, all in the one family the engine targets. Five files are not a rate, and say nothing about 24-bit, 1-bit, 4-bit, multi-plane or damaged real files. Lighthouse is not configured. Only the numbers above were measured.
 
 ## How Kiro built it
 
@@ -70,9 +77,9 @@ Limits. The blind-test file comes from the same generator as the tuning files, s
 - **Steering (7 files):** `.kiro/steering/` (product, tech, design, testing, provenance, demo, roadmap), plus `AGENTS.md` at the root.
 - **Custom agents (2):** `engine-engineer` and `verifier` in `.kiro/agents/`. The verifier may not write under `src/`.
 - **Kiro Crew:** a conductor session split the roadmap into tasks. Worker sessions did each task, and fresh reviewer sessions checked the design (five design reviews, R-1 to R-5, are `docs/verification/review-t13.md` to `review-t17.md`; a judge-panel gap review, J-1, is [judge-gap-review.md](docs/verification/judge-gap-review.md)).
-- **Kiro IDE:** one task (T-11b, a guard that detects changed detector settings) was done in the Kiro IDE.
+- **Kiro IDE:** two tasks were done in the Kiro IDE: T-11b (a guard that detects changed detector settings) and T-21a (a security self-review, `docs/security.md`).
 - **Property-based tests:** fast-check, used for the fuzz runs above.
-- **Provenance ledger:** `docs/provenance/ledger.jsonl`, append only. The Kiro agent hooks could not be activated in this Kiro version, so a script (`scripts/provenance/record.mjs`) writes one entry per task. `npm run provenance:check` lists committed changes with no entry as `UNATTRIBUTED`. The latest run lists 560 such warnings (see `docs/verification/latest.md`). They are disclosed, not hidden. Details: [AUTHORSHIP.md](AUTHORSHIP.md).
+- **Provenance ledger:** `docs/provenance/ledger.jsonl`, append only. The Kiro agent hooks could not be activated in this Kiro version, so a script (`scripts/provenance/record.mjs`) writes one entry per task. `npm run provenance:check` lists committed changes with no entry as `UNATTRIBUTED`. The count of such warnings is in `docs/verification/latest.md`. They are disclosed, not hidden. Details: [AUTHORSHIP.md](AUTHORSHIP.md).
 
 `.kiro` is committed at `.kiro/` in this repo.
 
@@ -105,5 +112,3 @@ Files never leave your browser. See [docs/privacy.md](docs/privacy.md).
 ## License
 
 MIT. See [LICENSE](LICENSE).
-
-Created by Parth Radheshyam Laturiya. Direction, product decisions and review by the owner; code written by Kiro.
