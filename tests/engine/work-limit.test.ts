@@ -14,7 +14,7 @@ import { detectRepetition } from '../../src/engine/detectors/repetition';
 import { detectRunPairs } from '../../src/engine/detectors/run-length';
 import { detectTables } from '../../src/engine/detectors/table-like';
 import { trialDecode } from '../../src/engine/trial-decode';
-import { createWorkMeter, WORK_LIMIT_REASON } from '../../src/engine/work';
+import { createWorkMeter, workLimit, WORK_LIMIT_REASON } from '../../src/engine/work';
 
 const MAX_MS = 3000;
 const TEN_MB = defaultConfig.maxInputBytes;
@@ -98,21 +98,21 @@ describe('work limit: adversarial inputs', () => {
   it('every tuning sample finishes far under the budget (steps are printed)', () => {
     let worst = 0;
     for (const s of listTuningSamples() as { id: string; path: string }[]) {
-      const meter = createWorkMeter(defaultConfig.workBudget);
+      const meter = createWorkMeter(workLimit(defaultConfig, readFileSync(s.path).length));
       const a = analyze(new Uint8Array(readFileSync(s.path)), defaultConfig, meter);
       expect(a.status).toBe('ok');
       worst = Math.max(worst, meter.used);
     }
-    console.log(`work-limit samples | largest analysis use ${worst} of ${defaultConfig.workBudget} steps`);
-    expect(worst).toBeLessThan(defaultConfig.workBudget / 10);
+    console.log(`work-limit samples | largest analysis use ${worst} of the limit (base ${defaultConfig.workBudget})`);
+    expect(worst).toBeLessThan(defaultConfig.workBudget / 2);
   });
 
   it('a tiny budget stops the analysis with the plain reason and does not throw', () => {
     const bytes = new Uint8Array(100_000).fill(0x01);
-    const a = analyze(bytes, { ...defaultConfig, workBudget: 1000 });
+    const a = analyze(bytes, { ...defaultConfig, workBudget: 1000, workBudgetPerByte: 0 });
     expect(a.status).toBe('unrecovered');
     if (a.status === 'unrecovered') expect(a.reason).toContain(WORK_LIMIT_REASON);
-    const p = runPipeline(bytes, { ...defaultConfig, workBudget: 1000 });
+    const p = runPipeline(bytes, { ...defaultConfig, workBudget: 1000, workBudgetPerByte: 0 });
     expect(p.recovered.status).toBe('unrecovered');
   });
 

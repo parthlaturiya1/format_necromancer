@@ -14,14 +14,19 @@ export type PaletteCandidate = { range: ByteRange; entries: number; meanStep: nu
 export function detectPalette(bytes: Uint8Array, config: EngineConfig, meter?: WorkMeter): PaletteCandidate[] {
   const n = bytes.length;
   const all: PaletteCandidate[] = [];
+  let prefix: Float64Array | null = null;
   for (const entries of config.paletteEntryCounts) {
     const len = entries * 3;
     if (!Number.isInteger(entries) || entries < 2 || len > n) continue;
     // step[i] = |bytes[i+3] - bytes[i]|; prefix[i] = sum of step[0..i)
     // Charge the prefix pass, the scan, and the worst case of distinctShare (at most maxGenericCandidates x 8 windows of `entries` reads).
-    meter?.spend(2 * n + config.maxGenericCandidates * 8 * entries);
-    const prefix = new Float64Array(n - 2);
-    for (let i = 0; i + 3 < n; i++) prefix[i + 1] = prefix[i]! + Math.abs(bytes[i + 3]! - bytes[i]!);
+    meter?.spend(n + config.maxGenericCandidates * 8 * entries);
+    if (!prefix) {
+      // T-21d: the prefix sums do not depend on the entry count, so they are built once, not once per count.
+      meter?.spend(n);
+      prefix = new Float64Array(n - 2);
+      for (let i = 0; i + 3 < n; i++) prefix[i + 1] = prefix[i]! + Math.abs(bytes[i + 3]! - bytes[i]!);
+    }
     // Scan left to right. A window that passes both tests is kept and the scan jumps past it.
     // shortcut: first passing window wins, not the smoothest, to stay linear; upgrade if palettes start to be missed.
     const kept: PaletteCandidate[] = [];
@@ -29,7 +34,14 @@ export function detectPalette(bytes: Uint8Array, config: EngineConfig, meter?: W
     for (let s = 0; s + len <= n && kept.length < config.maxGenericCandidates && checked < config.maxGenericCandidates * 8; s++) {
       const steps = len - 3; // neighbouring byte pairs inside the window
       const mean = (prefix[s + steps]! - prefix[s]!) / steps;
-      if (mean > config.paletteMaxStep) continue;
+      if (mean > config.paletteMaxStep) {
+        // T-21d: sliding one place changes the window sum by at most 255 per place, so while the sum is still above the
+        // limit by more than 255 x k, the next k windows fail too. Jump over them (exact; one place of margin for rounding).
+        const over = prefix[s + steps]! - prefix[s]! - config.paletteMaxStep * steps;
+        const skip = Math.floor(over / 255) - 1;
+        if (skip > 0) s += skip;
+        continue;
+      }
       checked++;
       const distinct = distinctShare(bytes, s, entries);
       if (distinct < config.paletteMinDistinct) continue;

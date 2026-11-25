@@ -26,3 +26,8 @@ export function createWorkMeter(limit: number): WorkMeter {
   };
   return m;
 }
+
+/** Step limit for one input (T-21d): a fixed base plus an allowance per input byte. Same input length, same limit, on every machine. */
+export function workLimit(config: { workBudget: number; workBudgetPerByte: number }, inputLength: number): number {
+  return config.workBudget + config.workBudgetPerByte * inputLength;
+}

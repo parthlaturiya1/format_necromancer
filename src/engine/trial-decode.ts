@@ -21,6 +21,78 @@ export function readToken(bytes: Uint8Array, i: number, end: number, mask: numbe
   return { length: 1, count: 1, value: b };
 }
 
+/**
+ * Decoding the same body from several start offsets re-reads almost the same tokens, because a token stream
+ * falls back into step after a few bytes (T-21d). So the first start is walked once, and every other start is
+ * walked only until it lands on a token boundary of that first walk; the rest is read off the first walk.
+ * Result: res[si * ends.length + ei] is the decoded length of bytes[starts[si], ends[ei]), or -1 when it does not
+ * decode exactly (a run is cut off, a count is zero, the end is not a token boundary, or the total passes maxOutput).
+ * Same run rule as readToken and trialDecode (tests/engine/large-files.test.ts compares the two).
+ * starts[0] must be the smallest start; every start must be below every end. `cum` needs bytes.length + 1 entries and is overwritten.
+ * `spend` gets the number of tokens read, after each walk.
+ * shortcut: a start that never lands on the first walk (two-byte runs shifted by one byte) is walked to the end,
+ * one walk per start; the work meter bounds it. Upgrade if such inputs show up as slow.
+ */
+export function decodedLengths(bytes: Uint8Array, starts: ReadonlyArray<number>, ends: ReadonlyArray<number>, mask: number, maxOutput: number, cum: Int32Array, spend?: (steps: number) => void): Int32Array {
+  const res = new Int32Array(starts.length * ends.length).fill(-1);
+  const limit = Math.max(...ends);
+  const countMask = ~mask & 0xff;
+  cum.fill(-1);
+  // First walk: record the output length at every token boundary it reaches (never past maxOutput).
+  let i = starts[0]!;
+  let out = 0;
+  let tokens = 0;
+  for (;;) {
+    cum[i] = out;
+    if (i >= limit) break;
+    const b = bytes[i]!;
+    let count = 1;
+    let len = 1;
+    if ((b & mask) === mask) {
+      count = b & countMask;
+      if (i + 1 >= limit || count === 0) break;
+      len = 2;
+    }
+    if (out + count > maxOutput) break;
+    out += count;
+    i += len;
+    tokens++;
+  }
+  spend?.(tokens + 1);
+  for (let ei = 0; ei < ends.length; ei++) res[ei] = cum[ends[ei]!]!;
+  for (let si = 1; si < starts.length; si++) {
+    let p = starts[si]!;
+    let o = 0;
+    let steps = 0;
+    for (;;) {
+      if (cum[p]! >= 0) {
+        for (let ei = 0; ei < ends.length; ei++) {
+          const e = ends[ei]!;
+          const total = o + cum[e]! - cum[p]!;
+          if (e >= p && cum[e]! >= 0 && total <= maxOutput) res[si * ends.length + ei] = total;
+        }
+        break;
+      }
+      for (let ei = 0; ei < ends.length; ei++) if (p === ends[ei]) res[si * ends.length + ei] = o;
+      if (p >= limit) break;
+      const b = bytes[p]!;
+      let count = 1;
+      let len = 1;
+      if ((b & mask) === mask) {
+        count = b & countMask;
+        if (p + 1 >= limit || count === 0) break;
+        len = 2;
+      }
+      if (o + count > maxOutput) break;
+      o += count;
+      p += len;
+      steps++;
+    }
+    spend?.(steps + 1);
+  }
+  return res;
+}
+
 /** Decode bytes[start, end) with the given run mask. ok is true only if every byte is used and no run is cut off. */
 /** With maxOutput, stops as not ok once the output passes it, so a crafted body cannot chain counts into a huge total. */
 export function trialDecode(bytes: Uint8Array, start: number, end: number, mask: number, maxOutput = Infinity): TrialResult {

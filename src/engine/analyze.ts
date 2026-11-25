@@ -7,7 +7,7 @@ import { detectRowStride, type StrideCandidate } from './detectors/row-stride';
 import { detectRunPairs } from './detectors/run-length';
 import { detectTables } from './detectors/table-like';
 import { createEvidence, sortEvidence } from './evidence';
-import { createWorkMeter, WORK_LIMIT_REASON, WorkLimitError, type WorkMeter } from './work';
+import { createWorkMeter, workLimit, WORK_LIMIT_REASON, WorkLimitError, type WorkMeter } from './work';
 import type { AnalysisResult, ByteRange, Evidence, Hypothesis, Layout } from './types';
 
 type Draft = { header: HeaderCandidate; box?: BoxCandidate; stride?: StrideCandidate; confidence: number };
@@ -196,7 +196,7 @@ function run(bytes: Uint8Array, config: EngineConfig, meter: WorkMeter): Analysi
  * Analyze the bytes of one file. Never throws. Deterministic: no clock, no randomness, no I/O.
  * `meter` is the shared work counter (T-21b); without one, a fresh meter with config.workBudget is made.
  */
-export function analyze(bytes: Uint8Array, config: EngineConfig = defaultConfig, meter: WorkMeter = createWorkMeter(config.workBudget)): AnalysisResult {
+export function analyze(bytes: Uint8Array, config: EngineConfig = defaultConfig, meter: WorkMeter = createWorkMeter(workLimit(config, bytes.length))): AnalysisResult {
   try {
     return run(bytes, config, meter);
   } catch (e) {

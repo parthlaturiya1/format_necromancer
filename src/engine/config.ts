@@ -47,8 +47,10 @@ export type EngineConfig = {
   maxBoxCandidates: number;
   /** Cap on hypotheses returned (work limit). */
   maxHypotheses: number;
-  /** Work limit (T-21b): total steps one file may cost across analyze and recover, counted by one shared meter (src/engine/work.ts). One step is one byte looked at or one token decoded, so it is the same on every machine. 40 million steps took about 0.4 s here. The 11 tuning samples use at most 0.74 million. A 10 MB file cannot finish under it when most guesses decode (63 header guesses alone cost 630 million), so it returns unrecovered with a plain reason. */
+  /** Work limit (T-21b, T-21d): steps one file may cost across analyze and recover, counted by one shared meter (src/engine/work.ts). One step is one byte looked at or one token decoded, so the count is the same on every machine. The limit is workBudget + workBudgetPerByte x input length (see workLimit), so a bigger valid file gets more room. Rule: a valid 10 MB file needs about 35 steps per byte (measured 363 million for 10.4 MB), the limit gives 40, and an attack stops after about the same real time as a valid file of that size. */
   workBudget: number;
+  /** Steps added to the work limit for each byte of input (T-21d). */
+  workBudgetPerByte: number;
   /** GUESS (recoverer): confidence taken off a row for each neighbouring row that shares a run with it. */
   rowRunCrossPenalty: number;
   /** GUESS (recoverer): confidence taken off every row when the layout has no colour table, so each index is shown as a grey level. */
@@ -93,7 +95,8 @@ export const defaultConfig: EngineConfig = {
   maxGenericCandidates: 16,
   maxBoxCandidates: 64,
   maxHypotheses: 12,
-  workBudget: 40_000_000,
+  workBudget: 60_000_000,
+  workBudgetPerByte: 36,
   rowRunCrossPenalty: 0.15,
   noTablePenalty: 0.2,
   tableNoLeadPenalty: 0.2,

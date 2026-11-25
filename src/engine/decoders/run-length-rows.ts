@@ -37,23 +37,41 @@ export function decodeRunLengthRows(bytes: Uint8Array, bodyStart: number, bodyEn
   const intoBelow = new Array<boolean>(height).fill(false);
   let i = bodyStart;
   let out = 0;
+  let curRow = 0; // row holding value `out`
+  let rowEnd = stride; // first value after that row
   while (i < bodyEnd) {
-    const t = readToken(bytes, i, bodyEnd, mask);
-    if (!t) return { ok: false, reason: `A run is cut off or has a zero count at byte ${i}.` };
-    if (out + t.count > total) return { ok: false, reason: `The body gives more than the ${total} values that ${height} rows of ${stride} need.` };
-    flat.fill(t.value, out, out + t.count);
-    const r0 = Math.floor(out / stride);
-    const r1 = Math.floor((out + t.count - 1) / stride);
-    for (let r = r0; r <= r1; r++) {
-      if (first[r]! < 0) first[r] = i;
-      last[r] = i + t.length;
+    // T-21d: a single literal (the common case in busy data) is handled without a token object, a fill call or a division.
+    const b = bytes[i]!;
+    let count = 1;
+    let value = b;
+    let length = 1;
+    if ((b & mask) === mask) {
+      const t = readToken(bytes, i, bodyEnd, mask);
+      if (!t) return { ok: false, reason: `A run is cut off or has a zero count at byte ${i}.` };
+      ({ count, value, length } = t);
     }
-    if (r1 > r0) {
+    if (out + count > total) return { ok: false, reason: `The body gives more than the ${total} values that ${height} rows of ${stride} need.` };
+    if (out >= rowEnd) {
+      curRow = Math.floor(out / stride);
+      rowEnd = (curRow + 1) * stride;
+    }
+    const r0 = curRow;
+    if (count === 1) flat[out] = value;
+    else flat.fill(value, out, out + count);
+    const r1 = out + count <= rowEnd ? r0 : Math.floor((out + count - 1) / stride);
+    if (r1 === r0) {
+      if (first[r0]! < 0) first[r0] = i;
+      last[r0] = i + length;
+    } else {
+      for (let r = r0; r <= r1; r++) {
+        if (first[r]! < 0) first[r] = i;
+        last[r] = i + length;
+      }
       for (let r = r0 + 1; r <= r1; r++) fromAbove[r] = true;
       for (let r = r0; r < r1; r++) intoBelow[r] = true;
     }
-    out += t.count;
-    i += t.length;
+    out += count;
+    i += length;
   }
   if (out !== total) return { ok: false, reason: `The body gives ${out} values but ${height} rows of ${stride} need ${total}.` };
   const rows: DecodedRow[] = [];

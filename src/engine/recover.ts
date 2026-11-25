@@ -1,7 +1,7 @@
 import { defaultConfig, type EngineConfig } from './config';
 import { decodeRunLengthRows } from './decoders/run-length-rows';
 import { createEvidence } from './evidence';
-import { createWorkMeter, WORK_LIMIT_REASON, WorkLimitError, type WorkMeter } from './work';
+import { createWorkMeter, workLimit, WORK_LIMIT_REASON, WorkLimitError, type WorkMeter } from './work';
 import type { AnalysisResult, ByteRange, Evidence } from './types';
 
 export type RowStatus = 'ok' | 'uncertain' | 'unexplained';
@@ -125,7 +125,7 @@ function run(bytes: Uint8Array, analysis: AnalysisResult, config: EngineConfig, 
  * Rebuild the picture from the rank-1 hypothesis only (R-R1). Takes the file bytes and the analyzer result,
  * nothing else: no reference image is in scope (R-R8). Never throws; deterministic (R-R7).
  */
-export function recover(bytes: Uint8Array, analysis: AnalysisResult, config: EngineConfig = defaultConfig, meter: WorkMeter = createWorkMeter(config.workBudget)): Recovered {
+export function recover(bytes: Uint8Array, analysis: AnalysisResult, config: EngineConfig = defaultConfig, meter: WorkMeter = createWorkMeter(workLimit(config, bytes.length))): Recovered {
   try {
     return run(bytes, analysis, config, meter);
   } catch (e) {
