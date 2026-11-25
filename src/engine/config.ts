@@ -49,6 +49,16 @@ export type EngineConfig = {
   maxHypotheses: number;
   /** Cap on trial-decode steps per analysis, so a 1 MB input stays fast and the result stays deterministic. */
   workBudget: number;
+  /** GUESS (recoverer): confidence taken off a row for each neighbouring row that shares a run with it. */
+  rowRunCrossPenalty: number;
+  /** GUESS (recoverer): confidence taken off every row when the layout has no colour table, so each index is shown as a grey level. */
+  noTablePenalty: number;
+  /** GUESS (recoverer): a row below this confidence is shown as uncertain. */
+  uncertainBelow: number;
+  /** GUESS (recoverer): a row below this confidence is shown as unexplained. */
+  unexplainedBelow: number;
+  /** Cap on decoded values (stride x height), a work limit so one input cannot ask for gigabytes. */
+  maxOutputValues: number;
   /** Inputs shorter than this are refused (R-A7). */
   minInputBytes: number;
   /** Inputs longer than this are refused (R-A7, D-11). */
@@ -78,6 +88,11 @@ export const defaultConfig: EngineConfig = {
   maxBoxCandidates: 64,
   maxHypotheses: 12,
   workBudget: 40_000_000,
+  rowRunCrossPenalty: 0.05,
+  noTablePenalty: 0.2,
+  uncertainBelow: 0.9,
+  unexplainedBelow: 0.5,
+  maxOutputValues: 16 * 1024 * 1024,
   minInputBytes: 16,
   maxInputBytes: 10 * 1024 * 1024,
 };

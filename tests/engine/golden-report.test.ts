@@ -3,13 +3,16 @@
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { expect, it } from 'vitest';
 import { analyze } from '../../src/engine/analyze';
+import { runPipeline } from '../../src/engine/pipeline';
+import { decodePng } from '../../src/engine/png';
+import { nodeInflate } from './helpers/node-inflate';
 // @ts-expect-error plain .mjs helper without type declarations
 import { listTuningSamples } from '../../scripts/corpus/list-tuning-samples.mjs';
 
 type Sample = { id: string; path: string };
 type Spike = { width: number; height: number; stride: number; header: number; tail: number; tailAt: number; mask: number };
 
-it('writes the golden report and rank 1 matches the spike on every tuning sample', () => {
+it('writes the golden report and rank 1 matches the spike on every tuning sample', async () => {
   const spike = readFileSync('docs/verification/gate0-spike.md', 'utf8');
   const spikeLayouts = new Map<string, Spike>();
   for (const m of spike.matchAll(/^\s+([\w-]+-\d+x\d+): match .*?\| (\d+)x(\d+) stride (\d+) header (\d+) boxAt (\d+) tail (\d+) paletteAt (\d+) mask (0x[0-9a-f]+)/gm)) {
@@ -48,8 +51,36 @@ it('writes the golden report and rank 1 matches the spike on every tuning sample
       ].join('\n'),
     );
   }
+  // T-08 recovery. Order matters (R-R8): recover first from the sample bytes, THEN load the reference and compare here (test-side; the verifier is T-09).
+  const recRows: string[] = [];
+  let exact = 0;
+  for (const s of samples as Array<Sample & { reference: { path: string } }>) {
+    const bytes = new Uint8Array(readFileSync(s.path));
+    const { recovered: rec } = runPipeline(bytes);
+    if (rec.status !== 'ok') {
+      recRows.push(`- ${s.id}: unrecovered. ${rec.reason}`);
+      continue;
+    }
+    const ref = await decodePng(new Uint8Array(readFileSync(s.reference.path)), nodeInflate);
+    let diff = ref.width !== rec.width || ref.height !== rec.height ? -1 : 0;
+    if (diff === 0) for (let i = 0; i < ref.rgb.length; i++) if (ref.rgb[i] !== rec.rgb[i]) diff++;
+    if (diff === 0) exact++;
+    const count = (st: string) => rec.rows.filter((r) => r.status === st).length;
+    recRows.push(`- ${s.id}: ${diff === 0 ? '**exact**' : `NOT exact (${diff < 0 ? 'size differs' : `${diff} bytes differ`})`}, rows ok ${count('ok')} / uncertain ${count('uncertain')} / unexplained ${count('unexplained')}, confidence ${rec.confidence}.`);
+  }
+  const recBase = JSON.parse(readFileSync('scripts/golden/recover-baseline.json', 'utf8')) as { exact: number };
+
   const md = [
-    '# Golden report (T-06 analyzer v1)',
+    '# Golden report (T-06 analyzer v1, T-08 recoverer)',
+    '',
+    `## Recovery (T-08): **${exact} of ${samples.length}** tuning samples recovered exactly against the reference`,
+    '',
+    'Reference pixels were loaded only after recovery, and compared in this test, not in the engine. The recoverer reads no reference. The run decoder (`src/engine/decoders/run-length-rows.ts`) is format-aware and disclosed. Row weights and thresholds in `src/engine/config.ts` are guesses. Exact on the tuning set is not a blind result (the blind test is T-12). Held-out file not read.',
+    '',
+    ...recRows,
+    '',
+    '## Analysis (T-06)',
+    '',
     '',
     `Rank-1 layout equals the Gate 0 spike layout on **${match} of ${samples.length}** tuning samples.`,
     '',
@@ -60,5 +91,6 @@ it('writes the golden report and rank 1 matches the spike on every tuning sample
   mkdirSync('docs/verification', { recursive: true });
   writeFileSync('docs/verification/golden-report.md', md);
   expect(match).toBe(samples.length);
+  expect(exact).toBeGreaterThanOrEqual(recBase.exact); // no-worse baseline: the exact count must not drop
 });
 

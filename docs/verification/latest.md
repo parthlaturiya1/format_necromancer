@@ -1,119 +1,136 @@
 # Verification
 
 Overall: **PASS**
-Run: 2026-11-25T10:50:31.125Z, Node v26.13.1
+Run: 2026-11-25T11:00:57.510Z, Node v26.13.1
 
 | Step | Result |
 |---|---|
-| 1 Typecheck | PASS (2.3s) |
-| 2 Lint | PASS (5.8s) |
-| 3 Unit tests | PASS (2.2s) |
-| 4 Property tests | PASS (1.2s) |
-| 5 Golden corpus | PASS (0.9s) |
-| 6 Build | PASS (6.1s) |
-| 7 Playwright e2e | PASS (3.5s) |
+| 1 Typecheck | PASS (2.4s) |
+| 2 Lint | PASS (2.8s) |
+| 3 Unit tests | PASS (1.8s) |
+| 4 Property tests | PASS (2.5s) |
+| 5 Golden corpus | PASS (1.2s) |
+| 6 Build | PASS (5.5s) |
+| 7 Playwright e2e | PASS (2.8s) |
 | 8 Budgets | PASS (stub, 0.0s) |
-| 9a Audit (high/critical) | PASS (2.1s) |
+| 9a Audit (high/critical) | PASS (1.3s) |
 | 9b Secret scan | PASS (0.2s) |
-| 10 provenance:check | PASS (0.2s) |
+| 10 provenance:check | PASS (0.3s) |
 
-## Provenance warnings (95)
+## Provenance warnings (112)
 
-- UNATTRIBUTED 6460710 docs/verification/latest.md
-- UNATTRIBUTED 6460710 package.json
-- UNATTRIBUTED 6460710 scripts/verify.mjs
-- UNATTRIBUTED 6460710 src/engine/analyze.ts
-- UNATTRIBUTED 6460710 src/engine/config.ts
-- UNATTRIBUTED 6460710 src/engine/detectors/box-numbers.ts
-- UNATTRIBUTED 6460710 src/engine/detectors/header-block.ts
-- UNATTRIBUTED 6460710 src/engine/detectors/row-stride.ts
-- UNATTRIBUTED 6460710 src/engine/trial-decode.ts
-- UNATTRIBUTED 6460710 tests/engine/analyze.test.ts
-- UNATTRIBUTED 6460710 tests/engine/golden-report.test.ts
-- UNATTRIBUTED 6460710 tests/property/analyze.test.ts
-- UNATTRIBUTED 4775ce6 docs/verification/latest.md
-- UNATTRIBUTED 4775ce6 src/engine/evidence.ts
-- UNATTRIBUTED 4775ce6 src/engine/types.ts
-- UNATTRIBUTED 4775ce6 tests/engine/evidence.test.ts
-- UNATTRIBUTED 4775ce6 tests/property/evidence.test.ts
-- UNATTRIBUTED 4775ce6 vitest.config.mts
-- UNATTRIBUTED 05dab4e .kiro/specs/engine/design.md
-- UNATTRIBUTED 05dab4e .kiro/specs/engine/requirements.md
-- UNATTRIBUTED 05dab4e .kiro/specs/engine/tasks.md
-- UNATTRIBUTED 1527778 docs/verification/latest.md
-- UNATTRIBUTED ada6685 corpus/README.md
-- UNATTRIBUTED ada6685 corpus/heldout/heldout-01.pcx
-- UNATTRIBUTED ada6685 corpus/manifest.schema.json
-- UNATTRIBUTED ada6685 corpus/reference/checker1-gray-65x33.png
-- UNATTRIBUTED ada6685 corpus/reference/checker8-ocean-80x80.png
-- UNATTRIBUTED ada6685 corpus/reference/diag-ocean-256x16.png
-- UNATTRIBUTED ada6685 corpus/reference/hgrad-gray-64x48.png
-- UNATTRIBUTED ada6685 corpus/reference/rings-rand-111x111.png
-- UNATTRIBUTED ada6685 corpus/reference/shapes-rand-128x96.png
-- UNATTRIBUTED ada6685 corpus/reference/solid-gray-32x32.png
-- UNATTRIBUTED ada6685 corpus/reference/stripes-rand-200x40.png
-- UNATTRIBUTED ada6685 corpus/reference/text-fire-160x32.png
-- UNATTRIBUTED ada6685 corpus/reference/tiny-rand-7x5.png
-- UNATTRIBUTED ada6685 corpus/reference/vgrad-fire-97x61.png
-- UNATTRIBUTED ada6685 corpus/samples/checker1-gray-65x33.pcx
-- UNATTRIBUTED ada6685 corpus/samples/checker8-ocean-80x80.pcx
-- UNATTRIBUTED ada6685 corpus/samples/diag-ocean-256x16.pcx
-- UNATTRIBUTED ada6685 corpus/samples/hgrad-gray-64x48.pcx
-- UNATTRIBUTED ada6685 corpus/samples/rings-rand-111x111.pcx
-- UNATTRIBUTED ada6685 corpus/samples/shapes-rand-128x96.pcx
-- UNATTRIBUTED ada6685 corpus/samples/solid-gray-32x32.pcx
-- UNATTRIBUTED ada6685 corpus/samples/stripes-rand-200x40.pcx
-- UNATTRIBUTED ada6685 corpus/samples/text-fire-160x32.pcx
-- UNATTRIBUTED ada6685 corpus/samples/tiny-rand-7x5.pcx
-- UNATTRIBUTED ada6685 corpus/samples/vgrad-fire-97x61.pcx
-- UNATTRIBUTED ada6685 docs/verification/latest.md
-- UNATTRIBUTED ada6685 package.json
-- UNATTRIBUTED ada6685 scripts/corpus/generate.py
-- UNATTRIBUTED ada6685 scripts/corpus/list-tuning-samples.mjs
-- UNATTRIBUTED ada6685 scripts/corpus/requirements.txt
-- UNATTRIBUTED ada6685 scripts/corpus/validate.mjs
-- UNATTRIBUTED ada6685 scripts/verify.mjs
-- UNATTRIBUTED ada6685 tests/unit/corpus.test.ts
-- UNATTRIBUTED 51f0d26 .kiro/hooks/provenance.json
-- UNATTRIBUTED 51f0d26 docs/provenance/README.md
-- UNATTRIBUTED 51f0d26 docs/verification/latest.md
-- UNATTRIBUTED 51f0d26 package.json
-- UNATTRIBUTED 51f0d26 scripts/provenance/check.mjs
-- UNATTRIBUTED 51f0d26 scripts/provenance/record.mjs
-- UNATTRIBUTED 51f0d26 scripts/verify.mjs
-- UNATTRIBUTED 51f0d26 tests/unit/provenance.test.ts
-- UNATTRIBUTED 550e27d .github/workflows/verify.yml
-- UNATTRIBUTED 550e27d .gitignore
-- UNATTRIBUTED 550e27d .npmrc
-- UNATTRIBUTED 550e27d README.md
-- UNATTRIBUTED 550e27d docs/security.md
-- UNATTRIBUTED 550e27d docs/verification/latest.md
-- UNATTRIBUTED 550e27d eslint.config.mjs
-- UNATTRIBUTED 550e27d next.config.ts
-- UNATTRIBUTED 550e27d package-lock.json
-- UNATTRIBUTED 550e27d package.json
-- UNATTRIBUTED 550e27d playwright.config.ts
-- UNATTRIBUTED 550e27d scripts/serve.mjs
-- UNATTRIBUTED 550e27d scripts/verify.mjs
-- UNATTRIBUTED 550e27d src/app/layout.tsx
-- UNATTRIBUTED 550e27d src/app/page.tsx
-- UNATTRIBUTED 550e27d tests/e2e/smoke.spec.ts
-- UNATTRIBUTED 550e27d tests/property/toolchain.test.ts
-- UNATTRIBUTED 550e27d tests/unit/toolchain.test.ts
-- UNATTRIBUTED 550e27d tsconfig.json
-- UNATTRIBUTED 550e27d vercel.json
-- UNATTRIBUTED 550e27d vitest.config.mts
-- UNATTRIBUTED 6a2c00b .kiro/agents/engine-engineer.md
-- UNATTRIBUTED 6a2c00b .kiro/agents/verifier.md
-- UNATTRIBUTED 6a2c00b .kiro/steering/demo.md
-- UNATTRIBUTED 6a2c00b .kiro/steering/design.md
-- UNATTRIBUTED 6a2c00b .kiro/steering/product.md
-- UNATTRIBUTED 6a2c00b .kiro/steering/provenance.md
-- UNATTRIBUTED 6a2c00b .kiro/steering/roadmap.md
-- UNATTRIBUTED 6a2c00b .kiro/steering/tech.md
-- UNATTRIBUTED 6a2c00b .kiro/steering/testing.md
-- UNATTRIBUTED 6a2c00b AGENTS.md
-- UNATTRIBUTED 6a2c00b docs/feature-register.md
+- UNATTRIBUTED 3fd25e9 .kiro/specs/recovery/design.md
+- UNATTRIBUTED 3fd25e9 .kiro/specs/recovery/requirements.md
+- UNATTRIBUTED 3fd25e9 .kiro/specs/recovery/tasks.md
+- UNATTRIBUTED 988c521 docs/verification/latest.md
+- UNATTRIBUTED 988c521 package.json
+- UNATTRIBUTED 988c521 scripts/golden/baseline.json
+- UNATTRIBUTED 988c521 scripts/golden/make-baseline.mjs
+- UNATTRIBUTED 988c521 scripts/verify.mjs
+- UNATTRIBUTED 988c521 src/engine/analyze.ts
+- UNATTRIBUTED 988c521 src/engine/config.ts
+- UNATTRIBUTED 988c521 src/engine/detectors/palette.ts
+- UNATTRIBUTED 988c521 src/engine/detectors/repetition.ts
+- UNATTRIBUTED 988c521 src/engine/detectors/run-length.ts
+- UNATTRIBUTED 988c521 src/engine/detectors/table-like.ts
+- UNATTRIBUTED 988c521 tests/engine/generic-detectors.test.ts
+- UNATTRIBUTED 988c521 tests/engine/golden-v2.test.ts
+- UNATTRIBUTED 988c521 tests/property/analyze.test.ts
+- UNATTRIBUTED ef79114 docs/verification/latest.md
+- UNATTRIBUTED ef79114 package.json
+- UNATTRIBUTED ef79114 scripts/verify.mjs
+- UNATTRIBUTED ef79114 src/engine/analyze.ts
+- UNATTRIBUTED ef79114 src/engine/config.ts
+- UNATTRIBUTED ef79114 src/engine/detectors/box-numbers.ts
+- UNATTRIBUTED ef79114 src/engine/detectors/header-block.ts
+- UNATTRIBUTED ef79114 src/engine/detectors/row-stride.ts
+- UNATTRIBUTED ef79114 src/engine/trial-decode.ts
+- UNATTRIBUTED ef79114 tests/engine/analyze.test.ts
+- UNATTRIBUTED ef79114 tests/engine/golden-report.test.ts
+- UNATTRIBUTED ef79114 tests/property/analyze.test.ts
+- UNATTRIBUTED a27383f docs/verification/latest.md
+- UNATTRIBUTED a27383f src/engine/evidence.ts
+- UNATTRIBUTED a27383f src/engine/types.ts
+- UNATTRIBUTED a27383f tests/engine/evidence.test.ts
+- UNATTRIBUTED a27383f tests/property/evidence.test.ts
+- UNATTRIBUTED a27383f vitest.config.mts
+- UNATTRIBUTED 94a098f .kiro/specs/engine/design.md
+- UNATTRIBUTED 94a098f .kiro/specs/engine/requirements.md
+- UNATTRIBUTED 94a098f .kiro/specs/engine/tasks.md
+- UNATTRIBUTED 00a17f9 docs/verification/latest.md
+- UNATTRIBUTED 955c6fe corpus/README.md
+- UNATTRIBUTED 955c6fe corpus/heldout/heldout-01.pcx
+- UNATTRIBUTED 955c6fe corpus/manifest.schema.json
+- UNATTRIBUTED 955c6fe corpus/reference/checker1-gray-65x33.png
+- UNATTRIBUTED 955c6fe corpus/reference/checker8-ocean-80x80.png
+- UNATTRIBUTED 955c6fe corpus/reference/diag-ocean-256x16.png
+- UNATTRIBUTED 955c6fe corpus/reference/hgrad-gray-64x48.png
+- UNATTRIBUTED 955c6fe corpus/reference/rings-rand-111x111.png
+- UNATTRIBUTED 955c6fe corpus/reference/shapes-rand-128x96.png
+- UNATTRIBUTED 955c6fe corpus/reference/solid-gray-32x32.png
+- UNATTRIBUTED 955c6fe corpus/reference/stripes-rand-200x40.png
+- UNATTRIBUTED 955c6fe corpus/reference/text-fire-160x32.png
+- UNATTRIBUTED 955c6fe corpus/reference/tiny-rand-7x5.png
+- UNATTRIBUTED 955c6fe corpus/reference/vgrad-fire-97x61.png
+- UNATTRIBUTED 955c6fe corpus/samples/checker1-gray-65x33.pcx
+- UNATTRIBUTED 955c6fe corpus/samples/checker8-ocean-80x80.pcx
+- UNATTRIBUTED 955c6fe corpus/samples/diag-ocean-256x16.pcx
+- UNATTRIBUTED 955c6fe corpus/samples/hgrad-gray-64x48.pcx
+- UNATTRIBUTED 955c6fe corpus/samples/rings-rand-111x111.pcx
+- UNATTRIBUTED 955c6fe corpus/samples/shapes-rand-128x96.pcx
+- UNATTRIBUTED 955c6fe corpus/samples/solid-gray-32x32.pcx
+- UNATTRIBUTED 955c6fe corpus/samples/stripes-rand-200x40.pcx
+- UNATTRIBUTED 955c6fe corpus/samples/text-fire-160x32.pcx
+- UNATTRIBUTED 955c6fe corpus/samples/tiny-rand-7x5.pcx
+- UNATTRIBUTED 955c6fe corpus/samples/vgrad-fire-97x61.pcx
+- UNATTRIBUTED 955c6fe docs/verification/latest.md
+- UNATTRIBUTED 955c6fe package.json
+- UNATTRIBUTED 955c6fe scripts/corpus/generate.py
+- UNATTRIBUTED 955c6fe scripts/corpus/list-tuning-samples.mjs
+- UNATTRIBUTED 955c6fe scripts/corpus/requirements.txt
+- UNATTRIBUTED 955c6fe scripts/corpus/validate.mjs
+- UNATTRIBUTED 955c6fe scripts/verify.mjs
+- UNATTRIBUTED 955c6fe tests/unit/corpus.test.ts
+- UNATTRIBUTED c3d3f82 .kiro/hooks/provenance.json
+- UNATTRIBUTED c3d3f82 docs/provenance/README.md
+- UNATTRIBUTED c3d3f82 docs/verification/latest.md
+- UNATTRIBUTED c3d3f82 package.json
+- UNATTRIBUTED c3d3f82 scripts/provenance/check.mjs
+- UNATTRIBUTED c3d3f82 scripts/provenance/record.mjs
+- UNATTRIBUTED c3d3f82 scripts/verify.mjs
+- UNATTRIBUTED c3d3f82 tests/unit/provenance.test.ts
+- UNATTRIBUTED 0f93547 .github/workflows/verify.yml
+- UNATTRIBUTED 0f93547 .gitignore
+- UNATTRIBUTED 0f93547 .npmrc
+- UNATTRIBUTED 0f93547 README.md
+- UNATTRIBUTED 0f93547 docs/security.md
+- UNATTRIBUTED 0f93547 docs/verification/latest.md
+- UNATTRIBUTED 0f93547 eslint.config.mjs
+- UNATTRIBUTED 0f93547 next.config.ts
+- UNATTRIBUTED 0f93547 package-lock.json
+- UNATTRIBUTED 0f93547 package.json
+- UNATTRIBUTED 0f93547 playwright.config.ts
+- UNATTRIBUTED 0f93547 scripts/serve.mjs
+- UNATTRIBUTED 0f93547 scripts/verify.mjs
+- UNATTRIBUTED 0f93547 src/app/layout.tsx
+- UNATTRIBUTED 0f93547 src/app/page.tsx
+- UNATTRIBUTED 0f93547 tests/e2e/smoke.spec.ts
+- UNATTRIBUTED 0f93547 tests/property/toolchain.test.ts
+- UNATTRIBUTED 0f93547 tests/unit/toolchain.test.ts
+- UNATTRIBUTED 0f93547 tsconfig.json
+- UNATTRIBUTED 0f93547 vercel.json
+- UNATTRIBUTED 0f93547 vitest.config.mts
+- UNATTRIBUTED 540f898 .kiro/agents/engine-engineer.md
+- UNATTRIBUTED 540f898 .kiro/agents/verifier.md
+- UNATTRIBUTED 540f898 .kiro/steering/demo.md
+- UNATTRIBUTED 540f898 .kiro/steering/design.md
+- UNATTRIBUTED 540f898 .kiro/steering/product.md
+- UNATTRIBUTED 540f898 .kiro/steering/provenance.md
+- UNATTRIBUTED 540f898 .kiro/steering/roadmap.md
+- UNATTRIBUTED 540f898 .kiro/steering/tech.md
+- UNATTRIBUTED 540f898 .kiro/steering/testing.md
+- UNATTRIBUTED 540f898 AGENTS.md
+- UNATTRIBUTED 540f898 docs/feature-register.md
 
 ## Feature register
 
