@@ -1,0 +1,12 @@
+{
+  "reference": {
+    "width": 160,
+    "height": 56
+  },
+  "report": {
+    "mode": "reference",
+    "exact": true,
+    "mismatchCount": 0,
+    "mismatches": []
+  }
+}

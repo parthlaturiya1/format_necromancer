@@ -1,0 +1,26 @@
+{
+  "id": "endgame-end",
+  "bytes": 49047,
+  "timingMs": 47.3,
+  "analysisStatus": "ok",
+  "recoveredStatus": "ok",
+  "rank1": {
+    "headerLength": 128,
+    "runMarkerMask": 192,
+    "boxNumbers": [
+      320,
+      200
+    ],
+    "rowStride": 320,
+    "tableTailOffset": 48278,
+    "tableTailLength": 769
+  },
+  "hypothesisCount": 12,
+  "width": 320,
+  "height": 200,
+  "confidence": 1,
+  "hypothesisId": "h1",
+  "rowStatusCounts": {
+    "ok": 200
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "id": "consfnt-fnt5x7",
+  "bytes": 5566,
+  "timingMs": 13.8,
+  "analysisStatus": "ok",
+  "recoveredStatus": "ok",
+  "rank1": {
+    "headerLength": 128,
+    "runMarkerMask": 192,
+    "boxNumbers": [
+      160,
+      56
+    ],
+    "rowStride": 160,
+    "tableTailOffset": 4797,
+    "tableTailLength": 769
+  },
+  "hypothesisCount": 12,
+  "width": 160,
+  "height": 56,
+  "confidence": 1,
+  "hypothesisId": "h1",
+  "rowStatusCounts": {
+    "ok": 56
+  }
+}

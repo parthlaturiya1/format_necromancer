@@ -1,0 +1,26 @@
+{
+  "id": "exp1-fire0005",
+  "bytes": 5212,
+  "timingMs": 20.1,
+  "analysisStatus": "ok",
+  "recoveredStatus": "ok",
+  "rank1": {
+    "headerLength": 128,
+    "runMarkerMask": 192,
+    "boxNumbers": [
+      320,
+      200
+    ],
+    "rowStride": 320,
+    "tableTailOffset": 4443,
+    "tableTailLength": 769
+  },
+  "hypothesisCount": 12,
+  "width": 320,
+  "height": 200,
+  "confidence": 1,
+  "hypothesisId": "h1",
+  "rowStatusCounts": {
+    "ok": 200
+  }
+}

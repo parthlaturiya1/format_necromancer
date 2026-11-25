@@ -1,0 +1,57 @@
+﻿{
+    "version":  1,
+    "note":  "Real-world files made by other people. Not tuned on. Never part of verify.",
+    "retrieved":  "2026-11-25",
+    "source":  {
+                   "page":  "https://opengameart.org/content/abuse-art",
+                   "zip":  "https://opengameart.org/sites/default/files/abuse_images.zip",
+                   "zipSha256":  "d3369b11e6f6475c1ec2025872204251336e14b499fe791419fc0d1f2ed39138",
+                   "zipBytes":  2405605,
+                   "submittedBy":  "Clint Bellanger (OpenGameArt user clint-bellanger), exports of art from the game Abuse (Crack dot Com)",
+                   "licence":  "CC0 1.0 Universal",
+                   "licenceUrl":  "https://creativecommons.org/publicdomain/zero/1.0/",
+                   "licenceNote":  "Licence read from the OpenGameArt page field License(s): CC0. The page text also says the Abuse art was released into the public domain."
+               },
+    "files":  [
+                  {
+                      "id":  "ant-ant",
+                      "bytes":  3689,
+                      "sourceFile":  "abuse_images.zip:ant/ANT.PCX",
+                      "sha256":  "a441fb3aea14f5eaf8b8aaae40ee0f2936b8cd57b07e604d3421f818e47c10fc",
+                      "kind":  "8-bit palette, 1 plane, RLE (the family the engine targets)",
+                      "file":  "corpus/wild/ant-ant.pcx"
+                  },
+                  {
+                      "id":  "exp1-fire0005",
+                      "bytes":  5212,
+                      "sourceFile":  "abuse_images.zip:exp1/FIRE0005.PCX",
+                      "sha256":  "1ffc7bb123bbf53ab3e78f89201def70685233821475a4669a4855525cd06663",
+                      "kind":  "8-bit palette, 1 plane, RLE (the family the engine targets)",
+                      "file":  "corpus/wild/exp1-fire0005.pcx"
+                  },
+                  {
+                      "id":  "consfnt-fnt5x7",
+                      "bytes":  5566,
+                      "sourceFile":  "abuse_images.zip:consfnt/FNT5X7.PCX",
+                      "sha256":  "8db997d02c4affac11e2dc0f895e1c6a4b6999ba5f6d0b73a10f282dfd530539",
+                      "kind":  "8-bit palette, 1 plane, RLE (the family the engine targets)",
+                      "file":  "corpus/wild/consfnt-fnt5x7.pcx"
+                  },
+                  {
+                      "id":  "endgame-end",
+                      "bytes":  49047,
+                      "sourceFile":  "abuse_images.zip:endgame/END.PCX",
+                      "sha256":  "ec00b4b75f73316f983f67bb060c48184282c4a9bb22071650633f0e6240ec90",
+                      "kind":  "8-bit palette, 1 plane, RLE (the family the engine targets)",
+                      "file":  "corpus/wild/endgame-end.pcx"
+                  },
+                  {
+                      "id":  "credit-credit",
+                      "bytes":  83207,
+                      "sourceFile":  "abuse_images.zip:credit/CREDIT.PCX",
+                      "sha256":  "7d4f8444d95254a913503d15bf751025fd8f3f010189e177df38e8f1fe7a710a",
+                      "kind":  "8-bit palette, 1 plane, RLE (the family the engine targets)",
+                      "file":  "corpus/wild/credit-credit.pcx"
+                  }
+              ]
+}
