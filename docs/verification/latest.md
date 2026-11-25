@@ -1,24 +1,54 @@
 # Verification
 
 Overall: **PASS**
-Run: 2026-11-25T13:27:40.500Z, Node v26.13.1
+Run: 2026-11-25T13:57:52.245Z, Node v26.13.1
 
 | Step | Result |
 |---|---|
-| 1 Typecheck | PASS (8.9s) |
-| 2 Lint | PASS (11.3s) |
-| 3 Unit tests | PASS (2.7s) |
-| 4 Property tests | PASS (9.6s) |
-| 5 Golden corpus | PASS (2.9s) |
-| 6 Build | PASS (10.1s) |
-| 7 Playwright e2e | PASS (127.4s) |
+| 1 Typecheck | PASS (3.0s) |
+| 2 Lint | PASS (8.1s) |
+| 3 Unit tests | PASS (2.0s) |
+| 4 Property tests | PASS (4.5s) |
+| 5 Golden corpus | PASS (2.0s) |
+| 6 Build | PASS (5.2s) |
+| 7 Playwright e2e | PASS (128.9s) |
 | 8 Budgets | PASS (stub, 0.0s) |
-| 9a Audit (high/critical) | PASS (1.8s) |
-| 9b Secret scan | PASS (0.7s) |
+| 9a Audit (high/critical) | PASS (2.0s) |
+| 9b Secret scan | PASS (0.8s) |
 | 10 provenance:check | PASS (0.3s) |
 
-## Provenance warnings (686)
+## Provenance warnings (716)
 
+- UNATTRIBUTED 7479c95 docs/security.md
+- UNATTRIBUTED 41e24ad docs/verification/review-t17.md
+- UNATTRIBUTED 5ff4859 AUTHORSHIP.md
+- UNATTRIBUTED 5ff4859 docs/provenance/README.md
+- UNATTRIBUTED 5ff4859 docs/verification/latest.md
+- UNATTRIBUTED 53fda9a tests/engine/detector-baseline.json
+- UNATTRIBUTED 53fda9a tests/engine/detector-guard.test.ts
+- UNATTRIBUTED 0e3ed35 docs/verification/screens/t17-blind.png
+- UNATTRIBUTED 0e3ed35 docs/verification/screens/t17-done.png
+- UNATTRIBUTED 0e3ed35 docs/verification/screens/t17-phone-done.png
+- UNATTRIBUTED 0e3ed35 docs/verification/t17-hud.md
+- UNATTRIBUTED 0e3ed35 public/samples/blind-heldout-01.pcx
+- UNATTRIBUTED 0e3ed35 public/samples/blind-heldout-01.png
+- UNATTRIBUTED 0e3ed35 public/samples/index.json
+- UNATTRIBUTED 0e3ed35 scripts/samples/copy-samples.mjs
+- UNATTRIBUTED 0e3ed35 src/ui/Shell.tsx
+- UNATTRIBUTED 0e3ed35 src/ui/hud/Hud.tsx
+- UNATTRIBUTED 0e3ed35 src/ui/hud/stats.test.ts
+- UNATTRIBUTED 0e3ed35 src/ui/hud/stats.ts
+- UNATTRIBUTED 0e3ed35 src/ui/layers/L3Evidence.tsx
+- UNATTRIBUTED 0e3ed35 src/ui/panels/ImagePanel.tsx
+- UNATTRIBUTED 0e3ed35 src/ui/panels/Inspector.tsx
+- UNATTRIBUTED 0e3ed35 src/ui/shell.css
+- UNATTRIBUTED 0e3ed35 src/ui/worker/client.ts
+- UNATTRIBUTED 0e3ed35 tests/e2e/hud.spec.ts
+- UNATTRIBUTED 0e3ed35 tests/e2e/inspector.spec.ts
+- UNATTRIBUTED 0e3ed35 tests/e2e/panels.spec.ts
+- UNATTRIBUTED 0e3ed35 tests/e2e/ritual.spec.ts
+- UNATTRIBUTED 0e3ed35 tests/e2e/sample.ts
+- UNATTRIBUTED 0e3ed35 tests/e2e/shell.spec.ts
 - UNATTRIBUTED 568812e AUTHORSHIP.md
 - UNATTRIBUTED 568812e LICENSE
 - UNATTRIBUTED 568812e README.md

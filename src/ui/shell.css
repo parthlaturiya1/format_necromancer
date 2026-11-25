@@ -485,3 +485,95 @@ a { color: var(--accent); text-underline-offset: 3px; }
 @media (max-width: 760px) { .stage-wrap .image-stage[data-state='done'] { min-height: 11rem; } }
 @media (max-width: 760px) { .stage-wrap .image-stage[data-state='done'] { min-height: 9rem; } }
 @media (max-width: 760px) { .hexv { height: 4.5rem; max-height: 4.5rem; } .panel-inspector { padding: var(--sp-3); gap: var(--sp-1); } .col-bytes .panel, .panel-l2 { padding-block: var(--sp-3); } .topbar { row-gap: var(--sp-2); } }
+
+/* T-18: honest failure (R-U23). Failure red appears only when nothing was recovered. Calm: one frame, one reason, what was found. */
+.failure { display: grid; gap: var(--sp-4); justify-items: center; width: 100%; max-width: 34rem; text-align: left; }
+.failure-title { font-size: var(--fs-md); font-weight: 650; color: var(--failure); justify-self: start; }
+.failure-frame { position: relative; width: 100%; min-height: 10rem; display: grid; place-items: center; gap: var(--sp-3); padding: var(--sp-5); border: 1.5px dashed color-mix(in srgb, var(--failure) 65%, transparent); border-radius: var(--radius-md); background: color-mix(in srgb, var(--failure) 5%, transparent); }
+.failure-ghost { width: 3.5rem; opacity: 0.35; }
+.failure-ghost .ghost { width: 100%; filter: none; color: var(--failure); }
+.failure-reason { font-size: var(--fs-lg); font-weight: 600; line-height: 1.3; letter-spacing: -0.01em; text-align: center; text-wrap: balance; color: var(--text); }
+.found { width: 100%; display: grid; gap: var(--sp-2); }
+.found h3 { font-size: var(--fs-sm); font-weight: 600; color: var(--muted); }
+.found ol { list-style: none; display: grid; gap: var(--sp-2); margin: 0; padding: 0; }
+.found li { display: grid; gap: 2px; padding: var(--sp-2) var(--sp-3); border-left: 2px solid var(--glass-border); font-size: var(--fs-sm); }
+.found-why { color: var(--muted); }
+.failure .actions { justify-content: center; }
+.app[data-failed] .timeline::after { background: color-mix(in srgb, var(--failure) 60%, transparent); }
+.timeline li[data-state='failed'] { color: var(--failure); font-weight: 600; }
+.timeline li[data-state='failed']::before { width: var(--tl-dot-now); height: var(--tl-dot-now); margin-block: 0; background: var(--bg-0); border-color: var(--failure); box-shadow: 0 0 0 4px color-mix(in srgb, var(--failure) 22%, transparent); }
+.app[data-failed] .timeline-now { color: var(--failure); }
+.badge[data-v='fail'] { color: var(--failure); border-color: color-mix(in srgb, var(--failure) 55%, transparent); background: color-mix(in srgb, var(--failure) 10%, transparent); }
+.badge[data-v='fail'] i { background: var(--failure); }
+@media (max-width: 760px) { .v-body[data-v='fail'] > .hint { display: block; } .failure-reason { font-size: var(--fs-md); } .failure-frame { min-height: 7rem; padding: var(--sp-3); } }
+
+/* T-18 fixes from R-5. */
+.blind { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); font-size: var(--fs-sm); color: var(--text); }
+.pill-blind { display: inline-flex; align-items: center; height: 28px; padding: 0 var(--sp-3); border-radius: var(--radius-pill); font: 600 var(--fs-sm) var(--font-sans); color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent); }
+.v-of { font-size: var(--fs-sm); color: var(--text); }
+.v-top2:empty { display: none; }
+.verify .downloads { grid-auto-flow: row; grid-template-columns: 1fr; width: 100%; }
+.verify .downloads .btn { width: 100%; white-space: nowrap; justify-content: center; }
+.sample-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--sp-2) var(--sp-3); }
+.sample-pick span { white-space: nowrap; }
+.disclosure { font-size: var(--fs-xs); color: var(--muted); max-width: 70ch; }
+.disclosure a { color: var(--accent); text-underline-offset: 3px; }
+.dot { width: 17px; height: 17px; }
+.dots i { --dot-size: 11px; }
+.dots i[data-s='ok']::after { box-shadow: none; }
+.dot:hover i[data-s='ok']::after, .dot:focus-visible i[data-s='ok']::after, .dots[data-light='play'] i[data-s='ok']::after { box-shadow: 0 0 8px color-mix(in srgb, var(--accent) 60%, transparent); }
+.scrub { height: 6.5rem; margin-block: 1.6rem 1.4rem; }
+.scrub .mean { top: -1.5rem; right: 0; transform: none; background: none; padding: 0; }
+.xtick { position: absolute; bottom: -1.3rem; font: 400 12px/1 var(--font-mono); color: var(--muted); }
+.xl { left: 30px; }
+.xr { right: 0; }
+.chart .gl { stroke: color-mix(in srgb, var(--text) 14%, transparent); }
+.spark-box .scrub { height: 3rem; margin-block: 0.5rem 1.4rem; }
+.spark .main-line { stroke-width: 2; opacity: 0.85; }
+
+/* T-18 layout budget: the footer stays two short lines so the three columns keep their height (the disclosure line is new). */
+@media (min-width: 761px) {
+  .foot { padding: var(--sp-3) var(--sp-4) var(--sp-2); gap: 2px var(--sp-5); }
+  .foot-l { display: flex; flex-wrap: wrap; align-items: center; gap: 2px var(--sp-5); }
+  .foot .disclosure { max-width: none; }
+  .foot .credit { max-width: 62ch; }
+  .col-bytes .sample-row { flex-wrap: nowrap; }
+  .col-bytes .sample-pick select { max-width: 9.5rem; }
+  .panel-inspector { padding: var(--sp-3) var(--sp-4); gap: var(--sp-2); }
+  .panel-inspector .region-list { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: thin; padding-bottom: 2px; }
+  .panel-inspector .region-list .chip { white-space: nowrap; }
+}
+@media (min-width: 761px) {
+  .col-hud { overflow-y: auto; min-height: 0; scrollbar-width: thin; }
+  .col-hud .grid-tip { min-height: 0; }
+  .col-hud .scrub { height: 5rem; margin-block: 1.3rem 1.3rem; }
+  .col-hud .spark-box .scrub { height: 2.75rem; margin-block: 0.4rem 1.2rem; }
+  .col-hud .panel { padding: var(--sp-3) var(--sp-4); gap: var(--sp-2); }
+  .col-hud .chart-label { margin-block: var(--sp-2) 2px; }
+}
+.pill[data-status='unexplained'] { background: color-mix(in srgb, var(--muted) 18%, transparent); color: var(--text); }
+
+@media (min-width: 761px) {
+  .foot { display: grid; justify-content: stretch; align-items: center; gap: var(--sp-2) 0; padding-block: var(--sp-2) var(--sp-1); }
+  .foot-r { justify-content: flex-start; align-items: center; flex-wrap: nowrap; gap: var(--sp-4); }
+  .foot .credit { text-align: left; max-width: none; text-wrap: nowrap; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+}
+@media (max-width: 760px) {
+  .scrub { height: 3.5rem; margin-block: 1.2rem 1.2rem; }
+  .cov-labels, .xtick { display: none; }
+  .scrub { margin-bottom: 0.4rem; }
+  .sample-row { flex-wrap: nowrap; gap: var(--sp-2); }
+  .sample-pick span { display: none; }
+  .sample-pick select { max-width: 8.5rem; }
+  .verify .downloads { grid-template-columns: 1fr 1fr; }
+  .verify .downloads .btn { white-space: normal; }
+  .foot .credit { white-space: normal; }
+}
+@media (max-width: 760px) {
+  .scrub { height: 3rem; margin-block: 1rem 0.2rem; }
+  .scrub .mean { top: -1.2rem; }
+  .blind { font-size: var(--fs-xs); }
+  .foot-l { gap: 2px var(--sp-3); }
+  .verify .downloads .btn { min-height: 32px; font-size: var(--fs-xs); }
+  .panel-inspector .region-list { margin-top: 0; }
+}

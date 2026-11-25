@@ -10,7 +10,7 @@ import { coverage, mean, mismatchesByRow, rgbText, rowConfidences } from './stat
 const DOTS = 14 * 5;
 // Empty state: a few rings pulse in turn so the grid looks alive. Opacity only.
 const PULSING = new Set([6, 21, 38, 52]);
-const PITCH = 16; // px per dot cell: a 12 px dot with room for its glow and a target to hit
+const PITCH = 17; // px per dot cell: a 12 px dot with room for its glow and a target to hit
 const MAX_COLS = 16;
 
 export type GridLight = { mode: 'off' } | { mode: 'play'; ms: number } | { mode: 'part'; share: number } | { mode: 'on' };
@@ -98,7 +98,7 @@ function Dots({ regions, status, light, onPick, selectedId }: { regions: Region[
         </ol>
       ) : null}
       <div className="grid-foot">
-        <p className="hint grid-tip" data-testid="grid-tip">{tip !== null && !list ? text(tip) : 'Hover or focus a dot to inspect it.'}</p>
+        <p className="hint grid-tip" data-testid="grid-tip">{tip !== null && !list ? text(tip) : 'Hover or focus a dot.'}</p>
         <button type="button" className="link-btn" aria-pressed={list} onClick={() => setList(!list)}>List view</button>
       </div>
     </>
@@ -152,7 +152,7 @@ function RowChart({ conf }: { conf: number[] }) {
   const line = `M${pts.join(' L')}`;
   return (
     <Scrub n={n} label={`Confidence by row chart, ${n} rows, mean ${f2(m)}`} text={(i) => `Row ${i}: confidence ${f2(conf[i]!)}`}
-      ticks={<><span className="tick" style={{ top: `${(yOf(1) / VH) * 100}%` }}>1.0</span><span className="tick" style={{ top: `${(yOf(0.5) / VH) * 100}%` }}>0.5</span><span className="tick" style={{ top: `${(yOf(0) / VH) * 100}%` }}>0</span><span className="mean" style={{ top: `${(yOf(m) / VH) * 100}%` }} data-testid="mean">mean {f2(m)}</span></>}>
+      ticks={<><span className="tick" style={{ top: `${(yOf(1) / VH) * 100}%` }}>1.0</span><span className="tick" style={{ top: `${(yOf(0.5) / VH) * 100}%` }}>0.5</span><span className="tick" style={{ top: `${(yOf(0) / VH) * 100}%` }}>0</span><span className="mean" data-testid="mean">mean {f2(m)}</span><span className="xtick xl">Row 0</span><span className="xtick xr">Row {n - 1}</span></>}>
       <svg className="chart chart-draw" viewBox={`0 0 ${VW} ${VH}`} preserveAspectRatio="none" aria-hidden="true" focusable="false">
         <defs>
           <linearGradient id="fill-rows" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="var(--accent)" stopOpacity="0.45" /><stop offset="1" stopColor="var(--accent)" stopOpacity="0" /></linearGradient>
@@ -216,7 +216,9 @@ function save(blob: Blob, filename: string) {
   setTimeout(() => URL.revokeObjectURL(url), 2000);
 }
 
-function Verification({ result, name, check, blind, total }: { result: PipelineResult; name: string; check: Check; blind: string | null; total: number }) {
+export type Note = { badge?: string; text: string };
+
+function Verification({ result, name, check, blind, total }: { result: PipelineResult; name: string; check: Check; blind: Note | null; total: number }) {
   const rec = result.recovered;
   const base = name.replace(/\.[^.]*$/, '') || 'file';
   const report: VerificationReport = check.k === 'done' ? check.report : { mode: 'no-reference', note: 'no reference available' };
@@ -233,9 +235,10 @@ function Verification({ result, name, check, blind, total }: { result: PipelineR
     save(new Blob([JSON.stringify(out, null, 2)], { type: 'application/json' }), `${base}-evidence.json`);
   };
 
-  let v: 'exact' | 'bad' | 'none' | 'pending' = 'none';
+  let v: 'exact' | 'bad' | 'none' | 'pending' | 'fail' = 'none';
   let badge = 'No reference available';
-  if (check.k === 'pending') { v = 'pending'; badge = 'Checking'; }
+  if (rec.status !== 'ok') { v = 'fail'; badge = 'Nothing recovered'; }
+  else if (check.k === 'pending') { v = 'pending'; badge = 'Checking'; }
   else if (check.k === 'missing') { badge = 'Reference not loaded'; }
   else if (check.k === 'done' && check.report.mode === 'reference') { v = check.report.exact ? 'exact' : 'bad'; badge = check.report.exact ? 'Exact match' : 'Not exact'; }
   const rep = check.k === 'done' && check.report.mode === 'reference' ? check.report : null;
@@ -248,7 +251,8 @@ function Verification({ result, name, check, blind, total }: { result: PipelineR
         <span className="badge" data-v={v} data-testid="badge"><i />{badge}</span>
         {compared && rep ? <p className="v-num"><span className="big-num" data-testid="mismatch-count">{num(rep.mismatchCount)}</span><small>{rep.mismatchCount === 1 ? 'mismatch' : 'mismatches'}</small></p> : null}
       </div>
-      {blind ? <p className="blind" data-testid="blind-label">{blind}</p> : null}
+      {blind ? <p className="blind">{blind.badge ? <span className="pill-blind" data-testid="blind-badge">{blind.badge}</span> : null}<span data-testid="blind-label">{blind.text}</span></p> : null}
+      {compared && rep ? <p className="v-of" data-testid="v-of">{`${num(rep.mismatchCount)} of ${num(total)} pixels differ`}</p> : null}
       {compared && rep ? (
         <>
           <div className="v-bar" role="img" aria-label={`${num(matched)} of ${num(total)} pixels match the reference`}><i style={{ '--s': total ? matched / total : 0 } as React.CSSProperties} /></div>
@@ -258,7 +262,7 @@ function Verification({ result, name, check, blind, total }: { result: PipelineR
         <p className="hint" data-testid="v-reason">{rep.reason ?? 'The picture could not be compared.'}</p>
       ) : (
         <p className="hint" data-testid="v-note">
-          {check.k === 'pending' ? 'Comparing with the reference picture.' : check.k === 'missing' ? 'The reference picture could not be loaded, so nothing was checked.' : rec.status === 'ok' ? 'Your own file has no reference picture. Nothing here says it is correct.' : 'Nothing was recovered, so there is nothing to check.'}
+          {check.k === 'pending' ? 'Comparing with the reference picture.' : check.k === 'missing' ? 'The reference picture could not be loaded, so nothing was checked.' : rec.status === 'ok' ? 'Your own file has no reference picture. Nothing here says it is correct.' : 'Nothing recovered, nothing to check.'}
         </p>
       )}
       {rep && !rep.exact && rep.mismatches.length > 0 ? (
@@ -266,19 +270,17 @@ function Verification({ result, name, check, blind, total }: { result: PipelineR
           {rep.mismatches.slice(0, 4).map((m, i) => <li key={i} className="mono">row {m.row}, col {m.col}: {rgbText(m.expected)} expected, {rgbText(m.actual)} found</li>)}
         </ul>
       ) : null}
-      {rep && rec.status === 'ok' ? (
+      {rep && rec.status === 'ok' && rep.mismatchCount > 0 ? (
         <div className="spark-box">
           <p className="chart-label">Mismatches by row <span className="mono">{rep.mismatchCount === 0 ? 'flat at 0' : num(rep.mismatchCount)}</span></p>
           <Spark byRow={mismatchesByRow(rep, rec.height)} />
         </div>
       ) : null}
-      {rec.status === 'ok' ? (
-        <div className="downloads">
-          <button type="button" className="btn btn-sm" onClick={() => void png()}>Download image</button>
-          <button type="button" className="btn btn-sm ghost-btn" onClick={json}>Download evidence report</button>
-          {err ? <p className="hint">{err}</p> : null}
-        </div>
-      ) : null}
+      <div className="downloads">
+        {rec.status === 'ok' ? <button type="button" className="btn btn-sm" onClick={() => void png()}>Download image</button> : null}
+        <button type="button" className={rec.status === 'ok' ? 'btn btn-sm ghost-btn' : 'btn btn-sm'} onClick={json}>Download evidence report</button>
+        {err ? <p className="hint">{err}</p> : null}
+      </div>
     </div>
   );
 }
@@ -291,19 +293,20 @@ export type HudProps = {
   /** True from beat 6: charts and the verification result are shown and draw in. */
   proof: boolean;
   check: Check;
-  blind: string | null;
+  blind: Note | null;
+  failed: boolean;
   fileBytes: number;
   selectedId: string | null;
   onPickRow: (row: number, key: boolean) => void;
 };
 
 /** L4 HUD: Confidence grid, Confidence by row (with byte coverage), Verification. */
-export function Hud({ result, name, regions, light, proof, check, blind, fileBytes, selectedId, onPickRow }: HudProps) {
+export function Hud({ result, name, regions, light, proof, check, blind, failed, fileBytes, selectedId, onPickRow }: HudProps) {
   const rec = result && result.recovered.status === 'ok' ? result.recovered : null;
   const status = rec ? rec.rows.reduce<string[]>((a, r) => { a[r.index] = r.status; return a; }, []) : null;
   const conf = useMemo(() => (rec ? rowConfidences(regions, rec.height) : []), [rec, regions]);
   const cov = useMemo(() => coverage(regions, fileBytes), [regions, fileBytes]);
-  const empty = !rec;
+  const empty = !rec && !failed;
   return (
     <div className="col col-hud" data-layer="L4" data-empty={empty ? '' : undefined}>
       <section className="panel p-grid" aria-labelledby="h-grid">
@@ -318,7 +321,7 @@ export function Hud({ result, name, regions, light, proof, check, blind, fileByt
             <div className="dots" aria-hidden="true">
               {Array.from({ length: DOTS }, (_, i) => <i key={i} className={PULSING.has(i) ? 'pulse' : undefined} style={PULSING.has(i) ? { animationDelay: `${[...PULSING].indexOf(i) * 120}ms` } : undefined} />)}
             </div>
-            <p className="hint">Each dot is one row. Hover or focus a dot to inspect it.</p>
+            <p className="hint">{failed ? 'No rows were rebuilt, so there is nothing to grade.' : 'Each dot is one row. Hover or focus a dot.'}</p>
           </>
         )}
       </section>
@@ -335,14 +338,14 @@ export function Hud({ result, name, regions, light, proof, check, blind, fileByt
         ) : (
           <>
             <div className="scrub skeleton" aria-hidden="true"><svg className="chart" viewBox={`0 0 ${VW} ${VH}`} preserveAspectRatio="none"><line className="gl" x1="0" x2={VW} y1={yOf(1)} y2={yOf(1)} vectorEffect="non-scaling-stroke" /><line className="gl" x1="0" x2={VW} y1={yOf(0.5)} y2={yOf(0.5)} vectorEffect="non-scaling-stroke" /><line className="gl" x1="0" x2={VW} y1={yOf(0)} y2={yOf(0)} vectorEffect="non-scaling-stroke" /></svg></div>
-            <p className="hint">{rec ? 'Appears at the last step.' : 'Appears after Resurrection.'}</p>
+            <p className="hint">{rec ? 'Appears at the last step.' : failed ? 'No rows, no chart.' : 'Appears after Resurrection.'}</p>
           </>
         )}
       </section>
       <section className="panel verify p-verify" aria-labelledby="h-verify">
         <header><h2 id="h-verify">Verification</h2></header>
-        {rec && proof && result ? (
-          <Verification result={result} name={name} check={check} blind={blind} total={rec.width * rec.height} />
+        {result && ((rec && proof) || failed) ? (
+          <Verification result={result} name={name} check={check} blind={blind} total={rec ? rec.width * rec.height : 0} />
         ) : (
           <p className="hint">{rec ? 'The check appears at the last step.' : 'Waiting for a recovered image to check.'}</p>
         )}

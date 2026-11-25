@@ -105,19 +105,34 @@ function HexView({ bytes, name, regions, sel, selected, onPickByte, beat, hover 
   );
 }
 
-export function BytesPanel({ state, onFile, beat, hover, ...pick }: Pick & Ritual & { state: AppState; onFile: (f: File) => void }) {
+export type SampleOpt = { id: string; label?: string };
+
+export function BytesPanel({ state, onFile, samples, onSample, failed, beat, hover, ...pick }: Pick & Ritual & { state: AppState; onFile: (f: File) => void; samples: SampleOpt[]; onSample: (id: string) => void; failed: boolean }) {
+  const blind = samples.find((s) => s.id.startsWith('blind-'));
   const bytes = state.phase === 'analysing' || state.phase === 'done' ? state.bytes : null;
   const label =
     bytes ? `${bytes.length.toLocaleString('en-US')} bytes` :
     state.phase === 'loading' ? 'Reading the file' :
     state.phase === 'failed' ? 'Nothing was read' : 'Dead file, nothing read yet';
   return (
-    <section className="panel panel-l1" aria-labelledby="h-bytes" data-layer="L1">
+    <section className="panel panel-l1" aria-labelledby="h-bytes" data-layer="L1" data-failed={failed ? '' : undefined}>
       <header>
         <h2 id="h-bytes">Bytes</h2>
         <p className="meta">{label}</p>
         <FilePick label="Choose file" className="btn ghost-btn btn-sm" onFile={onFile} testId="bytes-file-input" />
       </header>
+      {samples.length > 1 ? (
+        <div className="sample-row">
+          <label className="sample-pick">
+            <span>Try a sample</span>
+            <select data-testid="sample-pick" aria-label="Try a sample" value="" onChange={(e) => e.target.value && onSample(e.target.value)}>
+              <option value="">Choose a sample</option>
+              {samples.map((s) => <option key={s.id} value={s.id}>{s.label ? `${s.id} (${s.label})` : s.id}</option>)}
+            </select>
+          </label>
+          {blind ? <button type="button" className="btn ghost-btn btn-sm" data-testid="load-blind" onClick={() => onSample(blind.id)}>Load the blind test</button> : null}
+        </div>
+      ) : null}
       {bytes ? (
         <HexView bytes={bytes} beat={beat} hover={hover} {...pick} name={state.phase === 'analysing' || state.phase === 'done' ? state.name : 'file'} />
       ) : (

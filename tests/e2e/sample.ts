@@ -6,4 +6,4 @@ const index = JSON.parse(readFileSync('public/samples/index.json', 'utf8')) as {
 /** The default demo sample, read from public/samples/index.json so one constant (copy-samples.mjs) switches it. */
 export const DEFAULT = index.samples.find((s) => s.id === index.default)!;
 export const sampleById = (id: string): Entry => index.samples.find((s) => s.id === id)!;
-export const BLIND = index.samples.find((s) => s.label !== undefined)!;
+export const BLIND = index.samples.find((s) => s.id.startsWith('blind-'))!;

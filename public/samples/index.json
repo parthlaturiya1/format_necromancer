@@ -97,6 +97,30 @@
       "width": 150,
       "height": 90,
       "label": "Blind test: held-out file, never used for tuning"
+    },
+    {
+      "id": "corrupt-tail-cut",
+      "path": "/samples/corrupt-tail-cut.pcx",
+      "bytes": 1746,
+      "label": "Corrupted: the last 768 bytes were cut off"
+    },
+    {
+      "id": "signature-changed",
+      "path": "/samples/signature-changed.pcx",
+      "bytes": 5480,
+      "reference": "/samples/rings-rand-111x111.png",
+      "width": 111,
+      "height": 111,
+      "label": "The first byte was changed; a standard decoder refuses this file"
+    },
+    {
+      "id": "changed-lower-confidence",
+      "path": "/samples/changed-lower-confidence.pcx",
+      "bytes": 1199,
+      "reference": "/samples/changed-lower-confidence.png",
+      "width": 160,
+      "height": 32,
+      "label": "Changed file, recovered with lower confidence: the colour table was cut off"
     }
   ]
 }

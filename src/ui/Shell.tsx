@@ -10,13 +10,15 @@ import { probeEngine, runEngine, runVerify, type EngineStatus } from './worker/c
 import { initialState, reducer } from './state';
 import { L3Evidence, type Draw } from './layers/L3Evidence';
 import { Inspector } from './panels/Inspector';
-import { buildRegions, regionAt, type Region } from './regions';
+import { buildFailureRegions, buildRegions, regionAt, type Region } from './regions';
 import { BEATS, SPEEDS, nextSpeed, useRitual, type Hold, type Speed } from './ritual/ritual';
 import type { Sel } from './selection';
 
+const REPO = 'https://github.com/parthlaturiya1/format_necromancer'; // the public README, section "The honest claim"
 export const MAX_FILE_BYTES = 10 * 1024 * 1024; // same as the engine limit (maxInputBytes)
 
-type SampleEntry = { id: string; path: string; bytes: number; reference: string; label?: string };
+type SampleEntry = { id: string; path: string; bytes: number; reference?: string; label?: string };
+type Note = { badge?: string; text: string };
 type SampleIndex = { default: string; samples: SampleEntry[] };
 
 // Dev hooks so every state is reachable: #loading, #crash (shows error.tsx). Default is the empty state.
@@ -47,7 +49,7 @@ export function Shell() {
   const [hold, setHold] = useState<Hold>(null);
   const [hover, setHover] = useState<ReadonlyArray<ByteRange> | null>(null);
   const [check, setCheck] = useState<Check>({ k: 'none' });
-  const [blind, setBlind] = useState<string | null>(null);
+  const [blind, setBlind] = useState<Note | null>(null);
   const [samples, setSamples] = useState<SampleIndex | null>(null);
   const run = useRef(0); // a newer load makes older ones stop reporting
   const reduced = reducedPref ?? osReduced;
@@ -87,7 +89,9 @@ export function Shell() {
   useEffect(() => { document.documentElement.dataset.motion = reduced ? 'reduced' : 'full'; }, [reduced]);
 
   const result = state.phase === 'done' ? state.result : null;
-  const regions = useMemo(() => (result ? buildRegions(result) : []), [result]);
+  // R-U23: failure red is used only when nothing was recovered. The analysis evidence that did exist keeps its bytes lit.
+  const failed = state.phase === 'failed' || (result !== null && result.recovered.status !== 'ok');
+  const regions = useMemo(() => (result ? (result.recovered.status === 'ok' ? buildRegions(result) : buildFailureRegions(result)) : []), [result]);
   const imageHeight = result && result.recovered.status === 'ok' ? result.recovered.height : 0;
   const ritual = useRitual(result && result.recovered.status === 'ok' && result.analysis.status === 'ok' ? result : null, imageHeight, speed, reduced, hold);
   const rb = ritual.beat;
@@ -113,18 +117,18 @@ export function Shell() {
 
   // Lines on the stage. Ritual beats 4 and 5: a few confident rows. After: the picked region, plus one of the other status when there is one (R-3 F1).
   const draws = useMemo<Draw[]>(() => {
-    if (rb >= 1 && rb <= 3 && !ritual.finished) return [];
+    if (failed || (rb >= 1 && rb <= 3 && !ritual.finished)) return [];
     if (playing) return trailOf(regions).map((region) => ({ region, role: 'trail' as const }));
     if (!found) return [];
     const rows = regions.filter((r) => r.kind === 'row');
     const other = found.status === 'ok' ? rows.find((r) => r.status !== 'ok') : rows.filter((r) => r.status === 'ok').reduce<Region | undefined>((b, r) => (!b || r.confidence > b.confidence ? r : b), undefined);
     return [{ region: found, role: 'main' }, ...(other && other.id !== found.id ? [{ region: other, role: 'alt' as const }] : [])];
-  }, [rb, ritual.finished, playing, regions, found]);
+  }, [failed, rb, ritual.finished, playing, regions, found]);
 
-  const start = useCallback(async (name: string, read: () => Promise<ArrayBuffer>, referenceUrl?: string, label?: string) => {
+  const start = useCallback(async (name: string, read: () => Promise<ArrayBuffer>, referenceUrl?: string, note?: Note) => {
     const mine = ++run.current;
     setCheck({ k: 'none' });
-    setBlind(label ?? null);
+    setBlind(note ?? null);
     dispatch({ type: 'load', name });
     try {
       const buf = await read();
@@ -170,7 +174,7 @@ export function Shell() {
           const r = await fetch(s.path);
           if (!r.ok) throw new Error('The sample could not be loaded.');
           return r.arrayBuffer();
-        }, s.reference, s.label);
+        }, s.reference, s.id.startsWith('blind-') ? { badge: 'Blind test', text: 'Held-out file, never used for tuning.' } : s.label ? { text: s.label } : undefined);
       } catch (e) {
         dispatch({ type: 'fail', name: 'sample', reason: e instanceof Error ? e.message : 'The sample could not be loaded.' });
       }
@@ -188,13 +192,15 @@ export function Shell() {
   if (hash === 'crash') throw new Error('Demo crash requested with #crash');
 
   const forcedLoading = state.phase === 'idle' && hash === 'loading';
-  const current = rb > 0 ? (ritual.finished ? 5 : rb - 1) : state.phase === 'done' ? 4 : state.phase === 'analysing' || forcedLoading ? 1 : 0;
+  // The timeline stops at the beat where the run failed: reading (file unreadable), listening (no layout found), resurrection (a layout, but no picture).
+  const failBeat = state.phase === 'failed' ? 0 : result && result.analysis.status !== 'ok' ? 1 : 4;
+  const current = failed ? failBeat : rb > 0 ? (ritual.finished ? 5 : rb - 1) : state.phase === 'done' ? 4 : state.phase === 'analysing' || forcedLoading ? 1 : 0;
   const fileline =
     state.phase === 'idle' ? 'No file yet, format unknown'
     : state.phase === 'loading' ? `Reading ${state.name}`
     : state.phase === 'failed' ? `${state.name}, could not be opened`
     : state.phase === 'analysing' ? `${state.name}, ${state.bytes.length.toLocaleString('en-US')} bytes, format unknown`
-    : `${state.name}, ${state.bytes.length.toLocaleString('en-US')} bytes`;
+    : `${state.name}, ${state.bytes.length.toLocaleString('en-US')} bytes${failed ? ', nothing recovered' : ''}`;
 
   const rowStatus = result && result.recovered.status === 'ok' ? result.recovered.rows.reduce<string[]>((a, r) => { a[r.index] = r.status; return a; }, []) : null;
   const light: GridLight = rb === 0 ? { mode: rowStatus ? 'on' : 'off' } : rb < 5 ? { mode: 'off' } : rb === 5 && ritual.fixed === null ? { mode: 'play', ms: ritual.ms } : rb === 5 && ritual.fixed !== null && ritual.fixed < 1 ? { mode: 'part', share: ritual.fixed } : { mode: 'on' };
@@ -203,7 +209,7 @@ export function Shell() {
   return (
     <>
       <L0Field still={reduced} />
-      <div className="app" data-beat={rb || undefined} data-ritual={phase} data-speed={speed} style={{ '--speed': speed } as React.CSSProperties}>
+      <div className="app" data-failed={failed ? '' : undefined} data-beat={rb || undefined} data-ritual={phase} data-speed={speed} style={{ '--speed': speed } as React.CSSProperties}>
         <header className="topbar">
           <div className="brand">
             <span className="logo" aria-hidden="true">
@@ -217,10 +223,10 @@ export function Shell() {
           <div className="timeline-wrap">
             <ol className="timeline" aria-label="Six steps" style={{ '--p': current / (BEATS.length - 1) } as React.CSSProperties}>
               {BEATS.map((s, i) => (
-                <li key={s} data-state={i < current ? 'done' : i === current ? 'current' : 'todo'} aria-current={i === current ? 'step' : undefined}><span>{s}</span></li>
+                <li key={s} data-state={i < current ? 'done' : i === current ? (failed ? 'failed' : 'current') : 'todo'} aria-current={i === current ? 'step' : undefined}><span>{s}</span></li>
               ))}
             </ol>
-            <p className="timeline-now" aria-hidden="true">{BEATS[current]}</p>
+            <p className="timeline-now" aria-hidden="true">{BEATS[current]}{failed ? ', stopped' : '' }</p>
           </div>
           <button type="button" className="speed" data-testid="speed" onClick={() => setSpeed(nextSpeed(speed))} aria-label={`Speed ${speed}x. Press to change: 0.5x, 1x, 2x, 4x.`}>Speed {speed}x</button>
         </header>
@@ -236,28 +242,25 @@ export function Shell() {
             if (f) loadFile(f);
           }}
         >
-          <div className="col col-bytes"><BytesPanel state={state} onFile={loadFile} regions={regions} sel={shownSel} selected={selected} onPickByte={pickByte} beat={rb} hover={hover ?? (rb === 3 && result && result.analysis.status === 'ok' ? (result.analysis.hypotheses[0]?.ranges ?? null) : null)} />
+          <div className="col col-bytes"><BytesPanel state={state} onFile={loadFile} samples={samples?.samples ?? []} onSample={loadSample} failed={failed} regions={regions} sel={shownSel} selected={failed ? null : selected} onPickByte={pickByte} beat={rb} hover={hover ?? (rb === 3 && result && result.analysis.status === 'ok' ? (result.analysis.hypotheses[0]?.ranges ?? null) : null)} />
             <Inspector regions={regions} selected={selected} sel={shownSel} onPick={pickRegion} />
           </div>
           <ImagePanel state={state} forcedLoading={forcedLoading} onSample={() => loadSample()} onFile={loadFile} regions={regions} selectedId={selected?.id ?? null} cursor={cursor} onCursor={setCursor} onPickRow={pickRow} ritual={{ ...ritual, speed, reduced, onHover: setHover }} />
           <L3Evidence draws={draws} cursor={cursor} imageHeight={imageHeight} />
-          <Hud result={result} name={state.phase === 'done' ? state.name : ''} regions={regions} light={light} proof={rb === 6} check={check} blind={blind} fileBytes={state.phase === 'done' ? state.bytes.length : 0} selectedId={selected?.id ?? null} onPickRow={pickRow} />
+          <Hud failed={failed} result={result} name={state.phase === 'done' ? state.name : ''} regions={regions} light={light} proof={rb === 6} check={check} blind={blind} fileBytes={state.phase === 'done' ? state.bytes.length : 0} selectedId={selected?.id ?? null} onPickRow={pickRow} />
         </main>
         <footer className="foot">
           <div className="foot-l">
             <p className="lock">Runs in your browser. Nothing is uploaded.</p>
             {phase === 'done' ? <p className="recovered-line" data-testid="recovered-line">Recovered without the format specification.</p> : null}
+            {phase === 'done' ? (
+              <p className="disclosure" data-testid="disclosure">
+                Layout inferred by generic detectors; pixels by a format-aware decoder for this layout family (disclosed).{' '}
+                <a href={`${REPO}#the-honest-claim`} target="_blank" rel="noopener noreferrer">The honest claim<span className="sr-only"> (opens the README)</span></a>
+              </p>
+            ) : null}
           </div>
           <div className="foot-r">
-            {samples && samples.samples.length > 1 ? (
-              <label className="sample-pick">
-                <span>Sample</span>
-                <select data-testid="sample-pick" value="" onChange={(e) => e.target.value && loadSample(e.target.value)}>
-                  <option value="">Choose a sample</option>
-                  {samples.samples.map((s) => <option key={s.id} value={s.id}>{s.label ? `${s.id} (${s.label})` : s.id}</option>)}
-                </select>
-              </label>
-            ) : null}
             <button type="button" className="toggle" aria-pressed={reduced} data-testid="reduce-motion" onClick={() => setReduced(!reduced)}>Reduce motion: {reduced ? 'on' : 'off'}</button>
             <p className="credit">Created by Parth Radheshyam Laturiya. Direction, product decisions and review by the owner; code written by Kiro.</p>
           </div>

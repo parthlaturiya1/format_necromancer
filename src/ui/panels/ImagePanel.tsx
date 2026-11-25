@@ -306,12 +306,27 @@ export function ImagePanel({ state, forcedLoading, onSample, onFile, ritual, ...
               <p className="empty-title" role="status">Reading the bytes<em>.</em></p>
             </>
           ) : view === 'failed' ? (
-            <>
-              <Ghost />
-              <p className="empty-title" role="alert">{state.phase === 'failed' ? 'That file could not be opened' : 'No picture could be rebuilt'}</p>
-              <p className="empty-sub">{noImage}</p>
+            <div className="failure" data-testid="failure">
+              <p className="failure-title">{state.phase === 'failed' ? 'That file could not be opened' : 'No picture was rebuilt'}</p>
+              <div className="failure-frame" data-testid="failure-frame">
+                <div className="failure-ghost" aria-hidden="true"><Ghost /></div>
+                <p className="failure-reason" role="alert" data-testid="failure-reason">{noImage}</p>
+              </div>
+              {top.length > 0 ? (
+                <div className="found" data-testid="found">
+                  <h3>Found before it failed</h3>
+                  <ol>
+                    {top.map((h) => (
+                      <li key={h.id}>
+                        <span className="found-what"><strong>Guess {h.rank}</strong> {describeShort(h.layout)} <span className="mono">{h.confidence.toFixed(2)}</span></span>
+                        {h.lostBecause ? <span className="found-why">{h.lostBecause}</span> : null}
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              ) : null}
               {buttons}
-            </>
+            </div>
           ) : (
             <>
               <Ghost />

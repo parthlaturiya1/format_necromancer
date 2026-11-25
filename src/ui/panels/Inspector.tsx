@@ -1,19 +1,10 @@
 'use client';
 import { useEffect, useRef } from 'react';
+import { shortRule } from '../describe';
 import { announce, hex, rangeText, ruleName, type Region } from '../regions';
 import type { Sel } from '../selection';
 
 const STATUS = { ok: 'confident', uncertain: 'uncertain', unexplained: 'unexplained' } as const;
-
-const RULE_MAX = 90;
-/** One line: the engine's rule text cut at a word, with the rest behind "Show the full rule" (R-3 F2). */
-const short = (s: string) => {
-  if (s.length <= RULE_MAX) return s;
-  const cut = s.slice(0, RULE_MAX);
-  const end = cut.lastIndexOf('. '); // a sentence end is the best place to stop
-  if (end > 30) return cut.slice(0, end + 1);
-  return `${cut.replace(/\s+\S*$/, '').replace(/\s+(a|an|the|of|to|and|or|in|on|for|with|by|is|as|that|which)$/i, '')}\u2026`;
-};
 
 /** The region card (F-07). Shows the picked region, or says which bytes nothing explains. */
 export function Inspector({ regions, selected, sel, onPick }: { regions: Region[]; selected: Region | null; sel: Sel | null; onPick: (id: string, key: boolean) => void }) {
@@ -32,8 +23,8 @@ export function Inspector({ regions, selected, sel, onPick }: { regions: Region[
         <>
           <h2 id="h-inspector">{selected.label}</h2>
           {selected.kind === 'row' ? null : <p className="insp-rows">{rowsText}</p>}
-          <p className="insp-rule"><strong>Rule: {ruleName(selected)}.</strong> {short(selected.rule)}</p>
-          {selected.rule.length > RULE_MAX ? (
+          <p className="insp-rule"><strong>Rule: {ruleName(selected)}.</strong> {shortRule(selected.rule)}</p>
+          {shortRule(selected.rule) !== selected.rule ? (
             <details className="insp-full">
               <summary>Show the full rule</summary>
               <p>{selected.rule}</p>

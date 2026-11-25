@@ -66,7 +66,7 @@ test('picker: choosing a sample verifies it; the blind test is labelled and exac
   await page.goto('/?speed=4');
   await page.getByTestId('sample-pick').selectOption(BLIND.id);
   await page.getByRole('button', { name: 'Skip to result' }).click({ timeout: 30000 });
-  await expect(page.getByTestId('blind-label')).toHaveText('Blind test: held-out file, never used for tuning');
+  await expect(page.getByTestId('blind-label')).toHaveText('Held-out file, never used for tuning.');
   await expect(page.getByTestId('badge')).toHaveText('Exact match', { timeout: 20000 });
   await expect(page.getByTestId('mismatch-count')).toHaveText('0');
   await page.waitForTimeout(1200);

@@ -19,3 +19,16 @@ export function describeShort(l: Layout): string {
   if (l.runMarkerMask !== undefined) parts.push('repeat runs');
   return parts.length ? `${parts.join(', ')}.` : 'no layout facts named.';
 }
+const DANGLING = /^(a|an|the|of|to|and|or|in|on|for|with|by|is|as|that|which|gives|give|are|was|from|into|at|then|but)$/i;
+/** The rule text cut where a thought ends: at a sentence end, else at a clause end, else at a word with no dangling article or verb (R-4 F10). */
+export function shortRule(s: string, max = 110): string {
+  if (s.length <= max) return s;
+  const cut = s.slice(0, max);
+  const sentence = cut.lastIndexOf('. ');
+  if (sentence > 30) return cut.slice(0, sentence + 1);
+  const clause = Math.max(cut.lastIndexOf('; '), cut.lastIndexOf(', '), cut.lastIndexOf(' ('));
+  if (clause > 40) return `${cut.slice(0, clause).replace(/[,;:\s]+$/, '')}\u2026`;
+  const words = cut.replace(/\s+\S*$/, '').split(/\s+/);
+  while (words.length > 3 && DANGLING.test(words[words.length - 1]!)) words.pop();
+  return `${words.join(' ').replace(/[,;:(]+$/, '')}\u2026`;
+}

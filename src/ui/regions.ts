@@ -83,3 +83,16 @@ export function announce(r: Region): string {
   const q = r.ranges[0];
   return `${r.label}, ${ruleName(r)}, confidence ${r.confidence.toFixed(2)}${q ? `, bytes ${rangeText(q)}` : ''}`;
 }
+
+/**
+ * When recovery fails but the analysis found layout evidence, the bytes it explained stay lit (R-U23).
+ * Only the top hypothesis's evidence, as analysis regions. No rows, because no picture was made.
+ */
+export function buildFailureRegions(result: PipelineResult): Region[] {
+  if (result.recovered.status === 'ok' || result.analysis.status !== 'ok') return [];
+  const top = result.analysis.hypotheses[0];
+  if (!top) return [];
+  return result.analysis.evidence
+    .filter((e) => e.hypothesisId === top.id)
+    .map((e) => ({ id: e.elementId, kind: 'analysis' as const, label: words(e.elementId), rows: [], ranges: [...e.byteRanges], rule: e.rule, confidence: e.confidence, status: statusOf(e.confidence), umbrella: false }));
+}
