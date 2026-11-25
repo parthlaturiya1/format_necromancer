@@ -30,7 +30,7 @@ R-V6. Reference loading shall happen only after recovery is complete (R-R8).
 ## Robustness (T-10)
 R-X1. When the input is corrupted, truncated, empty or over 10 MB, the pipeline shall end as unrecovered with a plain-words reason and shall not crash (R-11).
 R-X2. A mutation set shall be built from tuning samples: altered magic bytes, removed magic bytes, shifted header offsets, cut tails, flipped body bytes.
-R-X3. On the mutation set, every file shall be recovered exactly or reported unrecovered. It shall never be reported as recovered with confidence 0.9 or more while not exact.
+R-X3. On the mutation set, every file shall be recovered exactly or reported unrecovered. It shall never be reported as recovered with confidence 0.9 or more while not exact. "Exact" means equal to the trusted converter's decode of the mutated file itself (Pillow, build time). When the trusted converter refuses the mutated file, any recovered result with confidence 0.9 or more counts as wrong, with one exception: when the mutation changes only the signature byte (first byte), the pixel data is untouched, so the truth is the source sample's reference. Recovering it exactly despite the changed signature is the intended behaviour, and the engine shall not add a signature check (guardrail 2). (Ruling 2026-11-25: a flipped body byte or an altered size can still be a valid, different picture; the source sample's reference is not the truth for it.)
 
 ## Acceptance (maps to roadmap)
 - T-08: output matches the reference on every non-held-out sample (11 of 11).
