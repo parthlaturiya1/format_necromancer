@@ -2,6 +2,11 @@
  "version": 1,
  "seed": 20261125,
  "rule": "each file must be exact or unrecovered; never recovered, not exact, with confidence >= 0.9",
+ "truthRules": {
+  "default": "pillow-on-mutated-file",
+  "first-byte-changed": "source-reference",
+  "first-byte-zeroed": "source-reference"
+ },
  "entries": [
   {
    "file": "corpus/mutations/hgrad-gray-64x48.first-byte-changed.plus1.bin",

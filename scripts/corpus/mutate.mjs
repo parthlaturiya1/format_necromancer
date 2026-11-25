@@ -77,6 +77,9 @@ for (const s of samples) {
   }
 }
 
-const manifest = { version: 1, seed: SEED, rule: 'each file must be exact or unrecovered; never recovered, not exact, with confidence >= 0.9', entries };
+// Truth per kind (R-X3, ruling 2026-11-25). Only the signature byte changes in the first-byte kinds, so the pixels are
+// untouched and the truth is the source sample's reference. Every other kind: Pillow's decode of the mutated file.
+const truthRules = { default: 'pillow-on-mutated-file', 'first-byte-changed': 'source-reference', 'first-byte-zeroed': 'source-reference' };
+const manifest = { version: 1, seed: SEED, rule: 'each file must be exact or unrecovered; never recovered, not exact, with confidence >= 0.9', truthRules, entries };
 writeFileSync(`${OUT}/manifest.json`, JSON.stringify(manifest, null, 1) + '\n');
 console.log(`mutations: ${entries.length} files, ${entries.reduce((n, e) => n + e.bytes, 0)} bytes`);

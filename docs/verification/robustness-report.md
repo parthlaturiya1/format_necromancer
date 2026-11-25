@@ -26,7 +26,7 @@ Kinds per tuning sample: first byte plus 1; first byte set to 0; 1 to 4 random b
 
 Truth: `scripts/corpus/mutation-reference.py` decodes every mutated file with Pillow 13.0.0 at build time (`npm run corpus:mutate`). It writes `corpus/mutations/reference/*.png` and records path and sha256 in the manifest. When Pillow refuses a file, it records "refused" and the error kind, and the expected outcome is unrecovered. Pillow decoded 91 files and refused 206.
 
-Harness-only exception (conductor ruling, 2026-11-25): Pillow refuses the 22 first-byte files because of the signature byte, but their pixels are untouched. Their truth is the source sample's reference. This rule lives only in `tests/engine/mutations.test.ts`. The engine has no signature check.
+Signature-byte rule (R-X3, ruling 2026-11-25): the first-byte kinds change only the signature byte, so the pixels are untouched. Their truth is the source sample's reference. Pillow refuses these files, and the engine rebuilding them exactly is a pass. The rule is data in the harness: `truthRules` in `corpus/mutations/manifest.json` (written by `scripts/corpus/mutate.mjs`) says `source-reference` for `first-byte-changed` and `first-byte-zeroed`, and `pillow-on-mutated-file` for every other kind. `src/engine` has no signature check.
 
 ## Rule check (R-X3): 0 files wrong with confidence 0.9 or more
 
@@ -34,8 +34,7 @@ Test: `tests/engine/mutations.test.ts`, run in verify step 5. It recovers first 
 
 | Kind | Files | Pillow refused | Exact | Unrecovered | Wrong, conf < 0.9 (max) | Wrong, conf >= 0.9 |
 |---|---|---|---|---|---|---|
-| First byte changed | 11 | 11 | 11 | 0 | 0 | 0 |
-| First byte zeroed | 11 | 11 | 11 | 0 | 0 | 0 |
+| Signature byte changed, Pillow refuses, engine recovers exactly (first byte changed or zeroed; truth: source reference) | 22 | 22 | 22 | 0 | 0 | 0 |
 | Header shifted, bytes added | 44 | 44 | 0 | 38 | 6 (0.5) | 0 |
 | Header shifted, bytes removed | 44 | 44 | 0 | 33 | 11 (0.85) | 0 |
 | Tail cut | 44 | 6 | 8 | 21 | 15 (0.8) | 0 |
@@ -60,7 +59,7 @@ The 27 high-confidence misses under the old rule are files that are still valid,
 
 ## Engine changes and why
 
-Before T-10, 52 files broke the new rule at confidence 0.9 or more (22 first-byte, 30 others). Each fix is a general self-check in the recoverer. None looks at mutation kinds or file names. All weights are guesses, listed in `src/engine/config.ts`.
+Before T-10's engine changes, 29 files of the non-signature kinds broke the rule at confidence 0.9 or more (11 tail cut, 9 header removed, 1 header added, 7 size changed, 1 body changed). Each fix is a general self-check in the recoverer. None looks at mutation kinds or file names. All weights are guesses, listed in `src/engine/config.ts`.
 
 1. **No mark where the colour table starts** (`tableNoLeadPenalty`, 0.2). When the end table's length divides by 3, no lone lead byte marks its start. A table cut or moved by one byte then looks the same, and colours come out shifted (tail cut by 1, header shifts). Every row now loses 0.2.
 2. **Unexplained extra row values** (`widePadPenalty`, 0.2). When the row length is 2 or more past the width, those columns are explained by nothing (seen with width numbers altered). Every row loses 0.2.

@@ -20,9 +20,7 @@ type Entry = { file: string; kind: string; param: string; source: string; bytes:
 type Stat = { n: number; refusedByPillow: number; exact: number; unrecovered: number; lowConfWrong: number; maxLowConfWrong: number; highConfWrong: number };
 const blank = (): Stat => ({ n: 0, refusedByPillow: 0, exact: 0, unrecovered: 0, lowConfWrong: 0, maxLowConfWrong: 0, highConfWrong: 0 });
 const T = defaultConfig.uncertainBelow;
-// Harness-only rule (conductor ruling 2026-11-25, R-X3): these kinds change only the first (signature) byte; the pixels are untouched,
-// so their truth is the SOURCE sample's reference even though Pillow refuses the file. Never used in src/engine.
-const SIGNATURE_ONLY = new Set(['first-byte-changed', 'first-byte-zeroed']);
+
 
 function tally(st: Stat, conf: number, exact: boolean): boolean {
   if (exact) {
@@ -39,7 +37,9 @@ function tally(st: Stat, conf: number, exact: boolean): boolean {
 }
 
 it('every mutation file is exact (against Pillow on the mutated file) or unrecovered, never wrong with confidence >= 0.9', async () => {
-  const manifest = JSON.parse(readFileSync('corpus/mutations/manifest.json', 'utf8')) as { entries: Entry[] };
+  const manifest = JSON.parse(readFileSync('corpus/mutations/manifest.json', 'utf8')) as { entries: Entry[]; truthRules: Record<string, string> };
+  // Truth per kind comes from the manifest (R-X3): 'source-reference' or 'pillow-on-mutated-file'. Harness only, never in src/engine.
+  const fromSource = (kind: string) => (manifest.truthRules[kind] ?? manifest.truthRules['default']) === 'source-reference';
   const srcRef = new Map<string, string>((listTuningSamples() as { id: string; reference: { path: string } }[]).map((s) => [s.id, s.reference.path]));
   const png = async (p: string): Promise<Reference> => decodePng(new Uint8Array(readFileSync(p)), nodeInflate);
   const stats: Record<string, Stat> = {};
@@ -62,12 +62,12 @@ it('every mutation file is exact (against Pillow on the mutated file) or unrecov
     }
     // References are loaded only now, after recovery (R-R8).
     let exact = false;
-    const truth = SIGNATURE_ONLY.has(e.kind) ? srcRef.get(e.source)! : e.reference.path;
+    const truth = fromSource(e.kind) ? srcRef.get(e.source)! : e.reference.path;
     if (truth) {
       const v = verify(rec, await png(truth));
       exact = v.mode === 'reference' && v.exact;
     }
-    if (!tally(st, rec.confidence, exact)) failures.push(`${e.file}: recovered, not exact, confidence ${rec.confidence}${e.reference.refused && !SIGNATURE_ONLY.has(e.kind) ? ' (Pillow refused this file)' : ''}`);
+    if (!tally(st, rec.confidence, exact)) failures.push(`${e.file}: recovered, not exact, confidence ${rec.confidence}${e.reference.refused && !fromSource(e.kind) ? ' (Pillow refused this file)' : ''}`);
     else if (!exact) lowConf.push(`${e.file}: confidence ${rec.confidence}`);
     const vo = verify(rec, await png(srcRef.get(e.source)!));
     tally(ot, rec.confidence, vo.mode === 'reference' && vo.exact);
