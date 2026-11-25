@@ -40,7 +40,8 @@ describe('decodeRunLengthRows', () => {
   });
 });
 
-// A 4x2 image, stride 4, header 3 bytes, 768-byte table block at the end.
+// A 4x2 image, stride 4, header 3 bytes, table block at the end: one lead byte, then 768 bytes of entries.
+// T-10: the lead byte was added because a table with nothing marking its start now lowers confidence (R-X3).
 function build(rowsBytes: number[], table: Uint8Array | null): { bytes: Uint8Array; analysis: AnalysisResult; layout: Layout } {
   const body = [0, 0, 0, ...rowsBytes];
   const tail = table ? Array.from(table) : [];
@@ -53,7 +54,7 @@ function build(rowsBytes: number[], table: Uint8Array | null): { bytes: Uint8Arr
   const analysis: AnalysisResult = { status: 'ok', hypotheses: [{ id: 'h1', rank: 1, confidence: 1, ranges: [{ start: 0, end: bytes.length }], layout }], evidence: [] };
   return { bytes, analysis, layout };
 }
-const ramp = () => Uint8Array.from({ length: 768 }, (_, i) => (i % 3 === 0 ? Math.floor(i / 3) : i % 3 === 1 ? 255 - Math.floor(i / 3) : 7));
+const ramp = () => Uint8Array.of(0, ...Uint8Array.from({ length: 768 }, (_, i) => (i % 3 === 0 ? Math.floor(i / 3) : i % 3 === 1 ? 255 - Math.floor(i / 3) : 7)));
 
 describe('recover', () => {
   it('colours rows from the table and gives one evidence per row', () => {
@@ -73,8 +74,8 @@ describe('recover', () => {
     const { bytes, analysis } = build([...run(6, 1), ...run(2, 2)], ramp());
     const r = recover(bytes, analysis);
     if (r.status !== 'ok') throw new Error(r.reason);
-    expect(r.rows[0]!.status).toBe('ok'); // 0.95 is still at or above 0.9
-    expect(r.evidence[0]!.confidence).toBe(0.95);
+    expect(r.rows[0]!.status).toBe('uncertain'); // T-10: one crossing now costs 0.15, so the row drops below 0.9
+    expect(r.evidence[0]!.confidence).toBe(0.85);
     expect(r.evidence[0]!.rule).toContain('a run crosses');
   });
   it('shows grey and a lower confidence when there is no table (check: colour table present)', () => {
@@ -86,7 +87,7 @@ describe('recover', () => {
     expect(r.evidence[0]!.byteRanges.length).toBe(1);
   });
   it('marks a row unexplained when an index points past a short table (check: index inside table)', () => {
-    const { bytes, analysis } = build([...run(4, 200), ...run(4, 1)], ramp().slice(0, 30));
+    const { bytes, analysis } = build([...run(4, 200), ...run(4, 1)], ramp().slice(0, 31));
     const r = recover(bytes, analysis);
     if (r.status !== 'ok') throw new Error(r.reason);
     expect(r.rows.map((x) => x.status)).toEqual(['unexplained', 'ok']);
