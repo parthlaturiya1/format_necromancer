@@ -1,24 +1,57 @@
 # Verification
 
 Overall: **PASS**
-Run: 2026-11-25T10:28:58.086Z, Node v26.13.1
+Run: 2026-11-25T10:34:49.989Z, Node v26.13.1
 
 | Step | Result |
 |---|---|
-| 1 Typecheck | PASS (2.2s) |
-| 2 Lint | PASS (2.9s) |
+| 1 Typecheck | PASS (2.0s) |
+| 2 Lint | PASS (2.7s) |
 | 3 Unit tests | PASS (1.9s) |
 | 4 Property tests | PASS (0.8s) |
 | 5 Golden corpus | PASS (stub, 0.1s) |
-| 6 Build | PASS (4.7s) |
-| 7 Playwright e2e | PASS (2.7s) |
+| 6 Build | PASS (4.9s) |
+| 7 Playwright e2e | PASS (2.8s) |
 | 8 Budgets | PASS (stub, 0.0s) |
 | 9a Audit (high/critical) | PASS (1.5s) |
 | 9b Secret scan | PASS (0.1s) |
 | 10 provenance:check | PASS (0.2s) |
 
-## Provenance warnings (40)
+## Provenance warnings (73)
 
+- UNATTRIBUTED ada6685 corpus/README.md
+- UNATTRIBUTED ada6685 corpus/heldout/heldout-01.pcx
+- UNATTRIBUTED ada6685 corpus/manifest.schema.json
+- UNATTRIBUTED ada6685 corpus/reference/checker1-gray-65x33.png
+- UNATTRIBUTED ada6685 corpus/reference/checker8-ocean-80x80.png
+- UNATTRIBUTED ada6685 corpus/reference/diag-ocean-256x16.png
+- UNATTRIBUTED ada6685 corpus/reference/hgrad-gray-64x48.png
+- UNATTRIBUTED ada6685 corpus/reference/rings-rand-111x111.png
+- UNATTRIBUTED ada6685 corpus/reference/shapes-rand-128x96.png
+- UNATTRIBUTED ada6685 corpus/reference/solid-gray-32x32.png
+- UNATTRIBUTED ada6685 corpus/reference/stripes-rand-200x40.png
+- UNATTRIBUTED ada6685 corpus/reference/text-fire-160x32.png
+- UNATTRIBUTED ada6685 corpus/reference/tiny-rand-7x5.png
+- UNATTRIBUTED ada6685 corpus/reference/vgrad-fire-97x61.png
+- UNATTRIBUTED ada6685 corpus/samples/checker1-gray-65x33.pcx
+- UNATTRIBUTED ada6685 corpus/samples/checker8-ocean-80x80.pcx
+- UNATTRIBUTED ada6685 corpus/samples/diag-ocean-256x16.pcx
+- UNATTRIBUTED ada6685 corpus/samples/hgrad-gray-64x48.pcx
+- UNATTRIBUTED ada6685 corpus/samples/rings-rand-111x111.pcx
+- UNATTRIBUTED ada6685 corpus/samples/shapes-rand-128x96.pcx
+- UNATTRIBUTED ada6685 corpus/samples/solid-gray-32x32.pcx
+- UNATTRIBUTED ada6685 corpus/samples/stripes-rand-200x40.pcx
+- UNATTRIBUTED ada6685 corpus/samples/text-fire-160x32.pcx
+- UNATTRIBUTED ada6685 corpus/samples/tiny-rand-7x5.pcx
+- UNATTRIBUTED ada6685 corpus/samples/vgrad-fire-97x61.pcx
+- UNATTRIBUTED ada6685 docs/verification/latest.md
+- UNATTRIBUTED ada6685 package.json
+- UNATTRIBUTED ada6685 scripts/corpus/generate.py
+- UNATTRIBUTED ada6685 scripts/corpus/list-tuning-samples.mjs
+- UNATTRIBUTED ada6685 scripts/corpus/requirements.txt
+- UNATTRIBUTED ada6685 scripts/corpus/validate.mjs
+- UNATTRIBUTED ada6685 scripts/verify.mjs
+- UNATTRIBUTED ada6685 tests/unit/corpus.test.ts
 - UNATTRIBUTED 51f0d26 .kiro/hooks/provenance.json
 - UNATTRIBUTED 51f0d26 docs/provenance/README.md
 - UNATTRIBUTED 51f0d26 docs/verification/latest.md
