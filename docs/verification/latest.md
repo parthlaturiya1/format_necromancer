@@ -1,24 +1,148 @@
 # Verification
 
 Overall: **PASS**
-Run: 2026-11-25T13:57:52.245Z, Node v26.13.1
+Run: 2026-11-25T15:11:42.164Z, Node v26.13.1
 
 | Step | Result |
 |---|---|
-| 1 Typecheck | PASS (3.0s) |
-| 2 Lint | PASS (8.1s) |
-| 3 Unit tests | PASS (2.0s) |
-| 4 Property tests | PASS (4.5s) |
-| 5 Golden corpus | PASS (2.0s) |
-| 6 Build | PASS (5.2s) |
-| 7 Playwright e2e | PASS (128.9s) |
-| 8 Budgets | PASS (stub, 0.0s) |
-| 9a Audit (high/critical) | PASS (2.0s) |
-| 9b Secret scan | PASS (0.8s) |
-| 10 provenance:check | PASS (0.3s) |
+| 1 Typecheck | PASS (2.4s) |
+| 2 Lint | PASS (6.1s) |
+| 3 Unit tests | PASS (2.2s) |
+| 4 Property tests | PASS (2.7s) |
+| 5 Golden corpus | PASS (1.6s) |
+| 6 Build | PASS (5.3s) |
+| 7 Playwright e2e | PASS (274.3s) |
+| 8 Budgets | PASS (1.1s) |
+| 9a Audit (high/critical) | PASS (1.5s) |
+| 9b Secret scan | PASS (0.7s) |
+| 10 provenance:check | PASS (0.2s) |
 
-## Provenance warnings (716)
+## Budgets (step 8)
 
+- JS / (landing): 201904 bytes gzipped, 11 files (limit 250000)
+- JS /404: 181692 bytes gzipped, 9 files (limit 250000)
+- JS /_not-found: 181692 bytes gzipped, 9 files (limit 250000)
+- Engine generated 1 MiB noise: 3.4 ms for 1048576 bytes (limit 3000 ms)
+- Engine hgrad-gray-64x48 + noise to 1 MiB: 2 ms for 1048576 bytes (limit 3000 ms)
+- Engine hgrad-gray-64x48: 5.7 ms for 1053 bytes (limit 3000 ms)
+- Engine vgrad-fire-97x61: 21.8 ms for 8339 bytes (limit 3000 ms)
+- Engine shapes-rand-128x96: 4 ms for 2514 bytes (limit 3000 ms)
+- Engine checker8-ocean-80x80: 2.6 ms for 2497 bytes (limit 3000 ms)
+- Engine checker1-gray-65x33: 2.6 ms for 4147 bytes (limit 3000 ms)
+- Engine stripes-rand-200x40: 3.1 ms for 4097 bytes (limit 3000 ms)
+- Engine text-fire-160x32: 2.3 ms for 1968 bytes (limit 3000 ms)
+- Engine rings-rand-111x111: 2.9 ms for 5480 bytes (limit 3000 ms)
+- Engine diag-ocean-256x16: 3.8 ms for 5849 bytes (limit 3000 ms)
+- Engine solid-gray-32x32: 1.9 ms for 961 bytes (limit 3000 ms)
+- Engine tiny-rand-7x5: 0.3 ms for 938 bytes (limit 3000 ms)
+- Lighthouse: not configured (would add a dependency)
+
+## Provenance warnings (820)
+
+- UNATTRIBUTED 137f1f4 docs/verification/t21d-large-files.md
+- UNATTRIBUTED 137f1f4 src/engine/analyze.ts
+- UNATTRIBUTED 137f1f4 src/engine/config.ts
+- UNATTRIBUTED 137f1f4 src/engine/decoders/run-length-rows.ts
+- UNATTRIBUTED 137f1f4 src/engine/detectors/header-block.ts
+- UNATTRIBUTED 137f1f4 src/engine/detectors/palette.ts
+- UNATTRIBUTED 137f1f4 src/engine/detectors/repetition.ts
+- UNATTRIBUTED 137f1f4 src/engine/pipeline.ts
+- UNATTRIBUTED 137f1f4 src/engine/recover.ts
+- UNATTRIBUTED 137f1f4 src/engine/trial-decode.ts
+- UNATTRIBUTED 137f1f4 src/engine/work.ts
+- UNATTRIBUTED 137f1f4 tests/engine/faster-detectors.test.ts
+- UNATTRIBUTED 137f1f4 tests/engine/helpers/pcx-fixture.ts
+- UNATTRIBUTED 137f1f4 tests/engine/helpers/ref/header-block.ts
+- UNATTRIBUTED 137f1f4 tests/engine/helpers/ref/palette.ts
+- UNATTRIBUTED 137f1f4 tests/engine/helpers/ref/repetition.ts
+- UNATTRIBUTED 137f1f4 tests/engine/large-files.test.ts
+- UNATTRIBUTED 137f1f4 tests/engine/work-limit.test.ts
+- UNATTRIBUTED e5819ef README.md
+- UNATTRIBUTED e5819ef docs/security.md
+- UNATTRIBUTED e5819ef docs/verification/t21c-budgets.md
+- UNATTRIBUTED e5819ef scripts/budgets/engine-timing.test.ts
+- UNATTRIBUTED e5819ef scripts/budgets/js-size.mjs
+- UNATTRIBUTED e5819ef scripts/budgets/serve-with-csp.mjs
+- UNATTRIBUTED e5819ef scripts/budgets/vitest.config.mts
+- UNATTRIBUTED e5819ef scripts/verify.mjs
+- UNATTRIBUTED e5819ef vercel.json
+- UNATTRIBUTED 2371568 docs/verification/t21b-work-limit.md
+- UNATTRIBUTED 2371568 src/engine/analyze.ts
+- UNATTRIBUTED 2371568 src/engine/config.ts
+- UNATTRIBUTED 2371568 src/engine/detectors/box-numbers.ts
+- UNATTRIBUTED 2371568 src/engine/detectors/header-block.ts
+- UNATTRIBUTED 2371568 src/engine/detectors/palette.ts
+- UNATTRIBUTED 2371568 src/engine/detectors/repetition.ts
+- UNATTRIBUTED 2371568 src/engine/detectors/row-stride.ts
+- UNATTRIBUTED 2371568 src/engine/detectors/run-length.ts
+- UNATTRIBUTED 2371568 src/engine/detectors/table-like.ts
+- UNATTRIBUTED 2371568 src/engine/pipeline.ts
+- UNATTRIBUTED 2371568 src/engine/recover.ts
+- UNATTRIBUTED 2371568 src/engine/trial-decode.ts
+- UNATTRIBUTED 2371568 src/engine/work.ts
+- UNATTRIBUTED 2371568 tests/engine/work-limit.test.ts
+- UNATTRIBUTED c3d60be corpus/wild/ant-ant.pcx
+- UNATTRIBUTED c3d60be corpus/wild/consfnt-fnt5x7.pcx
+- UNATTRIBUTED c3d60be corpus/wild/credit-credit.pcx
+- UNATTRIBUTED c3d60be corpus/wild/endgame-end.pcx
+- UNATTRIBUTED c3d60be corpus/wild/exp1-fire0005.pcx
+- UNATTRIBUTED c3d60be corpus/wild/manifest.json
+- UNATTRIBUTED c3d60be docs/verification/wild-test.md
+- UNATTRIBUTED c3d60be docs/verification/wild/ant-ant-compare.json
+- UNATTRIBUTED c3d60be docs/verification/wild/ant-ant-recovered.png
+- UNATTRIBUTED c3d60be docs/verification/wild/ant-ant-reference.png
+- UNATTRIBUTED c3d60be docs/verification/wild/ant-ant-result.json
+- UNATTRIBUTED c3d60be docs/verification/wild/consfnt-fnt5x7-compare.json
+- UNATTRIBUTED c3d60be docs/verification/wild/consfnt-fnt5x7-recovered.png
+- UNATTRIBUTED c3d60be docs/verification/wild/consfnt-fnt5x7-reference.png
+- UNATTRIBUTED c3d60be docs/verification/wild/consfnt-fnt5x7-result.json
+- UNATTRIBUTED c3d60be docs/verification/wild/credit-credit-compare.json
+- UNATTRIBUTED c3d60be docs/verification/wild/credit-credit-recovered.png
+- UNATTRIBUTED c3d60be docs/verification/wild/credit-credit-reference.png
+- UNATTRIBUTED c3d60be docs/verification/wild/credit-credit-result.json
+- UNATTRIBUTED c3d60be docs/verification/wild/endgame-end-compare.json
+- UNATTRIBUTED c3d60be docs/verification/wild/endgame-end-recovered.png
+- UNATTRIBUTED c3d60be docs/verification/wild/endgame-end-reference.png
+- UNATTRIBUTED c3d60be docs/verification/wild/endgame-end-result.json
+- UNATTRIBUTED c3d60be docs/verification/wild/exp1-fire0005-compare.json
+- UNATTRIBUTED c3d60be docs/verification/wild/exp1-fire0005-recovered.png
+- UNATTRIBUTED c3d60be docs/verification/wild/exp1-fire0005-reference.png
+- UNATTRIBUTED c3d60be docs/verification/wild/exp1-fire0005-result.json
+- UNATTRIBUTED c3d60be tests/wild/run.test.ts
+- UNATTRIBUTED c3d60be tests/wild/vitest.config.ts
+- UNATTRIBUTED 6efddfb AUTHORSHIP.md
+- UNATTRIBUTED 052e60e docs/feature-register.md
+- UNATTRIBUTED 052e60e docs/verification/t19-golden-run.md
+- UNATTRIBUTED 052e60e tests/e2e/golden-run.spec.ts
+- UNATTRIBUTED 052e60e tests/e2e/live.config.ts
+- UNATTRIBUTED 8bea62c README.md
+- UNATTRIBUTED 8bea62c docs/privacy.md
+- UNATTRIBUTED 8bea62c docs/verification/t24b-readme-check.md
+- UNATTRIBUTED 2970013 docs/verification/latest.md
+- UNATTRIBUTED 2970013 docs/verification/screens/samples/changed-lower-confidence.png
+- UNATTRIBUTED 2970013 docs/verification/screens/t18-failure.png
+- UNATTRIBUTED 2970013 docs/verification/screens/t18-lowconf.png
+- UNATTRIBUTED 2970013 docs/verification/screens/t18-phone-failure.png
+- UNATTRIBUTED 2970013 docs/verification/screens/t18-signature.png
+- UNATTRIBUTED 2970013 docs/verification/t18-failure.md
+- UNATTRIBUTED 2970013 public/samples/changed-lower-confidence.pcx
+- UNATTRIBUTED 2970013 public/samples/changed-lower-confidence.png
+- UNATTRIBUTED 2970013 public/samples/corrupt-tail-cut.pcx
+- UNATTRIBUTED 2970013 public/samples/index.json
+- UNATTRIBUTED 2970013 public/samples/signature-changed.pcx
+- UNATTRIBUTED 2970013 scripts/samples/copy-samples.mjs
+- UNATTRIBUTED 2970013 src/ui/Shell.tsx
+- UNATTRIBUTED 2970013 src/ui/describe.ts
+- UNATTRIBUTED 2970013 src/ui/failure.test.ts
+- UNATTRIBUTED 2970013 src/ui/hud/Hud.tsx
+- UNATTRIBUTED 2970013 src/ui/panels/BytesPanel.tsx
+- UNATTRIBUTED 2970013 src/ui/panels/ImagePanel.tsx
+- UNATTRIBUTED 2970013 src/ui/panels/Inspector.tsx
+- UNATTRIBUTED 2970013 src/ui/regions.ts
+- UNATTRIBUTED 2970013 src/ui/shell.css
+- UNATTRIBUTED 2970013 tests/e2e/hud.spec.ts
+- UNATTRIBUTED 2970013 tests/e2e/sample.ts
+- UNATTRIBUTED 2970013 tests/e2e/t18.spec.ts
 - UNATTRIBUTED 7479c95 docs/security.md
 - UNATTRIBUTED 41e24ad docs/verification/review-t17.md
 - UNATTRIBUTED 5ff4859 AUTHORSHIP.md
@@ -738,23 +862,23 @@ Run: 2026-11-25T13:57:52.245Z, Node v26.13.1
 
 ## Feature register
 
-# Feature register
-Maintained by the verifier. Every status starts UNVERIFIED.
+﻿# Feature register
+Maintained by the verifier. Updated at T-19 (HEAD 8bea62c, local build out/). PASS means a test I ran in T-19 passed; evidence in docs/verification/t19-golden-run.md. Full e2e run: 45 passed, 5 skipped (SHOTS-only), 0 failed, plus 5 golden-run tests.
 
 | ID | Feature | Done when | Status |
 |---|---|---|---|
-| F-01 | Resurrect a bundled sample (deterministic demo mode) | One click runs the real engine on a bundled sample and plays all six beats | UNVERIFIED |
-| F-02 | Drop in a file | Files up to 10 MB accepted, larger refused with a clear message, nothing uploaded | UNVERIFIED |
-| F-03 | Ranked hypotheses | Each recognisable sample gets at least one hypothesis with byte ranges | PASS (engine only): golden-report.md rank 1 = spike layout on 11 of 11 tuning samples; verify x3 green (regression-report.md). Not tested on the held-out file or any UI. |
-| F-04 | Evidence on every element | Property test: ranges in bounds, confidence 0 to 1, no element without evidence | PASS (engine only): tests/property/evidence.test.ts and recover.test.ts run in verify step 4 (3 green runs). No UI check. |
-| F-05 | Verification report | Exact or not, with a mismatch list; a "no reference available" mode; recovered image and evidence report downloadable | UNVERIFIED |
-| F-06 | Six-beat ritual | All beats play in order; speed control 0.5x to 4x | UNVERIFIED |
-| F-07 | Two-way inspector | Click a region to light its bytes, click bytes to select their region; rule and confidence shown | UNVERIFIED |
-| F-08 | Honest failure | A corrupted sample ends as unrecovered with a plain-words reason, no crash | PASS (engine only): fuzz 3002 cases, 0 crashes, unrecovered with a reason (robustness-report.md); mutation check 0 confident-wrong. Plain-words display not checked (no UI). |
-| F-09 | Reduced-motion mode | Same information, no animation | UNVERIFIED |
-| F-10 | Confidence dot grid and charts | One dot per recovered row or region; hand-built SVG charts | UNVERIFIED |
-| F-11 | Blind-test result | The held-out file result is shown and labelled | PARTIAL: held-out file run once at dd7610f, result EXACT (0 of 13,500 pixels differ); evidence docs/verification/blind-test.md. One file, same generator as tuning set. No result display in the app exists yet. |
-| F-12 | Real states | 404, 500, empty and loading states | UNVERIFIED |
-| F-13 | Proof Room (stretch) | /proof renders the ledger and captures, read-only, offline | UNVERIFIED |
-| F-14 | Judge quick-start | README opens with the URL, a 30-second try, where .kiro is, how Kiro was used | UNVERIFIED |
+| F-01 | Resurrect a bundled sample (deterministic demo mode) | One click runs the real engine on a bundled sample and plays all six beats | PASS: golden-run.spec.ts (beats 1..6 in order, 10.65 s beat 1 to 6 at 1x, local and live); ritual.spec.ts demo mode plays the same twice. |
+| F-02 | Drop in a file | Files up to 10 MB accepted, larger refused with a clear message, nothing uploaded | PASS: panels.spec.ts (file read and analysed, over 10 MB refused); t18.spec.ts user file noise.bin; 0 foreign requests in every run. Not tested: a real 10 MB file end to end (1 MB tested for DOM size). |
+| F-03 | Ranked hypotheses | Each recognisable sample gets at least one hypothesis with byte ranges | PASS: engine golden 11 of 11 (golden-report.md) and UI beat 3 cards (ritual.spec.ts "each beat shows its own content"). Held-out file ranked in the UI: blind run in golden-run.spec.ts exact. |
+| F-04 | Evidence on every element | Property test: ranges in bounds, confidence 0 to 1, no element without evidence | PASS: property tests (verify step 4) and UI: golden-run.spec.ts click row shows rule, confidence, lit bytes; inspector.spec.ts. |
+| F-05 | Verification report | Exact or not, with a mismatch list; a "no reference available" mode; recovered image and evidence report downloadable | PASS: hud.spec.ts (exact, mutated Not exact with count, user file "No reference available", PNG round-trips, JSON parses); golden-run.spec.ts exact, 0 mismatches. |
+| F-06 | Six-beat ritual | All beats play in order; speed control 0.5x to 4x | PASS: golden-run.spec.ts; ritual.spec.ts (4x about a quarter of 1x, speed pill). 0.5x and 2x not run in a test. |
+| F-07 | Two-way inspector | Click a region to light its bytes, click bytes to select their region; rule and confidence shown | PASS: inspector.spec.ts (both directions, keyboard, line follows scroll); golden-run.spec.ts. Phone has no line by design (highlight only). |
+| F-08 | Honest failure | A corrupted sample ends as unrecovered with a plain-words reason, no crash | PASS: golden-run.spec.ts and t18.spec.ts (failure red, reason in words, no picture, page still usable); engine fuzz 3002 cases 0 crashes (robustness-report.md). |
+| F-09 | Reduced-motion mode | Same information, no animation | PASS: golden-run.spec.ts reduced runs match full-motion values (badge, pixels differ, grid, canvas, failure reason); ritual.spec.ts 0 animations. |
+| F-10 | Confidence dot grid and charts | One dot per recovered row or region; hand-built SVG charts | PASS for the grid: 111 dots for 111 rows (golden-run.spec.ts); charts in hud.spec.ts. Amber (uncertain) dots only checked in t18.spec.ts changed-lower-confidence, not in the golden sample (0 uncertain rows there). |
+| F-11 | Blind-test result | The held-out file result is shown and labelled | PASS: golden-run.spec.ts loads it from the button: "Blind test" badge, "Held-out file, never used for tuning.", exact, 0 of 13,500 pixels differ, local and live. One file, same generator as tuning set. |
+| F-12 | Real states | 404, 500, empty and loading states | PASS: shell.spec.ts (loading, 404, 500 reachable; axe clean on 404); empty state is the idle page in golden-run.spec.ts step 1. |
+| F-13 | Proof Room (stretch) | /proof renders the ledger and captures, read-only, offline | NOT BUILT: build output has only / and /_not-found (route list from npm run build). |
+| F-14 | Judge quick-start | README opens with the URL, a 30-second try, where .kiro is, how Kiro was used | PARTIAL: the 5 try steps work on live and local (golden-run.spec.ts runs them). One wording mismatch (step 5, see t19-golden-run.md). Fresh-clone run (R-10) not done by me. |
 
