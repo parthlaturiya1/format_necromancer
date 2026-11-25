@@ -1,4 +1,4 @@
-# Format Necromancer
+﻿# Format Necromancer
 
 Recovers a dead file from its bytes alone. No specification. Nothing uploaded.
 
@@ -85,14 +85,16 @@ Limits. The blind-test file comes from the same generator as the tuning files. T
 
 ## Related work
 
-Different tools, with different goals. Facts are from each project's own pages.
-- [Kaitai Struct](https://kaitai.io): a declarative language that describes binary formats and generates parsers. It needs a written description of the format.
-- [ImHex](https://github.com/WerWolv/ImHex): a hex editor with its own pattern language that defines structures to parse and highlight a file.
-- [PolyFile](https://github.com/trailofbits/polyfile): identifies and maps the structure of files, with a pure-Python libmagic and Kaitai Struct grammars.
-- [Oscura](https://pypi.org/project/oscura/): a Python framework for hardware reverse engineering (signal analysis, protocol decoding).
+Different tools, with different goals. Each line below comes from the tool's own page; sources and dates are in [docs/verification/t24c-related-work.md](docs/verification/t24c-related-work.md).
 
-How they compare with Format Necromancer on recovering an unknown format: UNKNOWN. We have not tested them, so we make no claim.
+- [Kaitai Struct](https://github.com/kaitai-io/kaitai_struct) (with its Web IDE visualizer): a "declarative language" for describing binary formats in a `.ksy` file, compiled into parsers. [ImHex](https://github.com/WerWolv/ImHex): a hex editor with a "pattern language" for parsing and highlighting a file, loaded automatically by MIME type and magic value.
+  Contrast: both parse a file with a format description a person writes first. Format Necromancer infers the layout from the bytes and shows evidence per element.
+- [PolyFile](https://github.com/trailofbits/polyfile): a tool to "identify and map the semantic and syntactic structure of files", with a pure-Python libmagic and Kaitai Struct parsers, plus an interactive hex viewer.
+  Contrast: its identification and mapping rely on magic-value matchers and format parsers that already exist. Format Necromancer targets a format with no parser, and recovers the layout from the bytes.
+- [Oscura](https://pypi.org/project/oscura/) (PyPI page; its GitHub repository returned 404 when we checked): a Python framework for hardware reverse engineering. Its page lists protocol inference, including field detection and format identification.
+  Contrast: Oscura also infers structure from data, so inference is not unique to us. Its focus is hardware signals and protocols (oscilloscope captures, Wireshark dissectors). Ours is a dead file format, in the browser. UNKNOWN how the two compare on the same input.
 
+We have not benchmarked these tools; this is a description, not a comparison of results.
 ## Run locally
 
 Requires Node 22.12 or newer.
