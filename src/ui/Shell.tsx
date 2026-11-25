@@ -3,7 +3,7 @@ import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'r
 import type { ByteRange } from '../engine/types';
 import { L0Field } from './layers/L0Field';
 import { BytesPanel } from './panels/BytesPanel';
-import { ImagePanel } from './panels/ImagePanel';
+import { ImagePanel, type Compare } from './panels/ImagePanel';
 import { Hud, type Check, type GridLight } from './hud/Hud';
 import { browserInflate, decodePng } from '../engine/png';
 import { probeEngine, runEngine, runVerify, type EngineStatus } from './worker/client';
@@ -17,8 +17,8 @@ import type { Sel } from './selection';
 const REPO = 'https://github.com/parthlaturiya1/format_necromancer'; // the public README, section "The honest claim"
 export const MAX_FILE_BYTES = 10 * 1024 * 1024; // same as the engine limit (maxInputBytes)
 
-type SampleEntry = { id: string; path: string; bytes: number; reference?: string; label?: string; real?: boolean };
-type Note = { badge?: string; text: string; href?: string };
+type SampleEntry = { id: string; path: string; bytes: number; reference?: string; label?: string; real?: boolean; refusal?: string; refusalSource?: string };
+type Note = { badge?: string; text: string; href?: string; compare?: Compare };
 const ABUSE_PAGE = 'https://opengameart.org/content/abuse-art'; // a link only: the app never fetches it
 type SampleIndex = { default: string; samples: SampleEntry[] };
 
@@ -44,7 +44,7 @@ export function Shell() {
   const [engine, setEngine] = useState<EngineStatus>('starting');
   const [dragging, setDragging] = useState(false);
   const [cursor, setCursor] = useState<number | null>(null);
-  const [speed, setSpeedState] = useState<Speed>(1);
+  const [speed, setSpeedState] = useState<Speed>(2); // P-1: the first run finishes in about 8 s; 1x stays one press away (4, 0.5, 1)
   const [osReduced, setOsReduced] = useState(false);
   const [reducedPref, setReducedPref] = useState<boolean | null>(null);
   const [hold, setHold] = useState<Hold>(null);
@@ -175,7 +175,7 @@ export function Shell() {
           const r = await fetch(s.path);
           if (!r.ok) throw new Error('The sample could not be loaded.');
           return r.arrayBuffer();
-        }, s.reference, s.id.startsWith('blind-') ? { badge: 'Blind test', text: 'Held-out file, never used for tuning.' } : s.real ? { badge: 'Real game art (CC0)', text: 'From the game Abuse by Crack dot Com, CC0, via OpenGameArt', href: ABUSE_PAGE } : s.label ? { text: s.label } : undefined);
+        }, s.reference, s.id.startsWith('blind-') ? { badge: 'Blind test', text: 'Held-out file, never used for tuning.' } : s.real ? { badge: 'Real game art (CC0)', text: 'From the game Abuse by Crack dot Com, CC0, via OpenGameArt', href: ABUSE_PAGE } : s.label ? { text: s.label, compare: s.refusal ? { refusal: s.refusal, source: s.refusalSource ?? '' } : undefined } : undefined);
       } catch (e) {
         dispatch({ type: 'fail', name: 'sample', reason: e instanceof Error ? e.message : 'The sample could not be loaded.' });
       }
@@ -218,6 +218,7 @@ export function Shell() {
             </span>
             <div style={{ minWidth: 0 }}>
               <h1>Format Necromancer</h1>
+              <p className="promise" data-testid="promise">Recovers a dead file from its bytes alone. No specification. Nothing uploaded.</p>
               <p className="fileline">{fileline}</p>
             </div>
           </div>
@@ -246,7 +247,7 @@ export function Shell() {
           <div className="col col-bytes"><BytesPanel state={state} onFile={loadFile} samples={samples?.samples ?? []} onSample={loadSample} failed={failed} regions={regions} sel={shownSel} selected={failed ? null : selected} onPickByte={pickByte} beat={rb} hover={hover ?? (rb === 3 && result && result.analysis.status === 'ok' ? (result.analysis.hypotheses[0]?.ranges ?? null) : null)} />
             <Inspector regions={regions} selected={selected} sel={shownSel} onPick={pickRegion} />
           </div>
-          <ImagePanel source={blind?.href ? blind : null} state={state} forcedLoading={forcedLoading} onSample={() => loadSample()} onFile={loadFile} regions={regions} selectedId={selected?.id ?? null} cursor={cursor} onCursor={setCursor} onPickRow={pickRow} ritual={{ ...ritual, speed, reduced, onHover: setHover }} />
+          <ImagePanel source={blind?.href ? blind : null} compare={blind?.compare ?? null} state={state} forcedLoading={forcedLoading} onSample={() => loadSample()} onFile={loadFile} regions={regions} selectedId={selected?.id ?? null} cursor={cursor} onCursor={setCursor} onPickRow={pickRow} ritual={{ ...ritual, speed, reduced, onHover: setHover }} />
           <L3Evidence draws={draws} cursor={cursor} imageHeight={imageHeight} />
           <Hud failed={failed} result={result} name={state.phase === 'done' ? state.name : ''} regions={regions} light={light} proof={rb === 6} check={check} blind={blind} fileBytes={state.phase === 'done' ? state.bytes.length : 0} selectedId={selected?.id ?? null} onPickRow={pickRow} />
         </main>

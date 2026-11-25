@@ -1,44 +1,84 @@
 # Verification
 
 Overall: **PASS**
-Run: 2026-11-25T15:11:42.164Z, Node v26.13.1
+Run: 2026-11-25T16:19:14.121Z, Node v26.13.1
 
 | Step | Result |
 |---|---|
-| 1 Typecheck | PASS (2.4s) |
+| 1 Typecheck | PASS (3.0s) |
 | 2 Lint | PASS (6.1s) |
-| 3 Unit tests | PASS (2.2s) |
+| 3 Unit tests | PASS (2.1s) |
 | 4 Property tests | PASS (2.7s) |
 | 5 Golden corpus | PASS (1.6s) |
-| 6 Build | PASS (5.3s) |
-| 7 Playwright e2e | PASS (274.3s) |
-| 8 Budgets | PASS (1.1s) |
+| 6 Build | PASS (5.2s) |
+| 7 Playwright e2e | PASS (312.5s) |
+| 8 Budgets | PASS (1.0s) |
 | 9a Audit (high/critical) | PASS (1.5s) |
-| 9b Secret scan | PASS (0.7s) |
-| 10 provenance:check | PASS (0.2s) |
+| 9b Secret scan | PASS (0.8s) |
+| 10 provenance:check | PASS (0.3s) |
 
 ## Budgets (step 8)
 
-- JS / (landing): 201904 bytes gzipped, 11 files (limit 250000)
+- JS / (landing): 202161 bytes gzipped, 11 files (limit 250000)
 - JS /404: 181692 bytes gzipped, 9 files (limit 250000)
 - JS /_not-found: 181692 bytes gzipped, 9 files (limit 250000)
-- Engine generated 1 MiB noise: 3.4 ms for 1048576 bytes (limit 3000 ms)
-- Engine hgrad-gray-64x48 + noise to 1 MiB: 2 ms for 1048576 bytes (limit 3000 ms)
-- Engine hgrad-gray-64x48: 5.7 ms for 1053 bytes (limit 3000 ms)
-- Engine vgrad-fire-97x61: 21.8 ms for 8339 bytes (limit 3000 ms)
-- Engine shapes-rand-128x96: 4 ms for 2514 bytes (limit 3000 ms)
-- Engine checker8-ocean-80x80: 2.6 ms for 2497 bytes (limit 3000 ms)
-- Engine checker1-gray-65x33: 2.6 ms for 4147 bytes (limit 3000 ms)
-- Engine stripes-rand-200x40: 3.1 ms for 4097 bytes (limit 3000 ms)
-- Engine text-fire-160x32: 2.3 ms for 1968 bytes (limit 3000 ms)
-- Engine rings-rand-111x111: 2.9 ms for 5480 bytes (limit 3000 ms)
-- Engine diag-ocean-256x16: 3.8 ms for 5849 bytes (limit 3000 ms)
-- Engine solid-gray-32x32: 1.9 ms for 961 bytes (limit 3000 ms)
+- Engine generated 1 MiB noise: 4.3 ms for 1048576 bytes (limit 3000 ms)
+- Engine hgrad-gray-64x48 + noise to 1 MiB: 1.8 ms for 1048576 bytes (limit 3000 ms)
+- Engine hgrad-gray-64x48: 5.5 ms for 1053 bytes (limit 3000 ms)
+- Engine vgrad-fire-97x61: 17.4 ms for 8339 bytes (limit 3000 ms)
+- Engine shapes-rand-128x96: 3.4 ms for 2514 bytes (limit 3000 ms)
+- Engine checker8-ocean-80x80: 4.1 ms for 2497 bytes (limit 3000 ms)
+- Engine checker1-gray-65x33: 2 ms for 4147 bytes (limit 3000 ms)
+- Engine stripes-rand-200x40: 1.2 ms for 4097 bytes (limit 3000 ms)
+- Engine text-fire-160x32: 0.9 ms for 1968 bytes (limit 3000 ms)
+- Engine rings-rand-111x111: 3.5 ms for 5480 bytes (limit 3000 ms)
+- Engine diag-ocean-256x16: 5.5 ms for 5849 bytes (limit 3000 ms)
+- Engine solid-gray-32x32: 1.6 ms for 961 bytes (limit 3000 ms)
 - Engine tiny-rand-7x5: 0.3 ms for 938 bytes (limit 3000 ms)
 - Lighthouse: not configured (would add a dependency)
 
-## Provenance warnings (820)
+## Provenance warnings (860)
 
+- UNATTRIBUTED f2ef1bd AUTHORSHIP.md
+- UNATTRIBUTED f2ef1bd README.md
+- UNATTRIBUTED f2ef1bd docs/build-journal.md
+- UNATTRIBUTED f2ef1bd docs/verification/p2-docs-check.md
+- UNATTRIBUTED 558947a docs/rollback.md
+- UNATTRIBUTED 558947a docs/verification/screens/t22-live-1440-fm-1-idle.png
+- UNATTRIBUTED 558947a docs/verification/screens/t22-live-1440-fm-2-done.png
+- UNATTRIBUTED 558947a docs/verification/screens/t22-live-1440-fm-3-inspect.png
+- UNATTRIBUTED 558947a docs/verification/screens/t22-live-1440-fm-4-blind.png
+- UNATTRIBUTED 558947a docs/verification/screens/t22-live-1440-fm-5-failure.png
+- UNATTRIBUTED 558947a docs/verification/screens/t22-live-390-fm-1-idle.png
+- UNATTRIBUTED 558947a docs/verification/screens/t22-live-390-fm-2-done.png
+- UNATTRIBUTED 558947a docs/verification/screens/t22-live-390-fm-3-inspect.png
+- UNATTRIBUTED 558947a docs/verification/screens/t22-live-390-fm-4-blind.png
+- UNATTRIBUTED 558947a docs/verification/screens/t22-live-390-fm-5-failure.png
+- UNATTRIBUTED 558947a docs/verification/t22-deploy.md
+- UNATTRIBUTED 7aee359 docs/verification/judge-review-2.md
+- UNATTRIBUTED 160cb87 docs/verification/latest.md
+- UNATTRIBUTED 1c7a77b docs/verification/screens/t20-done.png
+- UNATTRIBUTED 1c7a77b docs/verification/screens/t20-failure.png
+- UNATTRIBUTED 1c7a77b docs/verification/screens/t20-phone.png
+- UNATTRIBUTED 1c7a77b docs/verification/screens/t20-realart-credit.png
+- UNATTRIBUTED 1c7a77b docs/verification/screens/t20-realart.png
+- UNATTRIBUTED 1c7a77b docs/verification/t20-polish.md
+- UNATTRIBUTED 1c7a77b public/samples/index.json
+- UNATTRIBUTED 1c7a77b public/samples/real-abuse-credit.pcx
+- UNATTRIBUTED 1c7a77b public/samples/real-abuse-credit.png
+- UNATTRIBUTED 1c7a77b public/samples/real-abuse-end.pcx
+- UNATTRIBUTED 1c7a77b public/samples/real-abuse-end.png
+- UNATTRIBUTED 1c7a77b scripts/samples/copy-samples.mjs
+- UNATTRIBUTED 1c7a77b src/ui/Shell.tsx
+- UNATTRIBUTED 1c7a77b src/ui/hud/Hud.tsx
+- UNATTRIBUTED 1c7a77b src/ui/hud/grid.test.ts
+- UNATTRIBUTED 1c7a77b src/ui/hud/stats.ts
+- UNATTRIBUTED 1c7a77b src/ui/panels/BytesPanel.tsx
+- UNATTRIBUTED 1c7a77b src/ui/panels/ImagePanel.tsx
+- UNATTRIBUTED 1c7a77b src/ui/panels/Inspector.tsx
+- UNATTRIBUTED 1c7a77b src/ui/shell.css
+- UNATTRIBUTED 1c7a77b src/ui/tokens.css
+- UNATTRIBUTED 1c7a77b tests/e2e/t20.spec.ts
 - UNATTRIBUTED 137f1f4 docs/verification/t21d-large-files.md
 - UNATTRIBUTED 137f1f4 src/engine/analyze.ts
 - UNATTRIBUTED 137f1f4 src/engine/config.ts

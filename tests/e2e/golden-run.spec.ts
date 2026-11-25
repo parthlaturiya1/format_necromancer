@@ -2,6 +2,7 @@
 // Runs against the built out/ (default config) or any URL: BASE_URL=https://... npx playwright test -c tests/e2e/live.config.ts
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { expect, test, type Page } from '@playwright/test';
+import { DEFAULT } from './sample';
 
 const AXE = readFileSync('node_modules/axe-core/axe.min.js', 'utf8');
 const OUT = process.env.T19_OUT ?? 'local';
@@ -197,7 +198,7 @@ for (const reduced of [false, true]) {
       bad(await axe(page, 'axe failure', log));
       if (SHOTS && !reduced) await page.screenshot({ path: `${SCREENS}/t19-${tag}-5-failure.png`, fullPage: w < 700 });
       // The page is still alive: load the good sample again.
-      await page.getByTestId('sample-pick').selectOption('rings-rand-111x111');
+      await page.getByTestId('sample-pick').selectOption(DEFAULT.id);
       await page.getByRole('button', { name: 'Skip to result' }).click({ timeout: 8000 }).catch(() => undefined);
       await expect(page.getByTestId('badge')).toHaveText('Exact match', { timeout: 60000 });
 

@@ -211,7 +211,9 @@ function RecoveredCanvas({ width, height, rgb, status, reveal, bars, regions, se
 
 export type RitualProps = RitualView & { speed: number; reduced: boolean; onHover: (r: ReadonlyArray<ByteRange> | null) => void };
 
-export function ImagePanel({ state, forcedLoading, onSample, onFile, ritual, source, ...pick }: RowPick & { source: { text: string; href?: string } | null; state: AppState; forcedLoading: boolean; onSample: () => void; onFile: (f: File) => void; ritual: RitualProps }) {
+export type Compare = { refusal: string; source: string };
+
+export function ImagePanel({ state, forcedLoading, onSample, onFile, ritual, source, compare, ...pick }: RowPick & { source: { text: string; href?: string } | null; compare?: Compare | null; state: AppState; forcedLoading: boolean; onSample: () => void; onFile: (f: File) => void; ritual: RitualProps }) {
   const busy = state.phase === 'loading' || state.phase === 'analysing' || forcedLoading;
   const rec = state.phase === 'done' ? state.result.recovered : null;
   const ok = rec && rec.status === 'ok' ? rec : null;
@@ -348,7 +350,22 @@ export function ImagePanel({ state, forcedLoading, onSample, onFile, ritual, sou
         {ok && rb > 0 && !ritual.finished ? (
           <div className="ritual-ctl">
             {ritual.reduced ? <button type="button" className="btn ghost-btn btn-sm" onClick={ritual.next}>Next beat</button> : null}
-            <button type="button" className="btn ghost-btn btn-sm" onClick={ritual.skip}>Skip to result</button>
+            <button type="button" className="btn btn-sm skip-btn" onClick={ritual.skip}>Skip to result</button>
+          </div>
+        ) : null}
+        {ok && compare && ritual.finished ? (
+          <div className="versus" data-testid="versus">
+            <div className="vs-side" data-side="standard">
+              <p className="vs-title">A standard decoder</p>
+              <p className="vs-verdict">refuses this file</p>
+              <p className="vs-msg mono" data-testid="vs-refusal">{compare.refusal}</p>
+              <p className="vs-src">{compare.source}</p>
+            </div>
+            <div className="vs-side" data-side="necro">
+              <p className="vs-title">Format Necromancer</p>
+              <p className="vs-verdict">recovered, exact</p>
+              <p className="vs-src">Compared with the reference picture, pixel by pixel.</p>
+            </div>
           </div>
         ) : null}
         {ok ? (

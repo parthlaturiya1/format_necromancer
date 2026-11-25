@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 import os from 'node:os';
 import { expect, test, type Page } from '@playwright/test';
+import { DEFAULT } from './sample';
 
 const AXE = readFileSync('node_modules/axe-core/axe.min.js', 'utf8');
 const SCREENS = 'docs/verification/screens';
@@ -69,9 +70,9 @@ test('picker labels and the direct button', async ({ page }) => {
 
 test('layout: whole-number picture scale, 12+ hex rows with a fade, 20-column grid, tall chart, wrapped chips', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
-  await proof(page, 'rings-rand-111x111');
+  await proof(page, DEFAULT.id);
   const cv = await page.locator('canvas.recovered').evaluate((c) => ({ w: c.getBoundingClientRect().width, stage: c.closest('.image-stage')!.getBoundingClientRect().width }));
-  expect(cv.w % 111).toBe(0); // D1: whole scale
+  expect(cv.w % DEFAULT.width).toBe(0); // D1: whole scale
   expect(cv.w / cv.stage).toBeGreaterThan(0.8);
   const hex = await page.locator('.hexwrap > .hexv').evaluate((el) => {
     const r = el.getBoundingClientRect();
@@ -95,7 +96,7 @@ test('layout: whole-number picture scale, 12+ hex rows with a fade, 20-column gr
 
 test('phone: title wraps to 2 lines, downloads full width, page under 1500 px', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await proof(page, 'rings-rand-111x111');
+  await proof(page, DEFAULT.id);
   const title = await page.locator('.fileline').evaluate((e) => Math.round(e.getBoundingClientRect().height / parseFloat(getComputedStyle(e).lineHeight)));
   expect(title).toBeLessThanOrEqual(2);
   const widths = await page.locator('.verify .downloads .btn').evaluateAll((bs) => bs.map((b) => b.getBoundingClientRect().width / b.closest('.verify')!.getBoundingClientRect().width));
@@ -121,7 +122,7 @@ test('failure list shows distinct guesses and counts the rest', async ({ page })
   if (SHOTS) await page.screenshot({ path: `${SCREENS}/t20-failure.png` });
 });
 
-for (const id of ['rings-rand-111x111', 'real-abuse-end']) {
+for (const id of ['rings-rand-111x111', DEFAULT.id]) {
   test(`beat 5 frame rate at 1x, ${id} (numbers, not a gate)`, async ({ page }) => {
     test.setTimeout(90000);
     const freeBefore = os.freemem();
