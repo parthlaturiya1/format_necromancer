@@ -1,11 +1,15 @@
 'use client';
-import { useCallback, useEffect, useReducer, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import { L0Field } from './layers/L0Field';
 import { BytesPanel } from './panels/BytesPanel';
 import { ImagePanel } from './panels/ImagePanel';
 import { Hud } from './hud/Hud';
 import { probeEngine, runEngine, type EngineStatus } from './worker/client';
 import { initialState, reducer } from './state';
+import { L3Evidence } from './layers/L3Evidence';
+import { Inspector } from './panels/Inspector';
+import { buildRegions, regionAt } from './regions';
+import type { Sel } from './selection';
 
 const STEPS = ['Dead file', 'Listening', 'Hypotheses', 'Evidence', 'Resurrection', 'Proof'];
 export const MAX_FILE_BYTES = 10 * 1024 * 1024; // same as the engine limit (maxInputBytes)
@@ -22,6 +26,7 @@ export function Shell() {
   const [hash, setHash] = useState('');
   const [engine, setEngine] = useState<EngineStatus>('starting');
   const [dragging, setDragging] = useState(false);
+  const [cursor, setCursor] = useState<number | null>(null);
   const run = useRef(0); // a newer load makes older ones stop reporting
 
   useEffect(() => {
@@ -32,6 +37,26 @@ export function Shell() {
     void probeEngine().then((s) => live && setEngine(s));
     return () => { live = false; window.removeEventListener('hashchange', sync); };
   }, []);
+
+  const result = state.phase === 'done' ? state.result : null;
+  const regions = useMemo(() => (result ? buildRegions(result) : []), [result]);
+  const imageHeight = result && result.recovered.status === 'ok' ? result.recovered.height : 0;
+
+  // The best region is picked when a run ends, so the card is never empty beside a finished picture (N7). Ties go to a row, which has a line to draw.
+  const auto = useMemo<Sel | null>(() => {
+    const best = regions.filter((r) => !r.umbrella).reduce<(typeof regions)[number] | null>((b, r) => (!b || r.confidence > b.confidence || (r.confidence === b.confidence && b.kind !== 'row' && r.kind === 'row') ? r : b), null);
+    return best ? { id: best.id, offset: null, from: 'auto', focus: false } : null;
+  }, [regions]);
+  const [picked, setPicked] = useState<{ regions: typeof regions; sel: Sel | null } | null>(null);
+  const sel = picked && picked.regions === regions ? picked.sel : auto;
+  const setSel = useCallback((s: Sel | null) => setPicked({ regions, sel: s }), [regions]);
+  const selected = (sel?.id && regions.find((r) => r.id === sel.id)) || null;
+  const pickRegion = useCallback((id: string, key: boolean, from: Sel['from'] = 'list') => setSel({ id, offset: null, from, focus: key }), [setSel]);
+  const pickRow = useCallback((row: number, key: boolean) => {
+    const r = regions.find((x) => x.kind === 'row' && x.rows[0] === row);
+    if (r) pickRegion(r.id, key, 'row');
+  }, [regions, pickRegion]);
+  const pickByte = useCallback((offset: number) => setSel({ id: regionAt(regions, offset)?.id ?? null, offset, from: 'byte', focus: false }), [regions, setSel]);
 
   const start = useCallback(async (name: string, read: () => Promise<ArrayBuffer>, referenceUrl?: string) => {
     const mine = ++run.current;
@@ -88,7 +113,7 @@ export function Shell() {
     : state.phase === 'loading' ? `Reading ${state.name}`
     : state.phase === 'failed' ? `${state.name}, could not be opened`
     : state.phase === 'analysing' ? `${state.name}, ${state.bytes.length.toLocaleString('en-US')} bytes, format unknown`
-    : `${state.name}, ${state.bytes.length.toLocaleString('en-US')} bytes, ${state.result.recovered.status === 'ok' ? `a ${state.result.recovered.width} by ${state.result.recovered.height} picture` : 'not recovered'}`;
+    : `${state.name}, ${state.bytes.length.toLocaleString('en-US')} bytes`;
 
   const hasSample = state.phase === 'done' && state.reference !== 'none';
   const verifyNote =
@@ -125,6 +150,7 @@ export function Shell() {
         </header>
         <main
           className={`stage${dragging ? ' dragging' : ''}`}
+          onKeyDown={(e) => e.key === 'Escape' && setSel(null)}
           onDragOver={(e) => { e.preventDefault(); setDragging(true); }}
           onDragLeave={(e) => { if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setDragging(false); }}
           onDrop={(e) => {
@@ -134,9 +160,12 @@ export function Shell() {
             if (f) loadFile(f);
           }}
         >
-          <div className="col col-bytes"><BytesPanel state={state} onFile={loadFile} /></div>
-          <ImagePanel state={state} forcedLoading={forcedLoading} onSample={loadSample} onFile={loadFile} />
-          <Hud note={verifyNote} />
+          <div className="col col-bytes"><BytesPanel state={state} onFile={loadFile} regions={regions} sel={sel} selected={selected} onPickByte={pickByte} />
+            <Inspector regions={regions} selected={selected} sel={sel} onPick={pickRegion} />
+          </div>
+          <ImagePanel state={state} forcedLoading={forcedLoading} onSample={loadSample} onFile={loadFile} regions={regions} selectedId={selected?.id ?? null} cursor={cursor} onCursor={setCursor} onPickRow={pickRow} />
+          <L3Evidence region={selected} cursor={cursor} imageHeight={imageHeight} />
+          <Hud note={verifyNote} rows={imageHeight} />
         </main>
         <footer className="foot">
           <p className="lock">Runs in your browser. Nothing is uploaded.</p>

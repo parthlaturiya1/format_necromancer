@@ -3,13 +3,13 @@ const DOTS = 14 * 5;
 const PULSING = new Set([6, 21, 38, 52]);
 
 /** L4 HUD: Confidence grid, Confidence by row, Verification. Glass skeletons until T-17. */
-export function Hud({ note }: { note: string }) {
+export function Hud({ note, rows }: { note: string; rows: number }) {
   return (
     <div className="col col-hud" data-layer="L4">
       <section className="panel" aria-labelledby="h-grid">
         <header>
           <h2 id="h-grid">Confidence grid</h2>
-          <p className="meta">0 regions</p>
+          <p className="meta">{rows ? ` rows` : 'Waiting for a file'}</p>
         </header>
         <div className="dots" aria-hidden="true">
           {Array.from({ length: DOTS }, (_, i) => <i key={i} className={PULSING.has(i) ? 'pulse' : undefined} style={PULSING.has(i) ? { animationDelay: `${[...PULSING].indexOf(i) * 120}ms` } : undefined} />)}
@@ -34,11 +34,6 @@ export function Hud({ note }: { note: string }) {
       <section className="panel verify" aria-labelledby="h-verify">
         <header><h2 id="h-verify">Verification</h2></header>
         <p className="hint">{note}</p>
-        <p className="big-num">0<small>mismatches so far</small></p>
-        <div className="progress">
-          <div><span>Rows checked 0 of unknown</span></div>
-          <div className="bar" role="presentation"><i style={{ '--w': '0%' } as React.CSSProperties} /></div>
-        </div>
       </section>
     </div>
   );

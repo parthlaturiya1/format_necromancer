@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useRef } from 'react';
-import { L3Evidence } from '../layers/L3Evidence';
-import { describeLayout } from '../describe';
+import { describeLayout, describeShort } from '../describe';
+import { announce, type Region } from '../regions';
 import type { AppState } from '../state';
 import { FilePick } from './FilePick';
 
@@ -22,6 +22,8 @@ const GHOST = [
 ];
 const CELL = 10;
 const MAX_DPR = 2;
+const FRAME = 36; // px kept free around the picture for the frame and its glow
+const rowRegion = (regions: Region[], row: number) => regions.find((r) => r.kind === 'row' && r.rows[0] === row);
 
 function Ghost() {
   return (
@@ -36,7 +38,9 @@ function Ghost() {
 }
 
 /** Draws the real recovered RGB. Whole-number scaling, nearest neighbour, backing store sized for DPR (capped at 2). */
-function RecoveredCanvas({ width, height, rgb }: { width: number; height: number; rgb: Uint8Array }) {
+type RowPick = { regions: Region[]; selectedId: string | null; cursor: number | null; onCursor: (row: number | null) => void; onPickRow: (row: number, key: boolean) => void };
+
+function RecoveredCanvas({ width, height, rgb, regions, selectedId, cursor, onCursor, onPickRow }: { width: number; height: number; rgb: Uint8Array } & RowPick) {
   const wrap = useRef<HTMLDivElement>(null);
   const cv = useRef<HTMLCanvasElement>(null);
 
@@ -60,7 +64,7 @@ function RecoveredCanvas({ width, height, rgb }: { width: number; height: number
 
     const paint = () => {
       const dpr = Math.min(window.devicePixelRatio || 1, MAX_DPR);
-      const k = Math.max(1, Math.min(64, Math.floor(Math.min((box.clientWidth * dpr) / width, (box.clientHeight * dpr) / height))));
+      const k = Math.max(1, Math.min(64, Math.floor(Math.min(((box.clientWidth - FRAME) * dpr) / width, ((box.clientHeight - FRAME) * dpr) / height))));
       canvas.width = width * k;
       canvas.height = height * k;
       canvas.style.width = `${(width * k) / dpr}px`;
@@ -76,14 +80,57 @@ function RecoveredCanvas({ width, height, rgb }: { width: number; height: number
     return () => ro.disconnect();
   }, [width, height, rgb]);
 
+  const rowAt = (clientY: number, el: HTMLElement) => {
+    const r = (el.parentElement?.querySelector('canvas') ?? el).getBoundingClientRect();
+    return Math.max(0, Math.min(height - 1, Math.floor(((clientY - r.top) / r.height) * height)));
+  };
+  const step = (e: React.KeyboardEvent) => {
+    const at = cursor ?? 0;
+    const move: Record<string, number> = { ArrowDown: at + 1, ArrowUp: at - 1, PageDown: at + 10, PageUp: at - 10, Home: 0, End: height - 1 };
+    if (e.key in move) {
+      e.preventDefault();
+      onCursor(Math.max(0, Math.min(height - 1, move[e.key]!)));
+    } else if ((e.key === 'Enter' || e.key === ' ') && cursor !== null) {
+      e.preventDefault();
+      onPickRow(cursor, true);
+    }
+  };
+
   return (
     <div ref={wrap} className="canvas-wrap">
-      <canvas ref={cv} className="recovered" role="img" aria-label={`Recovered picture, ${width} by ${height} pixels, rebuilt from the file's bytes`} />
+      <div className="frame">
+        <canvas ref={cv} className="recovered" role="img" aria-label={`Recovered picture, ${width} by ${height} pixels, rebuilt from the file's bytes`} />
+        <div
+          className="row-hit"
+          role="listbox"
+          tabIndex={0}
+          aria-label={`Recovered rows, ${height}. Up and down arrows move, Enter picks a row.`}
+          aria-activedescendant={cursor !== null ? `row-opt-${cursor}` : undefined}
+          data-testid="row-list"
+          onFocus={() => cursor === null && onCursor(0)}
+          onBlur={() => onCursor(null)}
+          onKeyDown={step}
+          // Pick on pointer down: focusing the list can scroll the page before a click would land, and the row would shift.
+          onPointerDown={(e) => {
+            const row = rowAt(e.clientY, e.currentTarget);
+            onCursor(row);
+            onPickRow(row, false);
+          }}
+        >
+          {Array.from({ length: height }, (_, r) => {
+            const reg = rowRegion(regions, r);
+            return (
+              <div key={r} id={`row-opt-${r}`} role="option" aria-selected={reg?.id === selectedId} className="sr-only">
+                {reg ? announce(reg) : `Row ${r}, no evidence`}
+              </div>
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 }
-
-export function ImagePanel({ state, forcedLoading, onSample, onFile }: { state: AppState; forcedLoading: boolean; onSample: () => void; onFile: (f: File) => void }) {
+export function ImagePanel({ state, forcedLoading, onSample, onFile, ...pick }: RowPick & { state: AppState; forcedLoading: boolean; onSample: () => void; onFile: (f: File) => void }) {
   const busy = state.phase === 'loading' || state.phase === 'analysing' || forcedLoading;
   const rec = state.phase === 'done' ? state.result.recovered : null;
   const ok = rec && rec.status === 'ok' ? rec : null;
@@ -110,7 +157,7 @@ export function ImagePanel({ state, forcedLoading, onSample, onFile }: { state: 
         </header>
         <div className="image-stage" data-state={view}>
           {view === 'done' && ok ? (
-            <RecoveredCanvas width={ok.width} height={ok.height} rgb={ok.rgb} />
+            <RecoveredCanvas width={ok.width} height={ok.height} rgb={ok.rgb} {...pick} />
           ) : view === 'loading' ? (
             <>
               <div className="pulse"><Ghost /></div>
@@ -133,22 +180,23 @@ export function ImagePanel({ state, forcedLoading, onSample, onFile }: { state: 
           )}
         </div>
         {ok ? (
-          <p className="hyp">
-            <strong>Hypothesis 1 of {total}:</strong> {hyp ? describeLayout(hyp.layout) : 'rule not named by the engine.'}
-          </p>
-        ) : null}
-        <div className="progress">
-          <div>
-            <span>{ok ? `Rows rebuilt ${ok.height} of ${ok.height}` : 'Rows rebuilt 0 of unknown'}</span>
-            <span className="mono">{ok ? '100%' : '0%'}</span>
+          <div className="hyp">
+            <p><strong>Hypothesis 1 of {total}</strong> {hyp ? describeShort(hyp.layout) : ''}</p>
+            <details>
+              <summary>Show the full reading</summary>
+              <p>{hyp ? describeLayout(hyp.layout) : 'The engine named no rule.'}</p>
+            </details>
           </div>
-          <div className="bar" role="presentation"><i style={{ '--w': ok ? '100%' : '0%' } as React.CSSProperties} /></div>
-        </div>
-        <L3Evidence />
-      </section>
-      <section className="panel panel-inspector" aria-labelledby="h-inspector">
-        <h2 id="h-inspector">No region selected</h2>
-        <p>Pick bytes or a row to see the region, its rule, its byte range and its confidence.</p>
+        ) : null}
+        {ok ? (
+          <div className="progress">
+            <div>
+              <span>Rows rebuilt {ok.height} of {ok.height}</span>
+              <span className="mono">100%</span>
+            </div>
+            <div className="bar" role="presentation"><i style={{ '--w': '100%' } as React.CSSProperties} /></div>
+          </div>
+        ) : null}
       </section>
     </div>
   );

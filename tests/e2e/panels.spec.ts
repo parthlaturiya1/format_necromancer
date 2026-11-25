@@ -33,7 +33,7 @@ test('sample: the real engine rebuilds the picture, panels show it', async ({ pa
   const canvas = page.locator('canvas.recovered');
   await expect(canvas).toBeVisible({ timeout: 20000 });
   await expect(page.getByText('Rows rebuilt 111 of 111')).toBeVisible();
-  await expect(page.getByText(/Hypothesis 1 of \d+:/)).toBeVisible();
+  await expect(page.getByText(/Hypothesis 1 of \d+/)).toBeVisible();
   await expect(page.getByText('Reference picture loaded after recovery')).toBeVisible();
   expect(requested.some((p) => p.endsWith('rings-rand-111x111.png'))).toBe(true);
   // The picture is colourful (not blank): count distinct colours on the canvas.

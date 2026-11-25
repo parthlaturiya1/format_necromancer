@@ -1,8 +1,9 @@
 'use client';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import type { Recovered } from '../../engine/recover';
 import type { AppState } from '../state';
-import { buildIndex, statesFor, type ByteState } from '../hex/intervals';
+import { statesFor } from '../hex/intervals';
+import { indexFromRegions, type Region } from '../regions';
+import type { Sel } from '../selection';
 import { FilePick } from './FilePick';
 
 export const ROW_H = 22; // px, must match --row-h in shell.css
@@ -20,19 +21,12 @@ const placeholder = (() => {
   }));
 })();
 
-/** Evidence ranges to an interval index. A row's status gives the state of every range that row's evidence names. */
-export function indexFromRecovered(rec: Recovered | null) {
-  if (!rec || rec.status !== 'ok') return [];
-  const status = new Map(rec.rows.map((r) => [r.evidenceId, r.status]));
-  const code: Record<string, ByteState> = { ok: 2, uncertain: 1, unexplained: 0 };
-  const items = rec.evidence.flatMap((e) => e.byteRanges.map((range) => ({ range, state: code[status.get(e.elementId) ?? 'unexplained']! })));
-  return buildIndex(items);
-}
+type Pick = { regions: Region[]; sel: Sel | null; selected: Region | null; onPickByte: (offset: number) => void };
 
-function HexView({ bytes, rec, name }: { bytes: Uint8Array; rec: Recovered | null; name: string }) {
+function HexView({ bytes, name, regions, sel, selected, onPickByte }: Pick & { bytes: Uint8Array; name: string }) {
   const box = useRef<HTMLDivElement>(null);
   const [view, setView] = useState({ top: 0, h: 480 });
-  const index = useMemo(() => indexFromRecovered(rec), [rec]);
+  const index = useMemo(() => indexFromRegions(regions), [regions]);
   const raf = useRef(0);
 
   useEffect(() => {
@@ -45,6 +39,15 @@ function HexView({ bytes, rec, name }: { bytes: Uint8Array; rec: Recovered | nul
     return () => { ro.disconnect(); cancelAnimationFrame(raf.current); };
   }, [bytes]);
 
+  // Selecting a row or a region scrolls the bytes it uses into the middle. A byte click does not move the view.
+  useEffect(() => {
+    const q = selected?.ranges[0];
+    const el = box.current;
+    if (!sel || sel.from === 'byte' || !q || !el) return;
+    el.scrollTop = Math.max(0, ((q.start + q.end - 1) / 2 / PER_ROW) * ROW_H - el.clientHeight / 2);
+  }, [sel, selected]);
+
+  const lit = (o: number) => selected?.ranges.some((q) => o >= q.start && o < q.end) ?? false;
   const rows = Math.ceil(bytes.length / PER_ROW);
   const first = Math.max(0, Math.floor(view.top / ROW_H) - OVERSCAN);
   const last = Math.min(rows, Math.ceil((view.top + view.h) / ROW_H) + OVERSCAN);
@@ -57,7 +60,7 @@ function HexView({ bytes, rec, name }: { bytes: Uint8Array; rec: Recovered | nul
       <div className="hex-row" key={r} style={{ height: ROW_H }}>
         <span className="hex-off">{hex(off, 6)}</span>
         <span className="hex-bytes">
-          {st.map((s, i) => <span key={i} className={`b s${s}`}>{hex(bytes[off + i]!, 2)}</span>)}
+          {st.map((s, i) => <span key={i} data-o={off + i} className={`b s${s}${lit(off + i) ? ' sel' : ''}${sel?.offset === off + i ? ' cur' : ''}`}>{hex(bytes[off + i]!, 2)}</span>)}
         </span>
       </div>,
     );
@@ -71,6 +74,10 @@ function HexView({ bytes, rec, name }: { bytes: Uint8Array; rec: Recovered | nul
       tabIndex={0}
       aria-label={`Bytes of ${name}, ${bytes.length.toLocaleString('en-US')} bytes, 16 per row. Scroll with the arrow keys.`}
       data-rows={rows}
+      onClick={(e) => {
+        const o = (e.target as HTMLElement).closest('[data-o]')?.getAttribute('data-o');
+        if (o) onPickByte(Number(o));
+      }}
       onScroll={(e) => {
         const top = e.currentTarget.scrollTop;
         cancelAnimationFrame(raf.current);
@@ -84,9 +91,8 @@ function HexView({ bytes, rec, name }: { bytes: Uint8Array; rec: Recovered | nul
   );
 }
 
-export function BytesPanel({ state, onFile }: { state: AppState; onFile: (f: File) => void }) {
+export function BytesPanel({ state, onFile, ...pick }: Pick & { state: AppState; onFile: (f: File) => void }) {
   const bytes = state.phase === 'analysing' || state.phase === 'done' ? state.bytes : null;
-  const rec = state.phase === 'done' ? state.result.recovered : null;
   const label =
     bytes ? `${bytes.length.toLocaleString('en-US')} bytes` :
     state.phase === 'loading' ? 'Reading the file' :
@@ -99,7 +105,7 @@ export function BytesPanel({ state, onFile }: { state: AppState; onFile: (f: Fil
         <FilePick label="Choose file" className="btn ghost-btn btn-sm" onFile={onFile} testId="bytes-file-input" />
       </header>
       {bytes ? (
-        <HexView bytes={bytes} rec={rec} name={state.phase === 'analysing' || state.phase === 'done' ? state.name : 'file'} />
+        <HexView bytes={bytes} {...pick} name={state.phase === 'analysing' || state.phase === 'done' ? state.name : 'file'} />
       ) : (
         <>
           <div className="hex hex-idle" aria-hidden="true">
