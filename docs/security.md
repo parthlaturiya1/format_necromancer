@@ -2,7 +2,7 @@
 
 ## CSP relaxations (D-07)
 - `script-src 'unsafe-inline'` and `style-src 'unsafe-inline'`: the Next.js static export inlines small hydration scripts and styles. Replace with hashes if the export can emit them (revisit at T-22).
-- `worker-src blob:`: reserved for Web Workers. Remove if workers load from `'self'` only.
+- `worker-src blob:`: removed 2026-11-26 (H5). Workers load from `'self'` only.
 
 Everything else is `'self'`: no remote origins, no framing (`frame-ancestors 'none'`).
 
@@ -16,7 +16,7 @@ Scope: guardrails 5, 6, 11 (`.kiro/steering/product.md`), D-02, D-05, D-07, D-11
 | H2 | No framing: `frame-ancestors 'none'` plus `X-Frame-Options: DENY` | OK | `vercel.json` lines 6, 7 |
 | H3 | `X-Content-Type-Options: nosniff`, `Referrer-Policy: no-referrer`, `Permissions-Policy` (camera, microphone, geolocation off) | OK | `vercel.json` lines 8 to 10 |
 | H4 | `script-src 'unsafe-inline'`: an injected inline script would run. Recorded relaxation, permitted by D-07, still the weakest part of the policy | ISSUE | `vercel.json` line 6; relaxation above |
-| H5 | `worker-src blob:` looks unneeded: the only worker loads from the same origin as a module | ISSUE | `src/ui/worker/client.ts:28`; not checked whether the built bundle uses a blob worker |
+| H5 | `worker-src blob:` was not needed: golden run (5 of 5, 0 console errors) passes against a server sending the vercel.json CSP without `blob:`; a control with `worker-src 'none'` fails. `blob:` removed from `worker-src` | OK (2026-11-26) | `vercel.json`; `scripts/budgets/serve-with-csp.mjs`; `docs/verification/t21c-budgets.md` |
 | H6 | Headers exist only on Vercel. The static export ignores `next.config` headers (D-05), so `scripts/serve.mjs` and the optional Cloudflare mirror serve without this CSP | ISSUE | `next.config.ts` (`output: 'export'`, no headers); mirror headers NOT FOUND |
 | H7 | Headers not checked on a live response | NOT VERIFIED | No deploy URL tested |
 
@@ -37,7 +37,7 @@ Searched for `fetch(`, `XMLHttpRequest`, `WebSocket`, `sendBeacon`, `EventSource
 | S2 | No `.env` file tracked; `.env*` is ignored | OK | `.gitignore` |
 | S3 | `.kiro/` is tracked (19 files) and not ignored | OK | `git ls-files .kiro`, `git check-ignore .kiro` empty |
 | S4 | `LICENSE` exists | OK | `LICENSE` |
-| S5 | The verify secret scan is still a regex over tracked files, which its own comment says to upgrade at T-21. Git history was not scanned, by it or by me | ISSUE | `scripts/verify.mjs:16` |
+| S5 | Full git history scanned once (`git log -p --all`, 54 commits, 42,692 diff lines): 0 findings for the verify patterns, AWS AKIA, ghp_/github_pat_, private key headers, .env-style KEY=. No .env, .pem, .key or id_* file name ever committed. The verify scan itself is still a regex over tracked files, not a real scanner | OK (2026-11-26) | `docs/verification/t21c-budgets.md`; `scripts/verify.mjs` |
 
 ### Dependencies
 | # | Item | Result | Evidence |
@@ -68,4 +68,4 @@ Searched for `fetch(`, `XMLHttpRequest`, `WebSocket`, `sendBeacon`, `EventSource
 | P1 | No cookies or analytics; file bytes are never stored | OK | No `document.cookie` or analytics matches in `src/` |
 | P2 | `sessionStorage` keeps two UI choices (`fn.speed`, `fn.reduced`). `docs/privacy.md` does not mention this | ISSUE | `src/ui/Shell.tsx:29-30`, `:76-79` |
 
-Open issues: H4, H5, H6, S5, X7, P2. H7 is still unverified.
+Open issues: H4, H6, X7, P2. H7 is still unverified.

@@ -2,6 +2,8 @@ https://format-necromancer.vercel.app
 
 # Format Necromancer
 
+[![verify](https://github.com/parthlaturiya1/format_necromancer/actions/workflows/verify.yml/badge.svg)](https://github.com/parthlaturiya1/format_necromancer/actions/workflows/verify.yml)
+
 ![The finished screen: a recovered picture, the file's bytes with the matching rows lit, the Confidence Grid and the verification panel reading Exact match](docs/verification/screens/t17-done.png)
 
 Created by Parth Radheshyam Laturiya. Direction, product decisions and review by the owner; code written by Kiro.
@@ -57,6 +59,7 @@ Every number comes from a report in this repo.
 | Frame rate, reveal at 1x, headless Chromium | On a host with 3 to 4.7 GB free memory: p50 59.9 fps, p95 59.5 fps (16.8 ms). On a host with about 2 GB free: p50 59.9 fps in 3 of 4 runs (one run 30), p95 dropped to 15 to 20 fps and failed the 55 fps bar. Frame rate depends on host memory. Not measured on a real GPU or phone. | [t17-hud.md](docs/verification/t17-hud.md), [t18-failure.md](docs/verification/t18-failure.md) |
 | Failure flow (T-18) | corrupt-tail-cut (last 768 bytes cut) ends with no picture and the engine's reason. The corrupted-tail cases end unrecovered for 21 of 44 files in the mutation set. | [t18-failure.md](docs/verification/t18-failure.md) |
 | Signature-changed sample (T-18) | First byte changed: exact, 0 of 12,321 pixels differ, checked against the source sample's reference. | [t18-failure.md](docs/verification/t18-failure.md) |
+| Budgets (T-21c) | Enforced in `npm run verify` step 8 and in CI: landing JS under 250,000 bytes gzipped, engine under 3 s on 1 MiB and on every tuning sample. Lighthouse is not configured. | [t21c-budgets.md](docs/verification/t21c-budgets.md) |
 | Full gate | `npm run verify`: see the latest run | [latest.md](docs/verification/latest.md) |
 
 Limits. The blind-test file comes from the same generator as the tuning files, so it shows the path works on a file never seen, not that it works on real-world files. The verify step for performance budgets is a stub, so the budgets in `.kiro/steering/tech.md` (D-10) are not all enforced by the gate. Only the numbers above were measured.

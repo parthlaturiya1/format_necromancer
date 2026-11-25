@@ -8,11 +8,6 @@ const node = process.execPath;
 const bin = (p) => [node, p];
 const env = { ...process.env, NEXT_TELEMETRY_DISABLED: '1' };
 
-const stub = (why) => () => {
-  console.log(`STUB: ${why}`);
-  return 0;
-};
-
 // shortcut: secret scan is a regex over git-tracked files, not a real scanner; upgrade at T-21.
 const secretScan = () => {
   const files = execFileSync('git', ['ls-files', '-z'], { encoding: 'utf8' }).split('\0').filter(Boolean);
@@ -51,6 +46,22 @@ const goldenCorpus = () => {
   return spawnSync(node, ['node_modules/vitest/vitest.mjs', 'run', 'tests/engine/golden-report.test.ts', 'tests/engine/golden-v2.test.ts', 'tests/engine/png.test.ts', 'tests/engine/recover.test.ts', 'tests/engine/mutations.test.ts'], { stdio: 'inherit', env }).status ?? 1;
 };
 
+// T-21c: step 8 is real. Page JS (gzipped, per route) and engine timing (1 MiB + every tuning sample) fail the gate when over D-10 limits.
+// Lighthouse: not configured (would add a dependency, D-14).
+const budgetLines = [];
+const budgets = () => {
+  let code = spawnSync(node, ['scripts/budgets/js-size.mjs'], { stdio: 'inherit', env }).status ?? 1;
+  const t = spawnSync(node, ['node_modules/vitest/vitest.mjs', 'run', '--config', 'scripts/budgets/vitest.config.mts'], { stdio: 'inherit', env }).status ?? 1;
+  code = code || t;
+  const read = (f) => (existsSync(f) ? JSON.parse(readFileSync(f, 'utf8')) : null);
+  const js = read('test-results/budgets-js.json');
+  const eng = read('test-results/budgets-engine.json');
+  if (js) for (const r of js.rows) budgetLines.push(`- JS ${r.route}: ${r.missing ? 'missing' : `${r.bytes} bytes gzipped, ${r.files} files`} (limit ${js.limit})`);
+  if (eng) for (const r of eng.rows) budgetLines.push(`- Engine ${r.name}: ${r.ms} ms for ${r.bytes} bytes (limit ${eng.limitMs} ms)`);
+  budgetLines.push('- Lighthouse: not configured (would add a dependency)');
+  return code;
+};
+
 const steps = [
   ['1 Typecheck', run([...bin('node_modules/typescript/bin/tsc'), '--noEmit'])],
   ['2 Lint', run([...bin('node_modules/eslint/bin/eslint.js'), '.'])],
@@ -59,7 +70,7 @@ const steps = [
   ['5 Golden corpus', goldenCorpus],
   ['6 Build', run([...bin('node_modules/next/dist/bin/next'), 'build'])],
   ['7 Playwright e2e', run([...bin('node_modules/@playwright/test/cli.js'), 'test'])],
-  ['8 Budgets', stub('engine timing, bundle size, Lighthouse CI not configured yet')],
+  ['8 Budgets', budgets],
   ['9a Audit (high/critical)', shell('npm audit --audit-level=high')],
   ['9b Secret scan', secretScan],
   ['10 provenance:check', provenanceCheck],
@@ -92,6 +103,10 @@ const md = [
   '| Step | Result |',
   '|---|---|',
   ...results.map(([n, r]) => `| ${n} | ${r} |`),
+  '',
+  '## Budgets (step 8)',
+  '',
+  ...(budgetLines.length ? budgetLines : ['Not run.']),
   '',
   `## Provenance warnings (${warnings.length})`,
   '',
