@@ -1,4 +1,6 @@
 import type { ReactNode } from 'react';
+import '../ui/tokens.css';
+import '../ui/shell.css';
 
 export const metadata = {
   title: 'Format Necromancer',

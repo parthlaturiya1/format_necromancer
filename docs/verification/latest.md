@@ -1,24 +1,26 @@
 # Verification
 
 Overall: **PASS**
-Run: 2026-11-25T11:35:52.189Z, Node v26.13.1
+Run: 2026-11-25T11:45:24.280Z, Node v26.13.1
 
 | Step | Result |
 |---|---|
-| 1 Typecheck | PASS (2.7s) |
-| 2 Lint | PASS (4.1s) |
-| 3 Unit tests | PASS (1.8s) |
-| 4 Property tests | PASS (4.8s) |
-| 5 Golden corpus | PASS (2.0s) |
-| 6 Build | PASS (6.2s) |
-| 7 Playwright e2e | PASS (2.9s) |
+| 1 Typecheck | PASS (1.3s) |
+| 2 Lint | PASS (2.1s) |
+| 3 Unit tests | PASS (1.1s) |
+| 4 Property tests | PASS (2.9s) |
+| 5 Golden corpus | PASS (1.2s) |
+| 6 Build | PASS (3.7s) |
+| 7 Playwright e2e | PASS (6.3s) |
 | 8 Budgets | PASS (stub, 0.0s) |
-| 9a Audit (high/critical) | PASS (1.6s) |
-| 9b Secret scan | PASS (0.2s) |
-| 10 provenance:check | PASS (0.2s) |
+| 9a Audit (high/critical) | PASS (0.9s) |
+| 9b Secret scan | PASS (0.1s) |
+| 10 provenance:check | PASS (0.1s) |
 
-## Provenance warnings (558)
+## Provenance warnings (560)
 
+- UNATTRIBUTED de158ae docs/verification/latest.md
+- UNATTRIBUTED de158ae tests/unit/corpus.test.ts
 - UNATTRIBUTED fc6ef15 src/engine/worker-protocol.ts
 - UNATTRIBUTED fc6ef15 src/engine/worker.ts
 - UNATTRIBUTED fc6ef15 tests/engine/worker.test.ts

@@ -1,0 +1,3 @@
+Fonts: Inter and JetBrains Mono, variable, latin subset, SIL OFL 1.1.
+Source: npm packages @fontsource-variable/inter 5.3.0 and @fontsource-variable/jetbrains-mono 5.3.0 (files/*-latin-wght-normal.woff2), fetched with npm pack, not installed as dependencies.
+Original projects: github.com/rsms/inter, github.com/JetBrains/JetBrainsMono.

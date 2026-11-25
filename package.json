@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "description": "Browser-only app that recovers a dead file format from bytes alone.",
-  "engines": { "node": ">=22.12.0" },
+  "engines": {
+    "node": ">=22.12.0"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -28,6 +30,7 @@
     "@types/node": "26.6.10",
     "@types/react": "19.3.2",
     "@types/react-dom": "19.3.0",
+    "axe-core": "4.14.1",
     "eslint": "9.39.5",
     "eslint-config-next": "16.4.6",
     "fast-check": "4.11.0",
