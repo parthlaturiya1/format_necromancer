@@ -1,5 +1,6 @@
 import type { EngineConfig } from '../config';
 import type { ByteRange } from '../types';
+import type { WorkMeter } from '../work';
 
 export type RepeatCandidate =
   | { kind: 'byte-run'; range: ByteRange; value: number }
@@ -10,9 +11,10 @@ export type RepeatCandidate =
  * back to back, exactly. Pure: bytes and config in, candidates out, sorted by start then kind.
  * Candidates are statistics about the bytes; they name no format.
  */
-export function detectRepetition(bytes: Uint8Array, config: EngineConfig): RepeatCandidate[] {
+export function detectRepetition(bytes: Uint8Array, config: EngineConfig, meter?: WorkMeter): RepeatCandidate[] {
   const out: RepeatCandidate[] = [];
   const n = bytes.length;
+  meter?.spend(n * (1 + config.repeatStructSizes.length)); // one pass for byte runs, one per structure size
   const cap = config.maxGenericCandidates;
 
   for (let i = 0; i < n && out.length < cap; ) {

@@ -1,5 +1,6 @@
 import type { EngineConfig } from '../config';
 import type { BoxCandidate } from './box-numbers';
+import type { WorkMeter } from '../work';
 import type { HeaderCandidate } from './header-block';
 
 export type StrideCandidate = {
@@ -13,7 +14,8 @@ export type StrideCandidate = {
  * `height` equal rows, each at least `width` long and at most maxStridePad longer.
  * Returns null when it does not fit. Where the same number sits in the header, its offset is reported.
  */
-export function detectRowStride(bytes: Uint8Array, config: EngineConfig, header: HeaderCandidate, box: BoxCandidate): StrideCandidate | null {
+export function detectRowStride(bytes: Uint8Array, config: EngineConfig, header: HeaderCandidate, box: BoxCandidate, meter?: WorkMeter): StrideCandidate | null {
+  meter?.spend(header.headerLength + 1);
   const len = header.bodyOutputLength;
   if (len % box.height !== 0) return null;
   const rowStride = len / box.height;

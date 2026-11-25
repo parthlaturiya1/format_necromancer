@@ -7,6 +7,7 @@ import { detectRowStride, type StrideCandidate } from './detectors/row-stride';
 import { detectRunPairs } from './detectors/run-length';
 import { detectTables } from './detectors/table-like';
 import { createEvidence, sortEvidence } from './evidence';
+import { createWorkMeter, WORK_LIMIT_REASON, WorkLimitError, type WorkMeter } from './work';
 import type { AnalysisResult, ByteRange, Evidence, Hypothesis, Layout } from './types';
 
 type Draft = { header: HeaderCandidate; box?: BoxCandidate; stride?: StrideCandidate; confidence: number };
@@ -87,7 +88,7 @@ function whyLost(loser: Draft, winner: Draft): string {
  * on every tuning sample, so there is no room to raise it, and moving it would risk the T-06 order.
  * Records are in plain words and every range is inside the input.
  */
-function genericEvidence(bytes: Uint8Array, config: EngineConfig, winner: Draft, hypothesisId: string): Evidence[] {
+function genericEvidence(bytes: Uint8Array, config: EngineConfig, winner: Draft, hypothesisId: string, meter: WorkMeter): Evidence[] {
   const out: Evidence[] = [];
   const c = winner.confidence;
   const hl = winner.header.headerLength;
@@ -95,7 +96,7 @@ function genericEvidence(bytes: Uint8Array, config: EngineConfig, winner: Draft,
   const make = (elementId: string, byteRanges: ByteRange[], rule: string, share: number) =>
     out.push(createEvidence({ elementId, byteRanges: byteRanges.slice(0, config.maxGenericCandidates), rule, confidence: round3(c * Math.min(1, Math.max(0, share))), hypothesisId }));
 
-  const rep = detectRepetition(bytes, config);
+  const rep = detectRepetition(bytes, config, meter);
   const runs = rep.filter((r) => r.kind === 'byte-run');
   const structs = rep.filter((r) => r.kind === 'structure');
   const sum = (l: { range: ByteRange }[]) => l.reduce((a, r) => a + r.range.end - r.range.start, 0);
@@ -103,15 +104,15 @@ function genericEvidence(bytes: Uint8Array, config: EngineConfig, winner: Draft,
   if (structs.length) make('repeat-structures', structs.map((r) => r.range), `${structs.length} stretch(es) where a block of the same size repeats back to back at least ${config.repeatMinCopies} times, ${sum(structs)} bytes in all.`, sum(structs) / bytes.length);
 
   if (bodyEnd > hl) {
-    const pairs = detectRunPairs(bytes.subarray(hl, bodyEnd), config);
+    const pairs = detectRunPairs(bytes.subarray(hl, bodyEnd), config, meter);
     const best = pairs.reduce<(typeof pairs)[number] | undefined>((a, p) => (!a || p.score > a.score ? p : a), undefined);
     if (best) make('run-pairs', [{ start: hl, end: bodyEnd }], `In the body, ${best.pairs} bytes whose top ${best.prefixBits} bit(s) are all set are followed by a byte that is not one (${Math.round(best.followShare * 100)}% of such bytes; random data would give about ${Math.round((1 - 2 ** -best.prefixBits) * 100)}%).`, best.followShare);
   }
 
-  const pal = detectPalette(bytes, config);
+  const pal = detectPalette(bytes, config, meter);
   if (pal.length) make('palette', pal.map((p) => p.range), `${pal.length} block(s) of ${pal.map((p) => p.entries).join(', ')} three-byte entries whose neighbours change by at most ${config.paletteMaxStep} per byte on average and are almost all different.`, Math.min(...pal.map((p) => p.distinct)));
 
-  const tab = detectTables(bytes, config);
+  const tab = detectTables(bytes, config, meter);
   if (tab.length) make('table-records', tab.map((t) => t.range), `${tab.length} region(s) of fixed-width records (widths ${tab.map((t) => t.width).join(', ')} bytes) where between ${Math.round(config.tableMatchShare[0] * 100)}% and ${Math.round(config.tableMatchShare[1] * 100)}% of bytes equal the byte one record earlier.`, Math.min(...tab.map((t) => t.matchShare)));
   return out;
 }
@@ -120,22 +121,22 @@ function unrecovered(reason: string): AnalysisResult {
   return { status: 'unrecovered', reason };
 }
 
-function run(bytes: Uint8Array, config: EngineConfig): AnalysisResult {
+function run(bytes: Uint8Array, config: EngineConfig, meter: WorkMeter): AnalysisResult {
   const n = bytes.length;
   if (n === 0) return unrecovered('The input is empty.');
   if (n < config.minInputBytes) return unrecovered(`The input has ${n} bytes, fewer than the ${config.minInputBytes} needed to look for a layout.`);
   if (n > config.maxInputBytes) return unrecovered(`The input has ${n} bytes, more than the ${config.maxInputBytes} byte limit.`);
 
-  const headers = detectHeaderBlocks(bytes, config);
+  const headers = detectHeaderBlocks(bytes, config, meter);
   if (headers.length === 0) return unrecovered('No header size, end-table size and run mask made the body decode using every byte.');
-  const boxes = detectBoxNumbers(bytes, config);
+  const boxes = detectBoxNumbers(bytes, config, meter);
 
   const drafts: Draft[] = [];
   for (const header of headers) {
     let matched = false;
     for (const box of boxes) {
       if (box.offset + 8 > header.headerLength) continue;
-      const stride = detectRowStride(bytes, config, header, box);
+      const stride = detectRowStride(bytes, config, header, box, meter);
       if (stride) {
         drafts.push({ header, box, stride, confidence: 0 });
         matched = true;
@@ -187,15 +188,19 @@ function run(bytes: Uint8Array, config: EngineConfig): AnalysisResult {
   }
   ev.push(createEvidence({ elementId: 'body', byteRanges: [{ start: hl, end: bodyEnd }], rule: `Bytes ${hl} to ${bodyEnd} decode with run mask ${winner.header.runMarkerMask} using every byte, giving ${winner.header.bodyOutputLength} values.`, confidence: c, hypothesisId: id }));
   if (winner.header.tailLength > 0) ev.push(createEvidence({ elementId: 'table-tail', byteRanges: [{ start: bodyEnd, end: n }], rule: `Last ${winner.header.tailLength} bytes tried as a table block; the body before it decodes exactly.`, confidence: round3(c * 0.9), hypothesisId: id }));
-  ev.push(...genericEvidence(bytes, config, winner, id));
+  ev.push(...genericEvidence(bytes, config, winner, id, meter));
   return { status: 'ok', hypotheses, evidence: sortEvidence(ev) };
 }
 
-/** Analyze the bytes of one file. Never throws. Deterministic: no clock, no randomness, no I/O. */
-export function analyze(bytes: Uint8Array, config: EngineConfig = defaultConfig): AnalysisResult {
+/**
+ * Analyze the bytes of one file. Never throws. Deterministic: no clock, no randomness, no I/O.
+ * `meter` is the shared work counter (T-21b); without one, a fresh meter with config.workBudget is made.
+ */
+export function analyze(bytes: Uint8Array, config: EngineConfig = defaultConfig, meter: WorkMeter = createWorkMeter(config.workBudget)): AnalysisResult {
   try {
-    return run(bytes, config);
+    return run(bytes, config, meter);
   } catch (e) {
+    if (e instanceof WorkLimitError) return unrecovered(WORK_LIMIT_REASON + '.');
     return unrecovered(`The analyzer failed on this input: ${e instanceof Error ? e.message : 'unknown error'}.`);
   }
 }

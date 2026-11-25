@@ -1,5 +1,6 @@
 import type { EngineConfig } from '../config';
 import type { ByteRange } from '../types';
+import type { WorkMeter } from '../work';
 
 export type PaletteCandidate = { range: ByteRange; entries: number; meanStep: number; distinct: number };
 
@@ -10,13 +11,15 @@ export type PaletteCandidate = { range: ByteRange; entries: number; meanStep: nu
  * and at least paletteMinDistinct of its entries differ from all others. Fixed-size windows use
  * running sums, so cost is linear in the input size. Windows are kept left to right, none overlapping.
  */
-export function detectPalette(bytes: Uint8Array, config: EngineConfig): PaletteCandidate[] {
+export function detectPalette(bytes: Uint8Array, config: EngineConfig, meter?: WorkMeter): PaletteCandidate[] {
   const n = bytes.length;
   const all: PaletteCandidate[] = [];
   for (const entries of config.paletteEntryCounts) {
     const len = entries * 3;
     if (!Number.isInteger(entries) || entries < 2 || len > n) continue;
     // step[i] = |bytes[i+3] - bytes[i]|; prefix[i] = sum of step[0..i)
+    // Charge the prefix pass, the scan, and the worst case of distinctShare (at most maxGenericCandidates x 8 windows of `entries` reads).
+    meter?.spend(2 * n + config.maxGenericCandidates * 8 * entries);
     const prefix = new Float64Array(n - 2);
     for (let i = 0; i + 3 < n; i++) prefix[i + 1] = prefix[i]! + Math.abs(bytes[i + 3]! - bytes[i]!);
     // Scan left to right. A window that passes both tests is kept and the scan jumps past it.

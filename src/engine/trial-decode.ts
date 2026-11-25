@@ -22,7 +22,8 @@ export function readToken(bytes: Uint8Array, i: number, end: number, mask: numbe
 }
 
 /** Decode bytes[start, end) with the given run mask. ok is true only if every byte is used and no run is cut off. */
-export function trialDecode(bytes: Uint8Array, start: number, end: number, mask: number): TrialResult {
+/** With maxOutput, stops as not ok once the output passes it, so a crafted body cannot chain counts into a huge total. */
+export function trialDecode(bytes: Uint8Array, start: number, end: number, mask: number, maxOutput = Infinity): TrialResult {
   let i = start;
   let out = 0;
   let steps = 0;
@@ -31,6 +32,7 @@ export function trialDecode(bytes: Uint8Array, start: number, end: number, mask:
     const t = readToken(bytes, i, end, mask);
     if (!t) return { ok: false, outputLength: out, steps };
     out += t.count;
+    if (out > maxOutput) return { ok: false, outputLength: out, steps };
     i += t.length;
   }
   return { ok: out > 0, outputLength: out, steps };

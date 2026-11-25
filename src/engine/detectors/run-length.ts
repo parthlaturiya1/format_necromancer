@@ -1,4 +1,5 @@
 import type { EngineConfig } from '../config';
+import type { WorkMeter } from '../work';
 
 export type RunPairCandidate = {
   /** How many top bits, all set, were treated as a marker. */
@@ -19,9 +20,10 @@ export type RunPairCandidate = {
  * Random bytes fail the follow share (about 1 - 2^-p); real count-value data mostly passes because markers are rarely followed by markers.
  * Returns one candidate per width that has enough pairs, a high follow share and markers on less than half of the bytes.
  */
-export function detectRunPairs(bytes: Uint8Array, config: EngineConfig): RunPairCandidate[] {
+export function detectRunPairs(bytes: Uint8Array, config: EngineConfig, meter?: WorkMeter): RunPairCandidate[] {
   const out: RunPairCandidate[] = [];
   const n = bytes.length;
+  meter?.spend(n * config.runPrefixBits.length);
   if (n === 0) return out;
   for (const p of config.runPrefixBits) {
     if (!Number.isInteger(p) || p < 1 || p > 7) continue;

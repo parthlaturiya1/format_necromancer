@@ -1,7 +1,8 @@
-﻿import { analyze } from './analyze';
+import { analyze } from './analyze';
 import { defaultConfig, type EngineConfig } from './config';
 import { recover, type Recovered } from './recover';
 import type { AnalysisResult } from './types';
+import { createWorkMeter } from './work';
 import { verify, type Reference, type VerificationReport } from './verify';
 
 export type PipelineResult = { analysis: AnalysisResult; recovered: Recovered; verification?: VerificationReport };
@@ -16,8 +17,9 @@ export function runPipeline(bytes: Uint8Array, config: EngineConfig = defaultCon
   if (bytes.length === 0) return stop('The input is empty.');
   if (bytes.length < config.minInputBytes) return stop(`The input has ${bytes.length} bytes, fewer than the ${config.minInputBytes} needed to look for a layout.`);
   if (bytes.length > config.maxInputBytes) return stop(`The input has ${bytes.length} bytes, more than the ${config.maxInputBytes} byte limit.`);
-  const analysis = analyze(bytes, config);
-  const recovered = recover(bytes, analysis, config);
+  const meter = createWorkMeter(config.workBudget); // one counter for the whole file (T-21b)
+  const analysis = analyze(bytes, config, meter);
+  const recovered = recover(bytes, analysis, config, meter);
   return reference === undefined ? { analysis, recovered } : { analysis, recovered, verification: verify(recovered, reference) };
 }
 

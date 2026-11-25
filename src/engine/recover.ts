@@ -1,6 +1,7 @@
 import { defaultConfig, type EngineConfig } from './config';
 import { decodeRunLengthRows } from './decoders/run-length-rows';
 import { createEvidence } from './evidence';
+import { createWorkMeter, WORK_LIMIT_REASON, WorkLimitError, type WorkMeter } from './work';
 import type { AnalysisResult, ByteRange, Evidence } from './types';
 
 export type RowStatus = 'ok' | 'uncertain' | 'unexplained';
@@ -15,7 +16,7 @@ const unrecovered = (reason: string): Recovered => ({ status: 'unrecovered', rea
 /** Colour entries are 3 bytes; a one-byte index can name at most this many. */
 const MAX_TABLE_ENTRIES = 256;
 
-function run(bytes: Uint8Array, analysis: AnalysisResult, config: EngineConfig): Recovered {
+function run(bytes: Uint8Array, analysis: AnalysisResult, config: EngineConfig, meter: WorkMeter): Recovered {
   if (analysis.status !== 'ok') return unrecovered(`There is nothing to rebuild: ${analysis.reason}`);
   const hyp = analysis.hypotheses.find((h) => h.rank === 1) ?? analysis.hypotheses[0];
   if (!hyp) return unrecovered('The analyzer returned no hypothesis.');
@@ -40,6 +41,8 @@ function run(bytes: Uint8Array, analysis: AnalysisResult, config: EngineConfig):
   if (tailLength > 0 && l.tableTailOffset !== bodyEnd) return unrecovered('The end table does not sit at the end of the file.');
   if (!(Number.isInteger(header) && header >= 0 && header < bodyEnd)) return unrecovered('The header leaves no body bytes.');
 
+  // Charge the body bytes, the output values and the pixel loop before doing them (T-21b).
+  meter.spend(bodyEnd - header + stride * height + width * height);
   const decoded = decodeRunLengthRows(bytes, header, bodyEnd, mask, stride, height);
   if (!decoded.ok) return unrecovered(decoded.reason);
 
@@ -122,10 +125,11 @@ function run(bytes: Uint8Array, analysis: AnalysisResult, config: EngineConfig):
  * Rebuild the picture from the rank-1 hypothesis only (R-R1). Takes the file bytes and the analyzer result,
  * nothing else: no reference image is in scope (R-R8). Never throws; deterministic (R-R7).
  */
-export function recover(bytes: Uint8Array, analysis: AnalysisResult, config: EngineConfig = defaultConfig): Recovered {
+export function recover(bytes: Uint8Array, analysis: AnalysisResult, config: EngineConfig = defaultConfig, meter: WorkMeter = createWorkMeter(config.workBudget)): Recovered {
   try {
-    return run(bytes, analysis, config);
+    return run(bytes, analysis, config, meter);
   } catch (e) {
+    if (e instanceof WorkLimitError) return unrecovered(`${WORK_LIMIT_REASON}.`);
     return unrecovered(`The recoverer failed on this input: ${e instanceof Error ? e.message : 'unknown error'}.`);
   }
 }

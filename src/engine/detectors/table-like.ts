@@ -1,5 +1,6 @@
 import type { EngineConfig } from '../config';
 import type { ByteRange } from '../types';
+import type { WorkMeter } from '../work';
 
 export type TableCandidate = { range: ByteRange; width: number; records: number; matchShare: number };
 
@@ -11,8 +12,9 @@ export type TableCandidate = { range: ByteRange; width: number; records: number;
  * Neighbouring record-like blocks of the same width merge into one region. Fixed-width regions
  * of different widths that overlap keep the longer one.
  */
-export function detectTables(bytes: Uint8Array, config: EngineConfig): TableCandidate[] {
+export function detectTables(bytes: Uint8Array, config: EngineConfig, meter?: WorkMeter): TableCandidate[] {
   const n = bytes.length;
+  meter?.spend(n * config.tableRecordWidths.length);
   const [lo, hi] = config.tableMatchShare;
   const found: TableCandidate[] = [];
   for (const w of config.tableRecordWidths) {

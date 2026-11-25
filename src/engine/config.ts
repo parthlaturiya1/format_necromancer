@@ -47,7 +47,7 @@ export type EngineConfig = {
   maxBoxCandidates: number;
   /** Cap on hypotheses returned (work limit). */
   maxHypotheses: number;
-  /** Cap on trial-decode steps per analysis, so a 1 MB input stays fast and the result stays deterministic. */
+  /** Work limit (T-21b): total steps one file may cost across analyze and recover, counted by one shared meter (src/engine/work.ts). One step is one byte looked at or one token decoded, so it is the same on every machine. 40 million steps took about 0.4 s here. The 11 tuning samples use at most 0.74 million. A 10 MB file cannot finish under it when most guesses decode (63 header guesses alone cost 630 million), so it returns unrecovered with a plain reason. */
   workBudget: number;
   /** GUESS (recoverer): confidence taken off a row for each neighbouring row that shares a run with it. */
   rowRunCrossPenalty: number;
