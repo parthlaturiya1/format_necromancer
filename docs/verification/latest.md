@@ -1,24 +1,150 @@
 # Verification
 
 Overall: **PASS**
-Run: 2026-11-25T11:45:24.280Z, Node v26.13.1
+Run: 2026-11-25T13:27:40.500Z, Node v26.13.1
 
 | Step | Result |
 |---|---|
-| 1 Typecheck | PASS (1.3s) |
-| 2 Lint | PASS (2.1s) |
-| 3 Unit tests | PASS (1.1s) |
-| 4 Property tests | PASS (2.9s) |
-| 5 Golden corpus | PASS (1.2s) |
-| 6 Build | PASS (3.7s) |
-| 7 Playwright e2e | PASS (6.3s) |
+| 1 Typecheck | PASS (8.9s) |
+| 2 Lint | PASS (11.3s) |
+| 3 Unit tests | PASS (2.7s) |
+| 4 Property tests | PASS (9.6s) |
+| 5 Golden corpus | PASS (2.9s) |
+| 6 Build | PASS (10.1s) |
+| 7 Playwright e2e | PASS (127.4s) |
 | 8 Budgets | PASS (stub, 0.0s) |
-| 9a Audit (high/critical) | PASS (0.9s) |
-| 9b Secret scan | PASS (0.1s) |
-| 10 provenance:check | PASS (0.1s) |
+| 9a Audit (high/critical) | PASS (1.8s) |
+| 9b Secret scan | PASS (0.7s) |
+| 10 provenance:check | PASS (0.3s) |
 
-## Provenance warnings (560)
+## Provenance warnings (686)
 
+- UNATTRIBUTED 568812e AUTHORSHIP.md
+- UNATTRIBUTED 568812e LICENSE
+- UNATTRIBUTED 568812e README.md
+- UNATTRIBUTED 568812e docs/build-journal.md
+- UNATTRIBUTED 568812e docs/privacy.md
+- UNATTRIBUTED 367960d docs/verification/judge-gap-review.md
+- UNATTRIBUTED b49179f tests/unit/corpus.test.ts
+- UNATTRIBUTED 9f62293 docs/verification/review-t16.md
+- UNATTRIBUTED 4e43ca3 docs/verification/screens/samples/checker1-gray-65x33.png
+- UNATTRIBUTED 4e43ca3 docs/verification/screens/samples/checker8-ocean-80x80.png
+- UNATTRIBUTED 4e43ca3 docs/verification/screens/samples/diag-ocean-256x16.png
+- UNATTRIBUTED 4e43ca3 docs/verification/screens/samples/hgrad-gray-64x48.png
+- UNATTRIBUTED 4e43ca3 docs/verification/screens/samples/rings-rand-111x111.png
+- UNATTRIBUTED 4e43ca3 docs/verification/screens/samples/shapes-rand-128x96.png
+- UNATTRIBUTED 4e43ca3 docs/verification/screens/samples/solid-gray-32x32.png
+- UNATTRIBUTED 4e43ca3 docs/verification/screens/samples/stripes-rand-200x40.png
+- UNATTRIBUTED 4e43ca3 docs/verification/screens/samples/text-fire-160x32.png
+- UNATTRIBUTED 4e43ca3 docs/verification/screens/samples/tiny-rand-7x5.png
+- UNATTRIBUTED 4e43ca3 docs/verification/screens/samples/vgrad-fire-97x61.png
+- UNATTRIBUTED 4e43ca3 docs/verification/screens/t16-beat3.png
+- UNATTRIBUTED 4e43ca3 docs/verification/screens/t16-beat5.png
+- UNATTRIBUTED 4e43ca3 docs/verification/screens/t16-done.png
+- UNATTRIBUTED 4e43ca3 docs/verification/screens/t16-phone-done.png
+- UNATTRIBUTED 4e43ca3 docs/verification/t16-fps.json
+- UNATTRIBUTED 4e43ca3 docs/verification/t16-ritual.md
+- UNATTRIBUTED 4e43ca3 src/ui/Shell.tsx
+- UNATTRIBUTED 4e43ca3 src/ui/hud/Hud.tsx
+- UNATTRIBUTED 4e43ca3 src/ui/layers/L0Field.tsx
+- UNATTRIBUTED 4e43ca3 src/ui/layers/L3Evidence.tsx
+- UNATTRIBUTED 4e43ca3 src/ui/panels/BytesPanel.tsx
+- UNATTRIBUTED 4e43ca3 src/ui/panels/ImagePanel.tsx
+- UNATTRIBUTED 4e43ca3 src/ui/panels/Inspector.tsx
+- UNATTRIBUTED 4e43ca3 src/ui/ritual/ritual.test.ts
+- UNATTRIBUTED 4e43ca3 src/ui/ritual/ritual.ts
+- UNATTRIBUTED 4e43ca3 src/ui/shell.css
+- UNATTRIBUTED 4e43ca3 tests/e2e/inspector.spec.ts
+- UNATTRIBUTED 4e43ca3 tests/e2e/panels.spec.ts
+- UNATTRIBUTED 4e43ca3 tests/e2e/ritual.spec.ts
+- UNATTRIBUTED 0ef297e docs/verification/review-t15.md
+- UNATTRIBUTED f8bea1a docs/verification/screens/t15-desktop.png
+- UNATTRIBUTED f8bea1a docs/verification/screens/t15-phone.png
+- UNATTRIBUTED f8bea1a docs/verification/t15-inspector.md
+- UNATTRIBUTED f8bea1a src/ui/Shell.tsx
+- UNATTRIBUTED f8bea1a src/ui/describe.ts
+- UNATTRIBUTED f8bea1a src/ui/hud/Hud.tsx
+- UNATTRIBUTED f8bea1a src/ui/layers/L3Evidence.tsx
+- UNATTRIBUTED f8bea1a src/ui/panels/BytesPanel.tsx
+- UNATTRIBUTED f8bea1a src/ui/panels/ImagePanel.tsx
+- UNATTRIBUTED f8bea1a src/ui/panels/Inspector.tsx
+- UNATTRIBUTED f8bea1a src/ui/regions.test.ts
+- UNATTRIBUTED f8bea1a src/ui/regions.ts
+- UNATTRIBUTED f8bea1a src/ui/selection.ts
+- UNATTRIBUTED f8bea1a src/ui/shell.css
+- UNATTRIBUTED f8bea1a tests/e2e/inspector.spec.ts
+- UNATTRIBUTED f8bea1a tests/e2e/panels.spec.ts
+- UNATTRIBUTED ecedc40 docs/verification/review-t14.md
+- UNATTRIBUTED a3e2cff docs/verification/screens/t14-desktop.png
+- UNATTRIBUTED a3e2cff docs/verification/screens/t14-empty-desktop.png
+- UNATTRIBUTED a3e2cff docs/verification/screens/t14-phone.png
+- UNATTRIBUTED a3e2cff docs/verification/t14-panels.md
+- UNATTRIBUTED a3e2cff package.json
+- UNATTRIBUTED a3e2cff public/samples/checker1-gray-65x33.pcx
+- UNATTRIBUTED a3e2cff public/samples/checker1-gray-65x33.png
+- UNATTRIBUTED a3e2cff public/samples/checker8-ocean-80x80.pcx
+- UNATTRIBUTED a3e2cff public/samples/checker8-ocean-80x80.png
+- UNATTRIBUTED a3e2cff public/samples/diag-ocean-256x16.pcx
+- UNATTRIBUTED a3e2cff public/samples/diag-ocean-256x16.png
+- UNATTRIBUTED a3e2cff public/samples/hgrad-gray-64x48.pcx
+- UNATTRIBUTED a3e2cff public/samples/hgrad-gray-64x48.png
+- UNATTRIBUTED a3e2cff public/samples/index.json
+- UNATTRIBUTED a3e2cff public/samples/rings-rand-111x111.pcx
+- UNATTRIBUTED a3e2cff public/samples/rings-rand-111x111.png
+- UNATTRIBUTED a3e2cff public/samples/shapes-rand-128x96.pcx
+- UNATTRIBUTED a3e2cff public/samples/shapes-rand-128x96.png
+- UNATTRIBUTED a3e2cff public/samples/solid-gray-32x32.pcx
+- UNATTRIBUTED a3e2cff public/samples/solid-gray-32x32.png
+- UNATTRIBUTED a3e2cff public/samples/stripes-rand-200x40.pcx
+- UNATTRIBUTED a3e2cff public/samples/stripes-rand-200x40.png
+- UNATTRIBUTED a3e2cff public/samples/text-fire-160x32.pcx
+- UNATTRIBUTED a3e2cff public/samples/text-fire-160x32.png
+- UNATTRIBUTED a3e2cff public/samples/tiny-rand-7x5.pcx
+- UNATTRIBUTED a3e2cff public/samples/tiny-rand-7x5.png
+- UNATTRIBUTED a3e2cff public/samples/vgrad-fire-97x61.pcx
+- UNATTRIBUTED a3e2cff public/samples/vgrad-fire-97x61.png
+- UNATTRIBUTED a3e2cff scripts/samples/copy-samples.mjs
+- UNATTRIBUTED a3e2cff src/ui/Shell.tsx
+- UNATTRIBUTED a3e2cff src/ui/describe.ts
+- UNATTRIBUTED a3e2cff src/ui/hex/intervals.ts
+- UNATTRIBUTED a3e2cff src/ui/hud/Hud.tsx
+- UNATTRIBUTED a3e2cff src/ui/layers/L0Field.tsx
+- UNATTRIBUTED a3e2cff src/ui/panels/BytesPanel.tsx
+- UNATTRIBUTED a3e2cff src/ui/panels/FilePick.tsx
+- UNATTRIBUTED a3e2cff src/ui/panels/ImagePanel.tsx
+- UNATTRIBUTED a3e2cff src/ui/shell.css
+- UNATTRIBUTED a3e2cff src/ui/state.ts
+- UNATTRIBUTED a3e2cff src/ui/tokens.css
+- UNATTRIBUTED a3e2cff src/ui/ui.test.ts
+- UNATTRIBUTED a3e2cff src/ui/worker/client.ts
+- UNATTRIBUTED a3e2cff tests/e2e/panels.spec.ts
+- UNATTRIBUTED a5c8c26 docs/verification/review-t13.md
+- UNATTRIBUTED 0bfca09 docs/verification/latest.md
+- UNATTRIBUTED 0bfca09 docs/verification/screens/t13-desktop.png
+- UNATTRIBUTED 0bfca09 docs/verification/screens/t13-phone.png
+- UNATTRIBUTED 0bfca09 docs/verification/t13-shell.md
+- UNATTRIBUTED 0bfca09 package-lock.json
+- UNATTRIBUTED 0bfca09 package.json
+- UNATTRIBUTED 0bfca09 public/fonts/LICENSE-Inter.txt
+- UNATTRIBUTED 0bfca09 public/fonts/LICENSE-JetBrainsMono.txt
+- UNATTRIBUTED 0bfca09 public/fonts/SOURCES.txt
+- UNATTRIBUTED 0bfca09 public/fonts/inter-latin-wght-normal.woff2
+- UNATTRIBUTED 0bfca09 public/fonts/jetbrains-mono-latin-wght-normal.woff2
+- UNATTRIBUTED 0bfca09 src/app/error.tsx
+- UNATTRIBUTED 0bfca09 src/app/global-error.tsx
+- UNATTRIBUTED 0bfca09 src/app/layout.tsx
+- UNATTRIBUTED 0bfca09 src/app/not-found.tsx
+- UNATTRIBUTED 0bfca09 src/app/page.tsx
+- UNATTRIBUTED 0bfca09 src/ui/Shell.tsx
+- UNATTRIBUTED 0bfca09 src/ui/hud/Hud.tsx
+- UNATTRIBUTED 0bfca09 src/ui/layers/L0Field.tsx
+- UNATTRIBUTED 0bfca09 src/ui/layers/L3Evidence.tsx
+- UNATTRIBUTED 0bfca09 src/ui/panels/BytesPanel.tsx
+- UNATTRIBUTED 0bfca09 src/ui/panels/ImagePanel.tsx
+- UNATTRIBUTED 0bfca09 src/ui/shell.css
+- UNATTRIBUTED 0bfca09 src/ui/tokens.css
+- UNATTRIBUTED 0bfca09 src/ui/worker/client.ts
+- UNATTRIBUTED 0bfca09 tests/e2e/shell.spec.ts
 - UNATTRIBUTED de158ae docs/verification/latest.md
 - UNATTRIBUTED de158ae tests/unit/corpus.test.ts
 - UNATTRIBUTED fc6ef15 src/engine/worker-protocol.ts

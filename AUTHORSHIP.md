@@ -19,9 +19,9 @@ Kiro wrote all code. No code from another tool was committed.
 
 | App | Use | Status |
 |---|---|---|
-| Codex | Review only, no code copied | TODO OWNER: confirm |
-| Claude | If used, review only, no code copied | TODO OWNER: confirm or delete |
-| Gemini | If used, review only, no code copied | TODO OWNER: confirm or delete |
+| Codex | Review only, no code copied | Confirmed by the owner, 2026-11-25 |
+| Claude | Review only, no code copied | Confirmed by the owner, 2026-11-25 |
+| Gemini | Review only, no code copied | Confirmed by the owner, 2026-11-25 |
 
 ## Provenance, stated plainly
 
