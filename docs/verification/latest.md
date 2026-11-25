@@ -1,24 +1,42 @@
 # Verification
 
 Overall: **PASS**
-Run: 2026-11-25T11:22:51.932Z, Node v26.13.1
+Run: 2026-11-25T11:35:52.189Z, Node v26.13.1
 
 | Step | Result |
 |---|---|
-| 1 Typecheck | PASS (6.1s) |
-| 2 Lint | PASS (13.2s) |
-| 3 Unit tests | PASS (4.3s) |
-| 4 Property tests | PASS (8.2s) |
-| 5 Golden corpus | PASS (3.8s) |
-| 6 Build | PASS (12.8s) |
-| 7 Playwright e2e | PASS (4.1s) |
+| 1 Typecheck | PASS (2.7s) |
+| 2 Lint | PASS (4.1s) |
+| 3 Unit tests | PASS (1.8s) |
+| 4 Property tests | PASS (4.8s) |
+| 5 Golden corpus | PASS (2.0s) |
+| 6 Build | PASS (6.2s) |
+| 7 Playwright e2e | PASS (2.9s) |
 | 8 Budgets | PASS (stub, 0.0s) |
-| 9a Audit (high/critical) | PASS (3.0s) |
+| 9a Audit (high/critical) | PASS (1.6s) |
 | 9b Secret scan | PASS (0.2s) |
-| 10 provenance:check | PASS (0.4s) |
+| 10 provenance:check | PASS (0.2s) |
 
-## Provenance warnings (540)
+## Provenance warnings (558)
 
+- UNATTRIBUTED fc6ef15 src/engine/worker-protocol.ts
+- UNATTRIBUTED fc6ef15 src/engine/worker.ts
+- UNATTRIBUTED fc6ef15 tests/engine/worker.test.ts
+- UNATTRIBUTED 5f734de .kiro/specs/experience/design.md
+- UNATTRIBUTED 5f734de .kiro/specs/experience/requirements.md
+- UNATTRIBUTED 5f734de .kiro/specs/experience/tasks.md
+- UNATTRIBUTED f348f95 docs/design-target.png
+- UNATTRIBUTED f614bf8 docs/feature-register.md
+- UNATTRIBUTED f614bf8 docs/verification/blind-test.md
+- UNATTRIBUTED f614bf8 docs/verification/blind/heldout-compare.json
+- UNATTRIBUTED f614bf8 docs/verification/blind/heldout-recovered.png
+- UNATTRIBUTED f614bf8 docs/verification/blind/heldout-reference.png
+- UNATTRIBUTED f614bf8 docs/verification/blind/heldout-result.json
+- UNATTRIBUTED f614bf8 tests/blind/run.test.ts
+- UNATTRIBUTED f614bf8 tests/blind/vitest.config.ts
+- UNATTRIBUTED dd7610f docs/feature-register.md
+- UNATTRIBUTED dd7610f docs/verification/latest.md
+- UNATTRIBUTED dd7610f docs/verification/regression-report.md
 - UNATTRIBUTED 1a448b8 corpus/mutations/manifest.json
 - UNATTRIBUTED 1a448b8 docs/verification/latest.md
 - UNATTRIBUTED 1a448b8 scripts/corpus/mutate.mjs
@@ -569,15 +587,15 @@ Maintained by the verifier. Every status starts UNVERIFIED.
 |---|---|---|---|
 | F-01 | Resurrect a bundled sample (deterministic demo mode) | One click runs the real engine on a bundled sample and plays all six beats | UNVERIFIED |
 | F-02 | Drop in a file | Files up to 10 MB accepted, larger refused with a clear message, nothing uploaded | UNVERIFIED |
-| F-03 | Ranked hypotheses | Each recognisable sample gets at least one hypothesis with byte ranges | UNVERIFIED |
-| F-04 | Evidence on every element | Property test: ranges in bounds, confidence 0 to 1, no element without evidence | UNVERIFIED |
+| F-03 | Ranked hypotheses | Each recognisable sample gets at least one hypothesis with byte ranges | PASS (engine only): golden-report.md rank 1 = spike layout on 11 of 11 tuning samples; verify x3 green (regression-report.md). Not tested on the held-out file or any UI. |
+| F-04 | Evidence on every element | Property test: ranges in bounds, confidence 0 to 1, no element without evidence | PASS (engine only): tests/property/evidence.test.ts and recover.test.ts run in verify step 4 (3 green runs). No UI check. |
 | F-05 | Verification report | Exact or not, with a mismatch list; a "no reference available" mode; recovered image and evidence report downloadable | UNVERIFIED |
 | F-06 | Six-beat ritual | All beats play in order; speed control 0.5x to 4x | UNVERIFIED |
 | F-07 | Two-way inspector | Click a region to light its bytes, click bytes to select their region; rule and confidence shown | UNVERIFIED |
-| F-08 | Honest failure | A corrupted sample ends as unrecovered with a plain-words reason, no crash | UNVERIFIED |
+| F-08 | Honest failure | A corrupted sample ends as unrecovered with a plain-words reason, no crash | PASS (engine only): fuzz 3002 cases, 0 crashes, unrecovered with a reason (robustness-report.md); mutation check 0 confident-wrong. Plain-words display not checked (no UI). |
 | F-09 | Reduced-motion mode | Same information, no animation | UNVERIFIED |
 | F-10 | Confidence dot grid and charts | One dot per recovered row or region; hand-built SVG charts | UNVERIFIED |
-| F-11 | Blind-test result | The held-out file result is shown and labelled | UNVERIFIED |
+| F-11 | Blind-test result | The held-out file result is shown and labelled | PARTIAL: held-out file run once at dd7610f, result EXACT (0 of 13,500 pixels differ); evidence docs/verification/blind-test.md. One file, same generator as tuning set. No result display in the app exists yet. |
 | F-12 | Real states | 404, 500, empty and loading states | UNVERIFIED |
 | F-13 | Proof Room (stretch) | /proof renders the ledger and captures, read-only, offline | UNVERIFIED |
 | F-14 | Judge quick-start | README opens with the URL, a 30-second try, where .kiro is, how Kiro was used | UNVERIFIED |

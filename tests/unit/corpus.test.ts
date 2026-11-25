@@ -24,11 +24,14 @@ describe('corpus', () => {
     expect(list.every((s) => s.heldOut === false && !s.path.includes('heldout'))).toBe(true);
   });
 
-  it('no script or test other than the validator names the held-out folder', () => {
+  it('no script or test other than the validator and the one-time blind run names the held-out folder', () => {
     // Pattern built from parts so this file does not match itself.
+    // Allowed readers: the validator (hashes only) and the T-12 blind run (run once, recorded in
+    // docs/verification/blind-test.md, never part of tuning). Any other reader fails this test.
+    const allowed = ['scripts/corpus/validate.mjs', 'tests/blind/run.test.ts'];
     const re = new RegExp(['corpus', '[\\\\/]+', 'held', 'out'].join(''), 'i');
     const offenders = [...walk('scripts'), ...walk('tests')]
-      .filter((f) => !f.replace(/\\/g, '/').endsWith('scripts/corpus/validate.mjs'))
+      .filter((f) => !allowed.some((a) => f.replace(/\\/g, '/').endsWith(a)))
       .filter((f) => re.test(readFileSync(f, 'utf8')));
     expect(offenders).toEqual([]);
   });
