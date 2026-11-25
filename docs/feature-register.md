@@ -13,7 +13,7 @@ Maintained by the verifier. Every status starts UNVERIFIED.
 | F-08 | Honest failure | A corrupted sample ends as unrecovered with a plain-words reason, no crash | PASS (engine only): fuzz 3002 cases, 0 crashes, unrecovered with a reason (robustness-report.md); mutation check 0 confident-wrong. Plain-words display not checked (no UI). |
 | F-09 | Reduced-motion mode | Same information, no animation | UNVERIFIED |
 | F-10 | Confidence dot grid and charts | One dot per recovered row or region; hand-built SVG charts | UNVERIFIED |
-| F-11 | Blind-test result | The held-out file result is shown and labelled | UNVERIFIED: held-out file not read by verifier; no result display exists. |
+| F-11 | Blind-test result | The held-out file result is shown and labelled | PARTIAL: held-out file run once at dd7610f, result EXACT (0 of 13,500 pixels differ); evidence docs/verification/blind-test.md. One file, same generator as tuning set. No result display in the app exists yet. |
 | F-12 | Real states | 404, 500, empty and loading states | UNVERIFIED |
 | F-13 | Proof Room (stretch) | /proof renders the ledger and captures, read-only, offline | UNVERIFIED |
 | F-14 | Judge quick-start | README opens with the URL, a 30-second try, where .kiro is, how Kiro was used | UNVERIFIED |

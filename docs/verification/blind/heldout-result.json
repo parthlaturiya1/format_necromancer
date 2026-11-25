@@ -1,0 +1,165 @@
+{
+  "bytes": 4019,
+  "timingMs": 17.7,
+  "analysisStatus": "ok",
+  "recoveredStatus": "ok",
+  "hypotheses": [
+    {
+      "id": "h1",
+      "rank": 1,
+      "confidence": 1,
+      "layout": {
+        "headerLength": 128,
+        "runMarkerMask": 192,
+        "boxNumbers": [
+          150,
+          90
+        ],
+        "rowStride": 150,
+        "tableTailOffset": 3250,
+        "tableTailLength": 769
+      }
+    },
+    {
+      "id": "h2",
+      "rank": 2,
+      "confidence": 0.4,
+      "layout": {
+        "headerLength": 512,
+        "runMarkerMask": 128,
+        "tableTailOffset": 3251,
+        "tableTailLength": 768
+      },
+      "lostBecause": "Lower confidence (0.4 against 1): no size numbers were found in its header."
+    },
+    {
+      "id": "h3",
+      "rank": 3,
+      "confidence": 0.4,
+      "layout": {
+        "headerLength": 512,
+        "runMarkerMask": 192,
+        "tableTailOffset": 3251,
+        "tableTailLength": 768
+      },
+      "lostBecause": "Lower confidence (0.4 against 1): no size numbers were found in its header."
+    },
+    {
+      "id": "h4",
+      "rank": 4,
+      "confidence": 0.4,
+      "layout": {
+        "headerLength": 512,
+        "runMarkerMask": 128,
+        "tableTailOffset": 3250,
+        "tableTailLength": 769
+      },
+      "lostBecause": "Lower confidence (0.4 against 1): no size numbers were found in its header."
+    },
+    {
+      "id": "h5",
+      "rank": 5,
+      "confidence": 0.4,
+      "layout": {
+        "headerLength": 512,
+        "runMarkerMask": 192,
+        "tableTailOffset": 3250,
+        "tableTailLength": 769
+      },
+      "lostBecause": "Lower confidence (0.4 against 1): no size numbers were found in its header."
+    },
+    {
+      "id": "h6",
+      "rank": 6,
+      "confidence": 0.4,
+      "layout": {
+        "headerLength": 256,
+        "runMarkerMask": 128,
+        "tableTailOffset": 3251,
+        "tableTailLength": 768
+      },
+      "lostBecause": "Lower confidence (0.4 against 1): no size numbers were found in its header."
+    },
+    {
+      "id": "h7",
+      "rank": 7,
+      "confidence": 0.4,
+      "layout": {
+        "headerLength": 256,
+        "runMarkerMask": 192,
+        "tableTailOffset": 3251,
+        "tableTailLength": 768
+      },
+      "lostBecause": "Lower confidence (0.4 against 1): no size numbers were found in its header."
+    },
+    {
+      "id": "h8",
+      "rank": 8,
+      "confidence": 0.4,
+      "layout": {
+        "headerLength": 256,
+        "runMarkerMask": 128,
+        "tableTailOffset": 3250,
+        "tableTailLength": 769
+      },
+      "lostBecause": "Lower confidence (0.4 against 1): no size numbers were found in its header."
+    },
+    {
+      "id": "h9",
+      "rank": 9,
+      "confidence": 0.4,
+      "layout": {
+        "headerLength": 256,
+        "runMarkerMask": 192,
+        "tableTailOffset": 3250,
+        "tableTailLength": 769
+      },
+      "lostBecause": "Lower confidence (0.4 against 1): no size numbers were found in its header."
+    },
+    {
+      "id": "h10",
+      "rank": 10,
+      "confidence": 0.4,
+      "layout": {
+        "headerLength": 128,
+        "runMarkerMask": 128,
+        "tableTailOffset": 3251,
+        "tableTailLength": 768
+      },
+      "lostBecause": "Lower confidence (0.4 against 1): no size numbers were found in its header."
+    },
+    {
+      "id": "h11",
+      "rank": 11,
+      "confidence": 0.4,
+      "layout": {
+        "headerLength": 128,
+        "runMarkerMask": 192,
+        "tableTailOffset": 3251,
+        "tableTailLength": 768
+      },
+      "lostBecause": "Lower confidence (0.4 against 1): no size numbers were found in its header."
+    },
+    {
+      "id": "h12",
+      "rank": 12,
+      "confidence": 0.4,
+      "layout": {
+        "headerLength": 128,
+        "runMarkerMask": 128,
+        "tableTailOffset": 3250,
+        "tableTailLength": 769
+      },
+      "lostBecause": "Lower confidence (0.4 against 1): no size numbers were found in its header."
+    }
+  ],
+  "evidenceCount": 8,
+  "width": 150,
+  "height": 90,
+  "confidence": 1,
+  "hypothesisId": "h1",
+  "rowStatusCounts": {
+    "ok": 90
+  },
+  "recoveredEvidenceCount": 90
+}
