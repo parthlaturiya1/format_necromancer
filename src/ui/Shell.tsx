@@ -209,7 +209,7 @@ export function Shell() {
 
   return (
     <>
-      <L0Field still={reduced} />
+      <L0Field still={reduced} paused={rb === 5 && ritual.fixed === null} />
       <div className="app" data-failed={failed ? '' : undefined} data-beat={rb || undefined} data-ritual={phase} data-speed={speed} style={{ '--speed': speed } as React.CSSProperties}>
         <header className="topbar">
           <div className="brand">

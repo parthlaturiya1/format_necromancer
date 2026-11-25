@@ -170,7 +170,7 @@ a { color: var(--accent); text-underline-offset: 3px; }
 .image-stage .actions .btn { padding: 0 var(--sp-4); }
 .canvas-wrap { position: absolute; inset: 0; display: grid; place-items: center; }
 .frame { position: relative; display: grid; padding: var(--sp-4); border: 1px solid var(--glass-border); border-radius: var(--radius-md); background: color-mix(in srgb, var(--bg-0) 55%, transparent); box-shadow: 0 0 48px color-mix(in srgb, var(--accent) 18%, transparent); }
-.recovered { image-rendering: pixelated; display: block; }
+.recovered { image-rendering: pixelated; display: block; will-change: transform; } /* F-1: own layer, so a beat-5 redraw does not repaint the frame and its glow */
 .row-hit { position: absolute; inset: var(--sp-4); cursor: crosshair; border-radius: 2px; }
 .row-hit:focus-visible { outline-offset: 4px; }
 .hex-bytes .b { cursor: pointer; border-radius: 3px; }
@@ -293,8 +293,9 @@ a { color: var(--accent); text-underline-offset: 3px; }
 .dots i[data-s='ok']::after { background: var(--accent); box-shadow: 0 0 8px color-mix(in srgb, var(--accent) 50%, transparent); }
 .dots i[data-s='uncertain']::after { background: var(--uncertain); }
 .dots[data-light='off'] i::after { opacity: 0; }
-.dots[data-light='play'] i::after { animation: dotlit var(--dur-1) var(--ease-out) both; animation-delay: var(--d, 0ms); }
-@keyframes dotlit { from { opacity: 0; transform: scale(0.4); } to { opacity: 1; transform: none; } }
+/* F-1: beat 5 marks each dot 'on' when its row is rebuilt (Hud.tsx, one frame loop); only the few dots fading at that moment animate. */
+.dots[data-light='play'] i::after { opacity: 0; transform: scale(0.4); }
+.dots[data-light='play'] i.on::after { opacity: 1; transform: none; transition: opacity var(--dur-1) var(--ease-out), transform var(--dur-1) var(--ease-out); }
 
 /* Reduced motion: same information, no animation. Every end state above is the element's base style. */
 :root[data-motion='reduced'] *, :root[data-motion='reduced'] *::before, :root[data-motion='reduced'] *::after { animation: none !important; transition: none !important; }
@@ -312,7 +313,6 @@ a { color: var(--accent); text-underline-offset: 3px; }
 .hc-top { font-size: var(--fs-sm); }
 .foot-r { display: flex; align-items: end; gap: var(--sp-5); flex-wrap: wrap; justify-content: flex-end; }
 .dots i.dark::after { opacity: 0; }
-.dots[data-light='play'] i.lit::after { animation: dotlit var(--dur-1) var(--ease-out) both; animation-delay: var(--d, 0ms); }
 @media (max-width: 760px) { .foot-r { justify-content: flex-start; } }
 
 /* Below the fixed layout the page scrolls, so the hex window gets a height of its own. */

@@ -8,8 +8,15 @@ const STEP_MS = 33; // about 30 fps; this layer is decoration
 type Drift = { x: number; y: number; speed: number; text: string; depth: number };
 
 /** L0: faint drifting bytes behind everything. Canvas 2D. Paused when the tab is hidden; static under reduced motion. */
-export function L0Field({ still = false }: { still?: boolean }) {
+export function L0Field({ still = false, paused = false }: { still?: boolean; paused?: boolean }) {
   const ref = useRef<HTMLCanvasElement>(null);
+  // F-1: `paused` holds the current frame without a new layout, so the bytes do not jump when it lifts.
+  const hold = useRef(paused);
+  const resume = useRef<() => void>(() => {});
+  useEffect(() => {
+    hold.current = paused;
+    resume.current();
+  }, [paused]);
 
   useEffect(() => {
     const canvas = ref.current;
@@ -65,7 +72,7 @@ export function L0Field({ still = false }: { still?: boolean }) {
     const stop = () => { cancelAnimationFrame(raf); raf = 0; };
     const start = () => {
       stop();
-      if (reduce.matches || still || document.hidden) return;
+      if (reduce.matches || still || hold.current || document.hidden) return;
       last = performance.now();
       raf = requestAnimationFrame(frame);
     };
@@ -75,10 +82,12 @@ export function L0Field({ still = false }: { still?: boolean }) {
     layout();
     draw(0);
     start();
+    resume.current = start;
     document.addEventListener('visibilitychange', onVisible);
     window.addEventListener('resize', onResize);
     reduce.addEventListener('change', start);
     return () => {
+      resume.current = () => {};
       stop();
       document.removeEventListener('visibilitychange', onVisible);
       window.removeEventListener('resize', onResize);
