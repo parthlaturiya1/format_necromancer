@@ -1,24 +1,28 @@
 # Verification
 
 Overall: **PASS**
-Run: 2026-11-25T11:19:15.594Z, Node v26.13.1
+Run: 2026-11-25T11:22:51.932Z, Node v26.13.1
 
 | Step | Result |
 |---|---|
-| 1 Typecheck | PASS (3.3s) |
-| 2 Lint | PASS (3.4s) |
-| 3 Unit tests | PASS (1.7s) |
-| 4 Property tests | PASS (6.0s) |
-| 5 Golden corpus | PASS (2.3s) |
-| 6 Build | PASS (8.8s) |
-| 7 Playwright e2e | PASS (4.0s) |
+| 1 Typecheck | PASS (6.1s) |
+| 2 Lint | PASS (13.2s) |
+| 3 Unit tests | PASS (4.3s) |
+| 4 Property tests | PASS (8.2s) |
+| 5 Golden corpus | PASS (3.8s) |
+| 6 Build | PASS (12.8s) |
+| 7 Playwright e2e | PASS (4.1s) |
 | 8 Budgets | PASS (stub, 0.0s) |
-| 9a Audit (high/critical) | PASS (2.0s) |
-| 9b Secret scan | PASS (0.6s) |
-| 10 provenance:check | PASS (1.1s) |
+| 9a Audit (high/critical) | PASS (3.0s) |
+| 9b Secret scan | PASS (0.2s) |
+| 10 provenance:check | PASS (0.4s) |
 
-## Provenance warnings (536)
+## Provenance warnings (540)
 
+- UNATTRIBUTED 1a448b8 corpus/mutations/manifest.json
+- UNATTRIBUTED 1a448b8 docs/verification/latest.md
+- UNATTRIBUTED 1a448b8 scripts/corpus/mutate.mjs
+- UNATTRIBUTED 1a448b8 tests/engine/mutations.test.ts
 - UNATTRIBUTED c354ac9 .kiro/specs/recovery/requirements.md
 - UNATTRIBUTED f3ccc5d tests/engine/recover.test.ts
 - UNATTRIBUTED cbb623b corpus/mutations/checker1-gray-65x33.body-flip.1.bin

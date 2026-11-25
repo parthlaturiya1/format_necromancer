@@ -5,15 +5,15 @@ Maintained by the verifier. Every status starts UNVERIFIED.
 |---|---|---|---|
 | F-01 | Resurrect a bundled sample (deterministic demo mode) | One click runs the real engine on a bundled sample and plays all six beats | UNVERIFIED |
 | F-02 | Drop in a file | Files up to 10 MB accepted, larger refused with a clear message, nothing uploaded | UNVERIFIED |
-| F-03 | Ranked hypotheses | Each recognisable sample gets at least one hypothesis with byte ranges | UNVERIFIED |
-| F-04 | Evidence on every element | Property test: ranges in bounds, confidence 0 to 1, no element without evidence | UNVERIFIED |
+| F-03 | Ranked hypotheses | Each recognisable sample gets at least one hypothesis with byte ranges | PASS (engine only): golden-report.md rank 1 = spike layout on 11 of 11 tuning samples; verify x3 green (regression-report.md). Not tested on the held-out file or any UI. |
+| F-04 | Evidence on every element | Property test: ranges in bounds, confidence 0 to 1, no element without evidence | PASS (engine only): tests/property/evidence.test.ts and recover.test.ts run in verify step 4 (3 green runs). No UI check. |
 | F-05 | Verification report | Exact or not, with a mismatch list; a "no reference available" mode; recovered image and evidence report downloadable | UNVERIFIED |
 | F-06 | Six-beat ritual | All beats play in order; speed control 0.5x to 4x | UNVERIFIED |
 | F-07 | Two-way inspector | Click a region to light its bytes, click bytes to select their region; rule and confidence shown | UNVERIFIED |
-| F-08 | Honest failure | A corrupted sample ends as unrecovered with a plain-words reason, no crash | UNVERIFIED |
+| F-08 | Honest failure | A corrupted sample ends as unrecovered with a plain-words reason, no crash | PASS (engine only): fuzz 3002 cases, 0 crashes, unrecovered with a reason (robustness-report.md); mutation check 0 confident-wrong. Plain-words display not checked (no UI). |
 | F-09 | Reduced-motion mode | Same information, no animation | UNVERIFIED |
 | F-10 | Confidence dot grid and charts | One dot per recovered row or region; hand-built SVG charts | UNVERIFIED |
-| F-11 | Blind-test result | The held-out file result is shown and labelled | UNVERIFIED |
+| F-11 | Blind-test result | The held-out file result is shown and labelled | UNVERIFIED: held-out file not read by verifier; no result display exists. |
 | F-12 | Real states | 404, 500, empty and loading states | UNVERIFIED |
 | F-13 | Proof Room (stretch) | /proof renders the ledger and captures, read-only, offline | UNVERIFIED |
 | F-14 | Judge quick-start | README opens with the URL, a 30-second try, where .kiro is, how Kiro was used | UNVERIFIED |
