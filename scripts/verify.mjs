@@ -47,7 +47,7 @@ const provenanceCheck = () => {
 const goldenCorpus = () => {
   const code = spawnSync(node, ['scripts/corpus/validate.mjs'], { stdio: 'inherit', env }).status ?? 1;
   if (code !== 0) return code;
-  return spawnSync(node, ['node_modules/vitest/vitest.mjs', 'run', 'tests/engine/golden-report.test.ts'], { stdio: 'inherit', env }).status ?? 1;
+  return spawnSync(node, ['node_modules/vitest/vitest.mjs', 'run', 'tests/engine/golden-report.test.ts', 'tests/engine/golden-v2.test.ts'], { stdio: 'inherit', env }).status ?? 1;
 };
 
 const steps = [

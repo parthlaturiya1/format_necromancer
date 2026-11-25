@@ -1,7 +1,11 @@
 import { defaultConfig, type EngineConfig } from './config';
 import { detectBoxNumbers, type BoxCandidate } from './detectors/box-numbers';
 import { detectHeaderBlocks, type HeaderCandidate } from './detectors/header-block';
+import { detectPalette } from './detectors/palette';
+import { detectRepetition } from './detectors/repetition';
 import { detectRowStride, type StrideCandidate } from './detectors/row-stride';
+import { detectRunPairs } from './detectors/run-length';
+import { detectTables } from './detectors/table-like';
 import { createEvidence, sortEvidence } from './evidence';
 import type { AnalysisResult, ByteRange, Evidence, Hypothesis, Layout } from './types';
 
@@ -75,6 +79,43 @@ function whyLost(loser: Draft, winner: Draft): string {
   return 'Same confidence, area and header roundness; lost on the fixed order of header size, table size, mask and size-number position.';
 }
 
+/**
+ * Analyzer v2 (T-07). The four generic detectors add SUPPORTING evidence to the rank-1 hypothesis.
+ * Rule: they never change a hypothesis confidence, the ranking or the tie-break. Each record's
+ * confidence is the rank-1 confidence times the detector's own measured share, so it can
+ * never be higher than the layout it supports. Reason: rank-1 confidence is already at its cap of 1
+ * on every tuning sample, so there is no room to raise it, and moving it would risk the T-06 order.
+ * Records are in plain words and every range is inside the input.
+ */
+function genericEvidence(bytes: Uint8Array, config: EngineConfig, winner: Draft, hypothesisId: string): Evidence[] {
+  const out: Evidence[] = [];
+  const c = winner.confidence;
+  const hl = winner.header.headerLength;
+  const bodyEnd = bytes.length - winner.header.tailLength;
+  const make = (elementId: string, byteRanges: ByteRange[], rule: string, share: number) =>
+    out.push(createEvidence({ elementId, byteRanges: byteRanges.slice(0, config.maxGenericCandidates), rule, confidence: round3(c * Math.min(1, Math.max(0, share))), hypothesisId }));
+
+  const rep = detectRepetition(bytes, config);
+  const runs = rep.filter((r) => r.kind === 'byte-run');
+  const structs = rep.filter((r) => r.kind === 'structure');
+  const sum = (l: { range: ByteRange }[]) => l.reduce((a, r) => a + r.range.end - r.range.start, 0);
+  if (runs.length) make('repeat-runs', runs.map((r) => r.range), `${runs.length} stretch(es) of one repeated byte, each at least ${config.repeatMinRun} bytes long, ${sum(runs)} bytes in all.`, sum(runs) / bytes.length);
+  if (structs.length) make('repeat-structures', structs.map((r) => r.range), `${structs.length} stretch(es) where a block of the same size repeats back to back at least ${config.repeatMinCopies} times, ${sum(structs)} bytes in all.`, sum(structs) / bytes.length);
+
+  if (bodyEnd > hl) {
+    const pairs = detectRunPairs(bytes.subarray(hl, bodyEnd), config);
+    const best = pairs.reduce<(typeof pairs)[number] | undefined>((a, p) => (!a || p.score > a.score ? p : a), undefined);
+    if (best) make('run-pairs', [{ start: hl, end: bodyEnd }], `In the body, ${best.pairs} bytes whose top ${best.prefixBits} bit(s) are all set are followed by a byte that is not one (${Math.round(best.followShare * 100)}% of such bytes; random data would give about ${Math.round((1 - 2 ** -best.prefixBits) * 100)}%).`, best.followShare);
+  }
+
+  const pal = detectPalette(bytes, config);
+  if (pal.length) make('palette', pal.map((p) => p.range), `${pal.length} block(s) of ${pal.map((p) => p.entries).join(', ')} three-byte entries whose neighbours change by at most ${config.paletteMaxStep} per byte on average and are almost all different.`, Math.min(...pal.map((p) => p.distinct)));
+
+  const tab = detectTables(bytes, config);
+  if (tab.length) make('table-records', tab.map((t) => t.range), `${tab.length} region(s) of fixed-width records (widths ${tab.map((t) => t.width).join(', ')} bytes) where between ${Math.round(config.tableMatchShare[0] * 100)}% and ${Math.round(config.tableMatchShare[1] * 100)}% of bytes equal the byte one record earlier.`, Math.min(...tab.map((t) => t.matchShare)));
+  return out;
+}
+
 function unrecovered(reason: string): AnalysisResult {
   return { status: 'unrecovered', reason };
 }
@@ -146,6 +187,7 @@ function run(bytes: Uint8Array, config: EngineConfig): AnalysisResult {
   }
   ev.push(createEvidence({ elementId: 'body', byteRanges: [{ start: hl, end: bodyEnd }], rule: `Bytes ${hl} to ${bodyEnd} decode with run mask ${winner.header.runMarkerMask} using every byte, giving ${winner.header.bodyOutputLength} values.`, confidence: c, hypothesisId: id }));
   if (winner.header.tailLength > 0) ev.push(createEvidence({ elementId: 'table-tail', byteRanges: [{ start: bodyEnd, end: n }], rule: `Last ${winner.header.tailLength} bytes tried as a table block; the body before it decodes exactly.`, confidence: round3(c * 0.9), hypothesisId: id }));
+  ev.push(...genericEvidence(bytes, config, winner, id));
   return { status: 'ok', hypotheses, evidence: sortEvidence(ev) };
 }
 

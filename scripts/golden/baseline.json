@@ -1,0 +1,148 @@
+{
+  "source": "T-06 golden-report.md at commit 6460710",
+  "samples": {
+    "hgrad-gray-64x48": {
+      "boxNumbers": [
+        64,
+        48
+      ],
+      "rowStride": 64,
+      "headerLength": 128,
+      "runMarkerMask": 192,
+      "tableTailLength": 769,
+      "tableTailOffset": 284,
+      "confidence": 1,
+      "evidenceCount": 5
+    },
+    "vgrad-fire-97x61": {
+      "boxNumbers": [
+        97,
+        61
+      ],
+      "rowStride": 98,
+      "headerLength": 128,
+      "runMarkerMask": 192,
+      "tableTailLength": 769,
+      "tableTailOffset": 7570,
+      "confidence": 1,
+      "evidenceCount": 5
+    },
+    "shapes-rand-128x96": {
+      "boxNumbers": [
+        128,
+        96
+      ],
+      "rowStride": 128,
+      "headerLength": 128,
+      "runMarkerMask": 192,
+      "tableTailLength": 769,
+      "tableTailOffset": 1745,
+      "confidence": 1,
+      "evidenceCount": 5
+    },
+    "checker8-ocean-80x80": {
+      "boxNumbers": [
+        80,
+        80
+      ],
+      "rowStride": 80,
+      "headerLength": 128,
+      "runMarkerMask": 192,
+      "tableTailLength": 769,
+      "tableTailOffset": 1728,
+      "confidence": 1,
+      "evidenceCount": 5
+    },
+    "checker1-gray-65x33": {
+      "boxNumbers": [
+        65,
+        33
+      ],
+      "rowStride": 66,
+      "headerLength": 128,
+      "runMarkerMask": 192,
+      "tableTailLength": 769,
+      "tableTailOffset": 3378,
+      "confidence": 1,
+      "evidenceCount": 5
+    },
+    "stripes-rand-200x40": {
+      "boxNumbers": [
+        200,
+        40
+      ],
+      "rowStride": 200,
+      "headerLength": 128,
+      "runMarkerMask": 192,
+      "tableTailLength": 769,
+      "tableTailOffset": 3328,
+      "confidence": 1,
+      "evidenceCount": 5
+    },
+    "text-fire-160x32": {
+      "boxNumbers": [
+        160,
+        32
+      ],
+      "rowStride": 160,
+      "headerLength": 128,
+      "runMarkerMask": 192,
+      "tableTailLength": 769,
+      "tableTailOffset": 1199,
+      "confidence": 1,
+      "evidenceCount": 5
+    },
+    "rings-rand-111x111": {
+      "boxNumbers": [
+        111,
+        111
+      ],
+      "rowStride": 112,
+      "headerLength": 128,
+      "runMarkerMask": 192,
+      "tableTailLength": 769,
+      "tableTailOffset": 4711,
+      "confidence": 1,
+      "evidenceCount": 5
+    },
+    "diag-ocean-256x16": {
+      "boxNumbers": [
+        256,
+        16
+      ],
+      "rowStride": 256,
+      "headerLength": 128,
+      "runMarkerMask": 192,
+      "tableTailLength": 769,
+      "tableTailOffset": 5080,
+      "confidence": 1,
+      "evidenceCount": 5
+    },
+    "solid-gray-32x32": {
+      "boxNumbers": [
+        32,
+        32
+      ],
+      "rowStride": 32,
+      "headerLength": 128,
+      "runMarkerMask": 192,
+      "tableTailLength": 769,
+      "tableTailOffset": 192,
+      "confidence": 1,
+      "evidenceCount": 5
+    },
+    "tiny-rand-7x5": {
+      "boxNumbers": [
+        7,
+        5
+      ],
+      "rowStride": 8,
+      "headerLength": 128,
+      "runMarkerMask": 192,
+      "tableTailLength": 769,
+      "tableTailOffset": 169,
+      "confidence": 1,
+      "evidenceCount": 5
+    }
+  }
+}

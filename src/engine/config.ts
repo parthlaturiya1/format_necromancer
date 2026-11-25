@@ -17,6 +17,32 @@ export type EngineConfig = {
   maxDimension: number;
   /** GUESS: largest believable extra bytes per row beyond the width. */
   maxStridePad: number;
+  /** GUESS: shortest run of one repeated byte worth reporting, in bytes. */
+  repeatMinRun: number;
+  /** GUESS: sizes of a repeated fixed-size structure to try, in bytes. */
+  repeatStructSizes: ReadonlyArray<number>;
+  /** GUESS: fewest back-to-back identical copies of a structure worth reporting. */
+  repeatMinCopies: number;
+  /** GUESS: how many top bits of a byte, all set, make it look like a run-pair marker (the bit patterns are built from this number, not listed). */
+  runPrefixBits: ReadonlyArray<number>;
+  /** GUESS: fewest marker-then-value pairs before the run-pair score means anything. */
+  runMinPairs: number;
+  /** GUESS: smallest share of markers that must be followed by a non-marker byte. */
+  runMinFollowShare: number;
+  /** GUESS: colour-table entry counts to try (each entry is 3 bytes). */
+  paletteEntryCounts: ReadonlyArray<number>;
+  /** GUESS: largest mean step between neighbouring entries, per byte, for a table to count as smooth. */
+  paletteMaxStep: number;
+  /** GUESS: smallest share of entries that must differ from every other entry. */
+  paletteMinDistinct: number;
+  /** GUESS: record widths to try for fixed-width record regions, in bytes. */
+  tableRecordWidths: ReadonlyArray<number>;
+  /** GUESS: fewest records in a region. */
+  tableMinRecords: number;
+  /** GUESS: share of bytes equal to the byte one record earlier that makes a region record-like (lower bound, upper bound; above the upper bound it is plain repetition). */
+  tableMatchShare: readonly [number, number];
+  /** Cap on candidates kept per generic detector (work limit). */
+  maxGenericCandidates: number;
   /** Cap on size-number candidates kept (work limit). */
   maxBoxCandidates: number;
   /** Cap on hypotheses returned (work limit). */
@@ -36,9 +62,23 @@ export const defaultConfig: EngineConfig = {
   boxScanLimit: 128,
   maxDimension: 8192,
   maxStridePad: 4,
+  repeatMinRun: 16,
+  repeatStructSizes: [2, 3, 4, 6, 8, 12, 16, 32],
+  repeatMinCopies: 4,
+  runPrefixBits: [1, 2, 3],
+  runMinPairs: 8,
+  runMinFollowShare: 0.9,
+  paletteEntryCounts: [16, 64, 128, 256],
+  paletteMaxStep: 24,
+  paletteMinDistinct: 0.9,
+  tableRecordWidths: [2, 3, 4, 6, 8, 12, 16, 24, 32],
+  tableMinRecords: 8,
+  tableMatchShare: [0.25, 0.9],
+  maxGenericCandidates: 16,
   maxBoxCandidates: 64,
   maxHypotheses: 12,
   workBudget: 40_000_000,
   minInputBytes: 16,
   maxInputBytes: 10 * 1024 * 1024,
 };
+

@@ -3,6 +3,11 @@ import { describe, expect, it } from 'vitest';
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { analyze } from '../../src/engine/analyze';
+import { defaultConfig } from '../../src/engine/config';
+import { detectPalette } from '../../src/engine/detectors/palette';
+import { detectRepetition } from '../../src/engine/detectors/repetition';
+import { detectRunPairs } from '../../src/engine/detectors/run-length';
+import { detectTables } from '../../src/engine/detectors/table-like';
 import { validateResult } from '../../src/engine/evidence';
 
 const cfg = { seed: 20261125, numRuns: 200 };
@@ -27,6 +32,22 @@ describe('analyze properties', () => {
   });
   it('gives deep-equal output for identical input', () => {
     fc.assert(fc.property(shaped, (parts) => { const b = join3(parts); expect(analyze(b.slice())).toEqual(analyze(b)); }), cfg);
+  });
+  it('generic detectors never throw and stay in bounds, on random and truncated bytes', () => {
+    fc.assert(
+      fc.property(fc.uint8Array({ minLength: 0, maxLength: 1500 }), fc.nat(1500), (b, cut) => {
+        const x = b.slice(0, Math.min(cut, b.length));
+        const ranges = [
+          ...detectRepetition(x, defaultConfig).map((c) => c.range),
+          ...detectPalette(x, defaultConfig).map((c) => c.range),
+          ...detectTables(x, defaultConfig).map((c) => c.range),
+        ];
+        detectRunPairs(x, defaultConfig);
+        expect(detectPalette(x, defaultConfig)).toEqual(detectPalette(x.slice(), defaultConfig));
+        return ranges.every((r) => r.start >= 0 && r.start < r.end && r.end <= x.length);
+      }),
+      cfg,
+    );
   });
   it('handles the empty array', () => {
     expect(analyze(new Uint8Array(0)).status).toBe('unrecovered');

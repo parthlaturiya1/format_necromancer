@@ -1,24 +1,36 @@
 # Verification
 
 Overall: **PASS**
-Run: 2026-11-25T10:44:27.094Z, Node v26.13.1
+Run: 2026-11-25T10:50:31.125Z, Node v26.13.1
 
 | Step | Result |
 |---|---|
-| 1 Typecheck | PASS (1.6s) |
-| 2 Lint | PASS (2.6s) |
-| 3 Unit tests | PASS (1.9s) |
-| 4 Property tests | PASS (0.9s) |
-| 5 Golden corpus | PASS (0.8s) |
-| 6 Build | PASS (4.5s) |
-| 7 Playwright e2e | PASS (3.2s) |
+| 1 Typecheck | PASS (2.3s) |
+| 2 Lint | PASS (5.8s) |
+| 3 Unit tests | PASS (2.2s) |
+| 4 Property tests | PASS (1.2s) |
+| 5 Golden corpus | PASS (0.9s) |
+| 6 Build | PASS (6.1s) |
+| 7 Playwright e2e | PASS (3.5s) |
 | 8 Budgets | PASS (stub, 0.0s) |
-| 9a Audit (high/critical) | PASS (1.3s) |
+| 9a Audit (high/critical) | PASS (2.1s) |
 | 9b Secret scan | PASS (0.2s) |
 | 10 provenance:check | PASS (0.2s) |
 
-## Provenance warnings (83)
+## Provenance warnings (95)
 
+- UNATTRIBUTED 6460710 docs/verification/latest.md
+- UNATTRIBUTED 6460710 package.json
+- UNATTRIBUTED 6460710 scripts/verify.mjs
+- UNATTRIBUTED 6460710 src/engine/analyze.ts
+- UNATTRIBUTED 6460710 src/engine/config.ts
+- UNATTRIBUTED 6460710 src/engine/detectors/box-numbers.ts
+- UNATTRIBUTED 6460710 src/engine/detectors/header-block.ts
+- UNATTRIBUTED 6460710 src/engine/detectors/row-stride.ts
+- UNATTRIBUTED 6460710 src/engine/trial-decode.ts
+- UNATTRIBUTED 6460710 tests/engine/analyze.test.ts
+- UNATTRIBUTED 6460710 tests/engine/golden-report.test.ts
+- UNATTRIBUTED 6460710 tests/property/analyze.test.ts
 - UNATTRIBUTED 4775ce6 docs/verification/latest.md
 - UNATTRIBUTED 4775ce6 src/engine/evidence.ts
 - UNATTRIBUTED 4775ce6 src/engine/types.ts
