@@ -1,0 +1,93 @@
+{
+  "default": "rings-rand-111x111",
+  "samples": [
+    {
+      "id": "hgrad-gray-64x48",
+      "path": "/samples/hgrad-gray-64x48.pcx",
+      "bytes": 1053,
+      "reference": "/samples/hgrad-gray-64x48.png",
+      "width": 64,
+      "height": 48
+    },
+    {
+      "id": "vgrad-fire-97x61",
+      "path": "/samples/vgrad-fire-97x61.pcx",
+      "bytes": 8339,
+      "reference": "/samples/vgrad-fire-97x61.png",
+      "width": 97,
+      "height": 61
+    },
+    {
+      "id": "shapes-rand-128x96",
+      "path": "/samples/shapes-rand-128x96.pcx",
+      "bytes": 2514,
+      "reference": "/samples/shapes-rand-128x96.png",
+      "width": 128,
+      "height": 96
+    },
+    {
+      "id": "checker8-ocean-80x80",
+      "path": "/samples/checker8-ocean-80x80.pcx",
+      "bytes": 2497,
+      "reference": "/samples/checker8-ocean-80x80.png",
+      "width": 80,
+      "height": 80
+    },
+    {
+      "id": "checker1-gray-65x33",
+      "path": "/samples/checker1-gray-65x33.pcx",
+      "bytes": 4147,
+      "reference": "/samples/checker1-gray-65x33.png",
+      "width": 65,
+      "height": 33
+    },
+    {
+      "id": "stripes-rand-200x40",
+      "path": "/samples/stripes-rand-200x40.pcx",
+      "bytes": 4097,
+      "reference": "/samples/stripes-rand-200x40.png",
+      "width": 200,
+      "height": 40
+    },
+    {
+      "id": "text-fire-160x32",
+      "path": "/samples/text-fire-160x32.pcx",
+      "bytes": 1968,
+      "reference": "/samples/text-fire-160x32.png",
+      "width": 160,
+      "height": 32
+    },
+    {
+      "id": "rings-rand-111x111",
+      "path": "/samples/rings-rand-111x111.pcx",
+      "bytes": 5480,
+      "reference": "/samples/rings-rand-111x111.png",
+      "width": 111,
+      "height": 111
+    },
+    {
+      "id": "diag-ocean-256x16",
+      "path": "/samples/diag-ocean-256x16.pcx",
+      "bytes": 5849,
+      "reference": "/samples/diag-ocean-256x16.png",
+      "width": 256,
+      "height": 16
+    },
+    {
+      "id": "solid-gray-32x32",
+      "path": "/samples/solid-gray-32x32.pcx",
+      "bytes": 961,
+      "reference": "/samples/solid-gray-32x32.png",
+      "width": 32,
+      "height": 32
+    },
+    {
+      "id": "tiny-rand-7x5",
+      "path": "/samples/tiny-rand-7x5.pcx",
+      "bytes": 938,
+      "reference": "/samples/tiny-rand-7x5.png",
+      "width": 7,
+      "height": 5
+    }
+  ]
+}

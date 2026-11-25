@@ -26,6 +26,7 @@
   --uncertain: #ffb454;
   --failure: #ff5c6c;
   --unexplained: color-mix(in srgb, var(--muted) 38%, transparent);
+  --byte-idle: color-mix(in srgb, var(--muted) 62%, transparent);
 
   --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Mono', Consolas, monospace;
@@ -36,6 +37,7 @@
   --fs-md: 1.0625rem;
   --fs-lg: 1.375rem;
   --fs-xl: clamp(1.75rem, 1.2rem + 1.2vw, 2.25rem);
+  --fs-stat: 2.5rem;
   --fs-2xl: clamp(3.5rem, 2rem + 8vw, 8rem);
 
   --sp-1: 0.25rem;
@@ -46,6 +48,14 @@
   --sp-6: 2rem;
   --sp-7: 3rem;
   --sp-8: 4rem;
+
+  --dot-size: 10px;
+  --bar-h: 5px;
+  --logo-size: 44px;
+  --tl-dot: 11px;
+  --tl-dot-now: 16px;
+  --row-h: 1.375rem;
+  --tap: 44px;
 
   --radius-sm: 8px;
   --radius-md: 14px;

@@ -1,7 +1,9 @@
-const DOTS = 14 * 9;
+const DOTS = 14 * 5;
+// Empty state: a few rings pulse in turn so the grid looks alive. Opacity only.
+const PULSING = new Set([6, 21, 38, 52]);
 
 /** L4 HUD: Confidence grid, Confidence by row, Verification. Glass skeletons until T-17. */
-export function Hud() {
+export function Hud({ note }: { note: string }) {
   return (
     <div className="col col-hud" data-layer="L4">
       <section className="panel" aria-labelledby="h-grid">
@@ -10,7 +12,7 @@ export function Hud() {
           <p className="meta">0 regions</p>
         </header>
         <div className="dots" aria-hidden="true">
-          {Array.from({ length: DOTS }, (_, i) => <i key={i} />)}
+          {Array.from({ length: DOTS }, (_, i) => <i key={i} className={PULSING.has(i) ? 'pulse' : undefined} style={PULSING.has(i) ? { animationDelay: `${[...PULSING].indexOf(i) * 120}ms` } : undefined} />)}
         </div>
         <p className="hint">Each dot is one region. Hover to inspect.</p>
       </section>
@@ -19,24 +21,23 @@ export function Hud() {
           <h2 id="h-rows">Confidence by row</h2>
           <p className="meta mono">no data</p>
         </header>
-        <svg className="chart" viewBox="0 0 220 84" role="img" aria-label="Chart of confidence by row. Empty until a file is recovered.">
-          <line x1="24" x2="216" y1="8" y2="8" />
-          <line x1="24" x2="216" y1="38" y2="38" />
-          <line x1="24" x2="216" y1="68" y2="68" />
-          <line className="flat" x1="24" x2="216" y1="68" y2="68" />
-          <text x="0" y="11">1.0</text>
-          <text x="0" y="41">0.5</text>
-          <text x="0" y="71">0</text>
-          <text x="24" y="82">Row 1</text>
+        <svg className="chart" viewBox="0 0 200 84" role="img" aria-label="Chart of confidence by row. Empty until a file is recovered.">
+          <line x1="24" x2="196" y1="8" y2="8" />
+          <line x1="24" x2="196" y1="38" y2="38" />
+          <line x1="24" x2="196" y1="68" y2="68" />
+          <text x="0" y="12">1.0</text>
+          <text x="0" y="42">0.5</text>
+          <text x="0" y="72">0</text>
+          <text x="30" y="58" className="soft">Appears after Resurrection</text>
         </svg>
       </section>
       <section className="panel verify" aria-labelledby="h-verify">
         <header><h2 id="h-verify">Verification</h2></header>
-        <p className="hint">Waiting for a recovered image to check.</p>
+        <p className="hint">{note}</p>
         <p className="big-num">0<small>mismatches so far</small></p>
         <div className="progress">
           <div><span>Rows checked 0 of unknown</span></div>
-          <div className="bar" role="presentation"><i /></div>
+          <div className="bar" role="presentation"><i style={{ '--w': '0%' } as React.CSSProperties} /></div>
         </div>
       </section>
     </div>

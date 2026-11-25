@@ -8,6 +8,8 @@
   },
   "scripts": {
     "dev": "next dev",
+    "samples": "node scripts/samples/copy-samples.mjs",
+    "prebuild": "node scripts/samples/copy-samples.mjs",
     "build": "next build",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",

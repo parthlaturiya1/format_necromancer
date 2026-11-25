@@ -49,7 +49,7 @@ export function L0Field() {
       for (const d of drifts) {
         d.y -= d.speed * dt;
         if (d.y < -20) { d.y = h + 20; d.x = rnd() * w; }
-        ctx.globalAlpha = 0.05 + d.depth * 0.09;
+        ctx.globalAlpha = 0.1 + d.depth * 0.12;
         ctx.font = `${10 + Math.round(d.depth * 6)}px ${mono}`;
         ctx.fillText(d.text, d.x, d.y);
       }
