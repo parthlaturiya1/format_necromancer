@@ -43,11 +43,11 @@ const provenanceCheck = () => {
   return r.status === 0 ? 0 : 1;
 };
 
-// Validation is real (T-03). The regression report is still a stub until the engine exists.
+// Validation (T-03) plus the golden report (T-06): the test regenerates docs/verification/golden-report.md and fails if rank 1 differs from the spike layout.
 const goldenCorpus = () => {
   const code = spawnSync(node, ['scripts/corpus/validate.mjs'], { stdio: 'inherit', env }).status ?? 1;
-  console.log('STUB: golden regression report (needs engine, T-05+)');
-  return code;
+  if (code !== 0) return code;
+  return spawnSync(node, ['node_modules/vitest/vitest.mjs', 'run', 'tests/engine/golden-report.test.ts'], { stdio: 'inherit', env }).status ?? 1;
 };
 
 const steps = [

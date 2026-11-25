@@ -12,7 +12,8 @@
     "test": "vitest run",
     "verify": "node scripts/verify.mjs",
     "provenance:check": "node scripts/provenance/check.mjs",
-    "corpus:validate": "node scripts/corpus/validate.mjs"
+    "corpus:validate": "node scripts/corpus/validate.mjs",
+    "golden:report": "vitest run tests/engine/golden-report.test.ts"
   },
   "dependencies": {
     "next": "16.4.6",

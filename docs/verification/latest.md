@@ -1,24 +1,30 @@
 # Verification
 
 Overall: **PASS**
-Run: 2026-11-25T10:38:50.739Z, Node v26.13.1
+Run: 2026-11-25T10:44:27.094Z, Node v26.13.1
 
 | Step | Result |
 |---|---|
-| 1 Typecheck | PASS (1.9s) |
-| 2 Lint | PASS (3.1s) |
-| 3 Unit tests | PASS (2.0s) |
+| 1 Typecheck | PASS (1.6s) |
+| 2 Lint | PASS (2.6s) |
+| 3 Unit tests | PASS (1.9s) |
 | 4 Property tests | PASS (0.9s) |
-| 5 Golden corpus | PASS (stub, 0.1s) |
-| 6 Build | PASS (5.9s) |
-| 7 Playwright e2e | PASS (4.2s) |
+| 5 Golden corpus | PASS (0.8s) |
+| 6 Build | PASS (4.5s) |
+| 7 Playwright e2e | PASS (3.2s) |
 | 8 Budgets | PASS (stub, 0.0s) |
-| 9a Audit (high/critical) | PASS (1.7s) |
-| 9b Secret scan | PASS (0.1s) |
+| 9a Audit (high/critical) | PASS (1.3s) |
+| 9b Secret scan | PASS (0.2s) |
 | 10 provenance:check | PASS (0.2s) |
 
-## Provenance warnings (77)
+## Provenance warnings (83)
 
+- UNATTRIBUTED 4775ce6 docs/verification/latest.md
+- UNATTRIBUTED 4775ce6 src/engine/evidence.ts
+- UNATTRIBUTED 4775ce6 src/engine/types.ts
+- UNATTRIBUTED 4775ce6 tests/engine/evidence.test.ts
+- UNATTRIBUTED 4775ce6 tests/property/evidence.test.ts
+- UNATTRIBUTED 4775ce6 vitest.config.mts
 - UNATTRIBUTED 05dab4e .kiro/specs/engine/design.md
 - UNATTRIBUTED 05dab4e .kiro/specs/engine/requirements.md
 - UNATTRIBUTED 05dab4e .kiro/specs/engine/tasks.md
