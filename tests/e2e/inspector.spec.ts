@@ -24,9 +24,11 @@ async function axe(page: Page) {
 }
 
 async function openSample(page: Page) {
-  await page.goto('/');
+  await page.goto('/?speed=4'); // the ritual plays at 4x so the test waits less
   await page.getByRole('button', { name: 'Resurrect a sample' }).click();
+  await page.getByRole('button', { name: 'Skip to result' }).click({ timeout: 20000 }); // the ritual has its own spec
   await expect(page.locator('canvas.recovered')).toBeVisible({ timeout: 20000 });
+  await expect(page.locator('.app[data-ritual="done"]')).toBeVisible({ timeout: 20000 });
   await expect(page.getByTestId('inspector').locator('h2')).not.toHaveText('No region selected');
 }
 
@@ -63,7 +65,7 @@ test('click a row: bytes lit, line drawn, card text right; click a byte: its row
   await expect(line).toHaveCount(1);
   const d = (await line.getAttribute('d'))!;
   expect(d).toMatch(/^M[\d.]+,[\d.]+ C/);
-  expect(await line.evaluate((e) => getComputedStyle(e).strokeWidth)).toBe('1.5px');
+  expect(await line.evaluate((e) => getComputedStyle(e).strokeWidth)).toBe('2px');
   expect(await page.locator('.l3-row').count()).toBe(1);
   // Pick another row, then click one of the first row's lit bytes: row 7 comes back.
   const off = await lit.first().getAttribute('data-o');

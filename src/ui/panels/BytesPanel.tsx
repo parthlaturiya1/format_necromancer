@@ -4,6 +4,7 @@ import type { AppState } from '../state';
 import { statesFor } from '../hex/intervals';
 import { indexFromRegions, type Region } from '../regions';
 import type { Sel } from '../selection';
+import type { ByteRange } from '../../engine/types';
 import { FilePick } from './FilePick';
 
 export const ROW_H = 22; // px, must match --row-h in shell.css
@@ -22,8 +23,10 @@ const placeholder = (() => {
 })();
 
 type Pick = { regions: Region[]; sel: Sel | null; selected: Region | null; onPickByte: (offset: number) => void };
+/** beat: ritual beat on screen (0 = none). Bytes are grey until beat 4. hover: a hypothesis card's ranges. */
+type Ritual = { beat: number; hover: ReadonlyArray<ByteRange> | null };
 
-function HexView({ bytes, name, regions, sel, selected, onPickByte }: Pick & { bytes: Uint8Array; name: string }) {
+function HexView({ bytes, name, regions, sel, selected, onPickByte, beat, hover }: Pick & Ritual & { bytes: Uint8Array; name: string }) {
   const box = useRef<HTMLDivElement>(null);
   const [view, setView] = useState({ top: 0, h: 480 });
   const index = useMemo(() => indexFromRegions(regions), [regions]);
@@ -47,7 +50,15 @@ function HexView({ bytes, name, regions, sel, selected, onPickByte }: Pick & { b
     el.scrollTop = Math.max(0, ((q.start + q.end - 1) / 2 / PER_ROW) * ROW_H - el.clientHeight / 2);
   }, [sel, selected]);
 
-  const lit = (o: number) => selected?.ranges.some((q) => o >= q.start && o < q.end) ?? false;
+  // Hovering a hypothesis card brings its first range into view.
+  useEffect(() => {
+    const q = hover?.[0];
+    const el = box.current;
+    if (q && el) el.scrollTop = Math.max(0, (q.start / PER_ROW) * ROW_H - ROW_H);
+  }, [hover]);
+
+  const dim = beat > 0 && beat < 4;
+  const lit = (o: number) => (hover ? hover.some((q) => o >= q.start && o < q.end) : !dim && (selected?.ranges.some((q) => o >= q.start && o < q.end) ?? false));
   const rows = Math.ceil(bytes.length / PER_ROW);
   const first = Math.max(0, Math.floor(view.top / ROW_H) - OVERSCAN);
   const last = Math.min(rows, Math.ceil((view.top + view.h) / ROW_H) + OVERSCAN);
@@ -55,7 +66,7 @@ function HexView({ bytes, name, regions, sel, selected, onPickByte }: Pick & { b
   for (let r = first; r < last; r++) {
     const off = r * PER_ROW;
     const end = Math.min(off + PER_ROW, bytes.length);
-    const st = statesFor(index, off, end);
+    const st = dim ? statesFor(index, off, end).map(() => 0 as const) : statesFor(index, off, end);
     shown.push(
       <div className="hex-row" key={r} style={{ height: ROW_H }}>
         <span className="hex-off">{hex(off, 6)}</span>
@@ -67,6 +78,7 @@ function HexView({ bytes, name, regions, sel, selected, onPickByte }: Pick & { b
   }
 
   return (
+    <div className="hexwrap">
     <div
       ref={box}
       className="hexv"
@@ -88,10 +100,12 @@ function HexView({ bytes, name, regions, sel, selected, onPickByte }: Pick & { b
         <div className="hexv-win" style={{ transform: `translateY(${first * ROW_H}px)` }}>{shown}</div>
       </div>
     </div>
+    {beat === 2 ? <div className="scan" aria-hidden="true" /> : null}
+    </div>
   );
 }
 
-export function BytesPanel({ state, onFile, ...pick }: Pick & { state: AppState; onFile: (f: File) => void }) {
+export function BytesPanel({ state, onFile, beat, hover, ...pick }: Pick & Ritual & { state: AppState; onFile: (f: File) => void }) {
   const bytes = state.phase === 'analysing' || state.phase === 'done' ? state.bytes : null;
   const label =
     bytes ? `${bytes.length.toLocaleString('en-US')} bytes` :
@@ -105,7 +119,7 @@ export function BytesPanel({ state, onFile, ...pick }: Pick & { state: AppState;
         <FilePick label="Choose file" className="btn ghost-btn btn-sm" onFile={onFile} testId="bytes-file-input" />
       </header>
       {bytes ? (
-        <HexView bytes={bytes} {...pick} name={state.phase === 'analysing' || state.phase === 'done' ? state.name : 'file'} />
+        <HexView bytes={bytes} beat={beat} hover={hover} {...pick} name={state.phase === 'analysing' || state.phase === 'done' ? state.name : 'file'} />
       ) : (
         <>
           <div className="hex hex-idle" aria-hidden="true">

@@ -8,7 +8,7 @@ const STEP_MS = 33; // about 30 fps; this layer is decoration
 type Drift = { x: number; y: number; speed: number; text: string; depth: number };
 
 /** L0: faint drifting bytes behind everything. Canvas 2D. Paused when the tab is hidden; static under reduced motion. */
-export function L0Field() {
+export function L0Field({ still = false }: { still?: boolean }) {
   const ref = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -65,7 +65,7 @@ export function L0Field() {
     const stop = () => { cancelAnimationFrame(raf); raf = 0; };
     const start = () => {
       stop();
-      if (reduce.matches || document.hidden) return;
+      if (reduce.matches || still || document.hidden) return;
       last = performance.now();
       raf = requestAnimationFrame(frame);
     };
@@ -84,7 +84,7 @@ export function L0Field() {
       window.removeEventListener('resize', onResize);
       reduce.removeEventListener('change', start);
     };
-  }, []);
+  }, [still]);
 
   return <canvas ref={ref} className="l0" aria-hidden="true" data-layer="L0" />;
 }

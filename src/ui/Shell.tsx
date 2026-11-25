@@ -1,17 +1,18 @@
 'use client';
 import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react';
+import type { ByteRange } from '../engine/types';
 import { L0Field } from './layers/L0Field';
 import { BytesPanel } from './panels/BytesPanel';
 import { ImagePanel } from './panels/ImagePanel';
-import { Hud } from './hud/Hud';
+import { Hud, type GridLight } from './hud/Hud';
 import { probeEngine, runEngine, type EngineStatus } from './worker/client';
 import { initialState, reducer } from './state';
-import { L3Evidence } from './layers/L3Evidence';
+import { L3Evidence, type Draw } from './layers/L3Evidence';
 import { Inspector } from './panels/Inspector';
-import { buildRegions, regionAt } from './regions';
+import { buildRegions, regionAt, type Region } from './regions';
+import { BEATS, SPEEDS, nextSpeed, useRitual, type Hold, type Speed } from './ritual/ritual';
 import type { Sel } from './selection';
 
-const STEPS = ['Dead file', 'Listening', 'Hypotheses', 'Evidence', 'Resurrection', 'Proof'];
 export const MAX_FILE_BYTES = 10 * 1024 * 1024; // same as the engine limit (maxInputBytes)
 
 type SampleIndex = { default: string; samples: { id: string; path: string; bytes: number; reference: string }[] };
@@ -20,6 +21,17 @@ type SampleIndex = { default: string; samples: { id: string; path: string; bytes
 const readHash = (): string => window.location.hash.slice(1);
 
 const mb = (n: number) => `${(n / (1024 * 1024)).toFixed(1)} MB`;
+const store = {
+  get: (k: string) => { try { return window.sessionStorage.getItem(k); } catch { return null; } },
+  set: (k: string, v: string) => { try { window.sessionStorage.setItem(k, v); } catch { /* private mode: the choice just does not persist */ } },
+};
+const TRAIL_BYTES = 280; // the ritual's lines start only from bytes that are on screen when the hex panel is at the top
+
+/** Up to three confident rows whose bytes are in the first screen of the hex panel, spread out. Same result every run. */
+function trailOf(regions: Region[]): Region[] {
+  const near = regions.filter((r) => r.kind === 'row' && r.status === 'ok' && (r.ranges[0]?.start ?? Infinity) < TRAIL_BYTES);
+  return [near[0], near[Math.floor(near.length / 2)], near[near.length - 1]].filter((r, i, a): r is Region => !!r && a.indexOf(r) === i);
+}
 
 export function Shell() {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -27,7 +39,16 @@ export function Shell() {
   const [engine, setEngine] = useState<EngineStatus>('starting');
   const [dragging, setDragging] = useState(false);
   const [cursor, setCursor] = useState<number | null>(null);
+  const [speed, setSpeedState] = useState<Speed>(1);
+  const [osReduced, setOsReduced] = useState(false);
+  const [reducedPref, setReducedPref] = useState<boolean | null>(null);
+  const [hold, setHold] = useState<Hold>(null);
+  const [hover, setHover] = useState<ReadonlyArray<ByteRange> | null>(null);
   const run = useRef(0); // a newer load makes older ones stop reporting
+  const reduced = reducedPref ?? osReduced;
+
+  const setSpeed = useCallback((s: Speed) => { setSpeedState(s); store.set('fn.speed', String(s)); }, []);
+  const setReduced = useCallback((v: boolean) => { setReducedPref(v); store.set('fn.reduced', v ? '1' : '0'); }, []);
 
   useEffect(() => {
     const sync = () => setHash(readHash());
@@ -35,12 +56,34 @@ export function Shell() {
     window.addEventListener('hashchange', sync);
     let live = true;
     void probeEngine().then((s) => live && setEngine(s));
-    return () => { live = false; window.removeEventListener('hashchange', sync); };
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const onMq = () => setOsReduced(mq.matches);
+    onMq();
+    mq.addEventListener('change', onMq);
+    // Session choices first, then the address (it wins): ?speed=2, ?beat=3&p=0.5
+    const init = () => {
+    const q = new URLSearchParams(window.location.search);
+    const saved = Number(store.get('fn.speed'));
+    const want = Number(q.get('speed') ?? saved);
+    if ((SPEEDS as readonly number[]).includes(want)) setSpeedState(want as Speed);
+    const r = store.get('fn.reduced');
+    if (r) setReducedPref(r === '1');
+    if (q.get('motion') === 'reduced') setReducedPref(true);
+    const beat = Number(q.get('beat'));
+    if (beat >= 1 && beat <= 6) setHold({ beat, p: q.has('p') ? Math.min(1, Math.max(0, Number(q.get('p')))) : 1 });
+    };
+    init();
+    return () => { live = false; window.removeEventListener('hashchange', sync); mq.removeEventListener('change', onMq); };
   }, []);
+
+  useEffect(() => { document.documentElement.dataset.motion = reduced ? 'reduced' : 'full'; }, [reduced]);
 
   const result = state.phase === 'done' ? state.result : null;
   const regions = useMemo(() => (result ? buildRegions(result) : []), [result]);
   const imageHeight = result && result.recovered.status === 'ok' ? result.recovered.height : 0;
+  const ritual = useRitual(result && result.recovered.status === 'ok' && result.analysis.status === 'ok' ? result : null, imageHeight, speed, reduced, hold);
+  const rb = ritual.beat;
+  const playing = rb >= 1 && rb <= 5 && !ritual.finished; // beats the picked region stays out of
 
   // The best region is picked when a run ends, so the card is never empty beside a finished picture (N7). Ties go to a row, which has a line to draw.
   const auto = useMemo<Sel | null>(() => {
@@ -50,13 +93,25 @@ export function Shell() {
   const [picked, setPicked] = useState<{ regions: typeof regions; sel: Sel | null } | null>(null);
   const sel = picked && picked.regions === regions ? picked.sel : auto;
   const setSel = useCallback((s: Sel | null) => setPicked({ regions, sel: s }), [regions]);
-  const selected = (sel?.id && regions.find((r) => r.id === sel.id)) || null;
+  const found = (sel?.id && regions.find((r) => r.id === sel.id)) || null;
+  const selected = playing ? null : found;
+  const shownSel = playing ? null : sel;
   const pickRegion = useCallback((id: string, key: boolean, from: Sel['from'] = 'list') => setSel({ id, offset: null, from, focus: key }), [setSel]);
   const pickRow = useCallback((row: number, key: boolean) => {
     const r = regions.find((x) => x.kind === 'row' && x.rows[0] === row);
     if (r) pickRegion(r.id, key, 'row');
   }, [regions, pickRegion]);
   const pickByte = useCallback((offset: number) => setSel({ id: regionAt(regions, offset)?.id ?? null, offset, from: 'byte', focus: false }), [regions, setSel]);
+
+  // Lines on the stage. Ritual beats 4 and 5: a few confident rows. After: the picked region, plus one of the other status when there is one (R-3 F1).
+  const draws = useMemo<Draw[]>(() => {
+    if (rb >= 1 && rb <= 3 && !ritual.finished) return [];
+    if (playing) return trailOf(regions).map((region) => ({ region, role: 'trail' as const }));
+    if (!found) return [];
+    const rows = regions.filter((r) => r.kind === 'row');
+    const other = found.status === 'ok' ? rows.find((r) => r.status !== 'ok') : rows.filter((r) => r.status === 'ok').reduce<Region | undefined>((b, r) => (!b || r.confidence > b.confidence ? r : b), undefined);
+    return [{ region: found, role: 'main' }, ...(other && other.id !== found.id ? [{ region: other, role: 'alt' as const }] : [])];
+  }, [rb, ritual.finished, playing, regions, found]);
 
   const start = useCallback(async (name: string, read: () => Promise<ArrayBuffer>, referenceUrl?: string) => {
     const mine = ++run.current;
@@ -104,10 +159,18 @@ export function Shell() {
     })();
   }, [start]);
 
+  // ?demo=1 (or any ?beat=) starts the default sample once the page has loaded. The same bytes and the same engine give the same run.
+  const auto1 = useRef(false);
+  useEffect(() => {
+    if (auto1.current) return;
+    const q = new URLSearchParams(window.location.search);
+    if (q.get('demo') === '1' || q.has('beat')) { auto1.current = true; loadSample(); }
+  }, [loadSample]);
+
   if (hash === 'crash') throw new Error('Demo crash requested with #crash');
 
   const forcedLoading = state.phase === 'idle' && hash === 'loading';
-  const current = state.phase === 'done' ? 4 : state.phase === 'analysing' || forcedLoading ? 1 : 0;
+  const current = rb > 0 ? (ritual.finished ? 5 : rb - 1) : state.phase === 'done' ? 4 : state.phase === 'analysing' || forcedLoading ? 1 : 0;
   const fileline =
     state.phase === 'idle' ? 'No file yet, format unknown'
     : state.phase === 'loading' ? `Reading ${state.name}`
@@ -124,10 +187,14 @@ export function Shell() {
     : state.result.recovered.status === 'ok' ? 'Your own file has no reference picture, so there is nothing to check against.'
     : 'Nothing was recovered, so there is nothing to check.';
 
+  const rowStatus = result && result.recovered.status === 'ok' ? result.recovered.rows.reduce<string[]>((a, r) => { a[r.index] = r.status; return a; }, []) : null;
+  const light: GridLight = rb === 0 ? { mode: rowStatus ? 'on' : 'off' } : rb < 5 ? { mode: 'off' } : rb === 5 && ritual.fixed === null ? { mode: 'play', ms: ritual.ms } : rb === 5 && ritual.fixed !== null && ritual.fixed < 1 ? { mode: 'part', share: ritual.fixed } : { mode: 'on' };
+  const phase = rb === 0 ? 'none' : ritual.finished ? 'done' : 'playing';
+
   return (
     <>
-      <L0Field />
-      <div className="app">
+      <L0Field still={reduced} />
+      <div className="app" data-beat={rb || undefined} data-ritual={phase} data-speed={speed} style={{ '--speed': speed } as React.CSSProperties}>
         <header className="topbar">
           <div className="brand">
             <span className="logo" aria-hidden="true">
@@ -139,14 +206,14 @@ export function Shell() {
             </div>
           </div>
           <div className="timeline-wrap">
-            <ol className="timeline" aria-label="Six steps" style={{ '--p': current / (STEPS.length - 1) } as React.CSSProperties}>
-              {STEPS.map((s, i) => (
+            <ol className="timeline" aria-label="Six steps" style={{ '--p': current / (BEATS.length - 1) } as React.CSSProperties}>
+              {BEATS.map((s, i) => (
                 <li key={s} data-state={i < current ? 'done' : i === current ? 'current' : 'todo'} aria-current={i === current ? 'step' : undefined}><span>{s}</span></li>
               ))}
             </ol>
-            <p className="timeline-now" aria-hidden="true">{STEPS[current]}</p>
+            <p className="timeline-now" aria-hidden="true">{BEATS[current]}</p>
           </div>
-          <button type="button" className="speed" disabled aria-label="Speed 1x, available once the ritual plays">Speed 1x</button>
+          <button type="button" className="speed" data-testid="speed" onClick={() => setSpeed(nextSpeed(speed))} aria-label={`Speed ${speed}x. Press to change: 0.5x, 1x, 2x, 4x.`}>Speed {speed}x</button>
         </header>
         <main
           className={`stage${dragging ? ' dragging' : ''}`}
@@ -160,16 +227,22 @@ export function Shell() {
             if (f) loadFile(f);
           }}
         >
-          <div className="col col-bytes"><BytesPanel state={state} onFile={loadFile} regions={regions} sel={sel} selected={selected} onPickByte={pickByte} />
-            <Inspector regions={regions} selected={selected} sel={sel} onPick={pickRegion} />
+          <div className="col col-bytes"><BytesPanel state={state} onFile={loadFile} regions={regions} sel={shownSel} selected={selected} onPickByte={pickByte} beat={rb} hover={hover} />
+            <Inspector regions={regions} selected={selected} sel={shownSel} onPick={pickRegion} />
           </div>
-          <ImagePanel state={state} forcedLoading={forcedLoading} onSample={loadSample} onFile={loadFile} regions={regions} selectedId={selected?.id ?? null} cursor={cursor} onCursor={setCursor} onPickRow={pickRow} />
-          <L3Evidence region={selected} cursor={cursor} imageHeight={imageHeight} />
-          <Hud note={verifyNote} rows={imageHeight} />
+          <ImagePanel state={state} forcedLoading={forcedLoading} onSample={loadSample} onFile={loadFile} regions={regions} selectedId={selected?.id ?? null} cursor={cursor} onCursor={setCursor} onPickRow={pickRow} ritual={{ ...ritual, speed, reduced, onHover: setHover }} />
+          <L3Evidence draws={draws} cursor={cursor} imageHeight={imageHeight} />
+          <Hud note={verifyNote} rows={imageHeight} status={rowStatus} light={light} />
         </main>
         <footer className="foot">
-          <p className="lock">Runs in your browser. Nothing is uploaded.</p>
-          <p>Created by Parth Radheshyam Laturiya. Direction, product decisions and review by the owner; code written by Kiro.</p>
+          <div className="foot-l">
+            <p className="lock">Runs in your browser. Nothing is uploaded.</p>
+            {phase === 'done' ? <p className="recovered-line" data-testid="recovered-line">Recovered without the format specification.</p> : null}
+          </div>
+          <div className="foot-r">
+            <button type="button" className="toggle" aria-pressed={reduced} data-testid="reduce-motion" onClick={() => setReduced(!reduced)}>Reduce motion: {reduced ? 'on' : 'off'}</button>
+            <p className="credit">Created by Parth Radheshyam Laturiya. Direction, product decisions and review by the owner; code written by Kiro.</p>
+          </div>
         </footer>
       </div>
       <output hidden data-engine-status={engine}>{engine}</output>

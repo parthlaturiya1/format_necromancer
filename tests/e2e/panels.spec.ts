@@ -27,11 +27,12 @@ test('sample: the real engine rebuilds the picture, panels show it', async ({ pa
   const seen = watch(page, baseURL!);
   const requested: string[] = [];
   page.on('request', (r) => requested.push(new URL(r.url()).pathname));
-  await page.goto('/');
+  await page.goto('/?speed=4'); // the ritual plays at 4x so the test waits less
   expect(requested.some((p) => p.endsWith('.png'))).toBe(false); // no reference before recovery (R-U7)
   await page.getByRole('button', { name: 'Resurrect a sample' }).click();
   const canvas = page.locator('canvas.recovered');
   await expect(canvas).toBeVisible({ timeout: 20000 });
+  await expect(page.locator('.app[data-ritual="done"]')).toBeVisible({ timeout: 20000 });
   await expect(page.getByText('Rows rebuilt 111 of 111')).toBeVisible();
   await expect(page.getByText(/Hypothesis 1 of \d+/)).toBeVisible();
   await expect(page.getByText('Reference picture loaded after recovery')).toBeVisible();

@@ -5,6 +5,10 @@ import type { Sel } from '../selection';
 
 const STATUS = { ok: 'confident', uncertain: 'uncertain', unexplained: 'unexplained' } as const;
 
+const RULE_MAX = 90;
+/** One line: the engine's rule text cut at a word, with the rest behind "Show the full rule" (R-3 F2). */
+const short = (s: string) => (s.length <= RULE_MAX ? s : `${s.slice(0, RULE_MAX).replace(/\s+\S*$/, '')}…`);
+
 /** The region card (F-07). Shows the picked region, or says which bytes nothing explains. */
 export function Inspector({ regions, selected, sel, onPick }: { regions: Region[]; selected: Region | null; sel: Sel | null; onPick: (id: string, key: boolean) => void }) {
   const card = useRef<HTMLElement>(null);
@@ -22,9 +26,16 @@ export function Inspector({ regions, selected, sel, onPick }: { regions: Region[
         <>
           <h2 id="h-inspector">{selected.label}</h2>
           {selected.kind === 'row' ? null : <p className="insp-rows">{rowsText}</p>}
-          <p className="insp-rule" tabIndex={0}><strong>Rule: {ruleName(selected)}.</strong> {selected.rule}</p>
+          <p className="insp-rule"><strong>Rule: {ruleName(selected)}.</strong> {short(selected.rule)}</p>
+          {selected.rule.length > RULE_MAX ? (
+            <details className="insp-full">
+              <summary>Show the full rule</summary>
+              <p>{selected.rule}</p>
+            </details>
+          ) : null}
           <p className="insp-bytes mono" data-status={selected.status}>
-            Bytes {selected.ranges.map(rangeText).join(', and ')}. Confidence {selected.confidence.toFixed(2)}, {STATUS[selected.status]}.
+            <span>Bytes {selected.ranges.map(rangeText).join(', and ')}.</span>{' '}
+            <span className="pill" data-status={selected.status}>Confidence {selected.confidence.toFixed(2)}, {STATUS[selected.status]}</span>
           </p>
         </>
       ) : sel && sel.offset !== null ? (
