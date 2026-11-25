@@ -1,5 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { expect, test, type Page } from '@playwright/test';
+import { DEFAULT } from './sample';
 
 const AXE = readFileSync('node_modules/axe-core/axe.min.js', 'utf8');
 
@@ -33,10 +34,10 @@ test('sample: the real engine rebuilds the picture, panels show it', async ({ pa
   const canvas = page.locator('canvas.recovered');
   await expect(canvas).toBeVisible({ timeout: 20000 });
   await expect(page.locator('.app[data-ritual="done"]')).toBeVisible({ timeout: 20000 });
-  await expect(page.getByText('Rows rebuilt 111 of 111')).toBeVisible();
+  await expect(page.getByText(`Rows rebuilt ${DEFAULT.height} of ${DEFAULT.height}`)).toBeVisible();
   await expect(page.getByText(/Hypothesis 1 of \d+/)).toBeVisible();
-  await expect(page.getByText('Reference picture loaded after recovery')).toBeVisible();
-  expect(requested.some((p) => p.endsWith('rings-rand-111x111.png'))).toBe(true);
+  await expect(page.getByTestId('badge')).toHaveText('Exact match', { timeout: 20000 });
+  expect(requested.some((p) => p.endsWith(`${DEFAULT.id}.png`))).toBe(true);
   // The picture is colourful (not blank): count distinct colours on the canvas.
   const colours = await canvas.evaluate((c: HTMLCanvasElement) => {
     const d = c.getContext('2d')!.getImageData(0, 0, c.width, c.height).data;
@@ -48,7 +49,7 @@ test('sample: the real engine rebuilds the picture, panels show it', async ({ pa
   // Hex: only a window of rows in the DOM, coloured from evidence.
   expect(await page.locator('.hex-row').count()).toBeLessThan(60);
   expect(await page.locator('.hex-bytes .b.s2').count()).toBeGreaterThan(0);
-  await expect(page.getByRole('region', { name: /^Bytes of rings-rand-111x111\.pcx/ })).toBeVisible();
+  await expect(page.getByRole('region', { name: new RegExp(`^Bytes of ${DEFAULT.id}\\.pcx`) })).toBeVisible();
   expect(seen.errors).toEqual([]);
   expect(seen.foreign).toEqual([]);
   for (const [w, h] of [[1440, 900], [390, 844]] as const) {

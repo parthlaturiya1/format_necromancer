@@ -7,7 +7,13 @@ const STATUS = { ok: 'confident', uncertain: 'uncertain', unexplained: 'unexplai
 
 const RULE_MAX = 90;
 /** One line: the engine's rule text cut at a word, with the rest behind "Show the full rule" (R-3 F2). */
-const short = (s: string) => (s.length <= RULE_MAX ? s : `${s.slice(0, RULE_MAX).replace(/\s+\S*$/, '')}…`);
+const short = (s: string) => {
+  if (s.length <= RULE_MAX) return s;
+  const cut = s.slice(0, RULE_MAX);
+  const end = cut.lastIndexOf('. '); // a sentence end is the best place to stop
+  if (end > 30) return cut.slice(0, end + 1);
+  return `${cut.replace(/\s+\S*$/, '').replace(/\s+(a|an|the|of|to|and|or|in|on|for|with|by|is|as|that|which)$/i, '')}\u2026`;
+};
 
 /** The region card (F-07). Shows the picked region, or says which bytes nothing explains. */
 export function Inspector({ regions, selected, sel, onPick }: { regions: Region[]; selected: Region | null; sel: Sel | null; onPick: (id: string, key: boolean) => void }) {

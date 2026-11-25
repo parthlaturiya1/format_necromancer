@@ -1,5 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { expect, test, type Page } from '@playwright/test';
+import { DEFAULT } from './sample';
 
 const AXE = readFileSync('node_modules/axe-core/axe.min.js', 'utf8');
 
@@ -33,7 +34,7 @@ async function openSample(page: Page) {
 }
 
 /** Click the middle of row `r` of the picture. */
-async function clickRow(page: Page, r: number, height = 111) {
+async function clickRow(page: Page, r: number, height = DEFAULT.height) {
   const box = (await page.locator('canvas.recovered').boundingBox())!;
   await page.mouse.click(box.x + box.width / 2, box.y + ((r + 0.5) / height) * box.height);
 }

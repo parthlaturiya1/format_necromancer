@@ -219,6 +219,8 @@ export function ImagePanel({ state, forcedLoading, onSample, onFile, ritual, ...
   const hyps = analysis && analysis.status === 'ok' ? analysis.hypotheses : [];
   const hyp = ok ? hyps.find((h) => h.id === ok.hypothesisId) : undefined;
   const total = hyps.length;
+  // R-4 F5: show distinct guesses only. A loser that reads exactly like one already shown goes into "more behind these".
+  const top = hyps.filter((h, i, a) => a.findIndex((x) => describeShort(x.layout) === describeShort(h.layout) && x.confidence === h.confidence && (x.lostBecause ?? '') === (h.lostBecause ?? '')) === i).slice(0, 3);
   const rb = ok ? ritual.beat : 0;
   const bytesN = state.phase === 'done' ? state.bytes.length : 0;
   const view = busy ? 'loading' : ok ? (rb >= 1 && rb <= 3 ? 'ritual' : 'done') : state.phase === 'idle' ? 'empty' : 'failed';
@@ -243,7 +245,7 @@ export function ImagePanel({ state, forcedLoading, onSample, onFile, ritual, ...
     '',
     `${bytesN.toLocaleString('en-US')} bytes. Nothing in them has a name yet.`,
     `Listening to the bytes for ${analysis && analysis.status === 'ok' ? analysis.evidence.filter((e) => e.hypothesisId === ok.hypothesisId).length : 0} kinds of structure.`,
-    `${total} layout guesses, ranked. ${total > 3 ? 'The top three are shown.' : ''}`,
+    `${total} layout guesses, ranked. ${total > top.length ? `${total - top.length} more behind these.` : ''}`,
     `Tying ${ok.height} rows to the bytes that make them.`,
     `Rebuilding ${ok.height} rows.`,
     `Rebuilt ${ok.width} by ${ok.height} from ${bytesN.toLocaleString('en-US')} bytes.`,
@@ -279,7 +281,7 @@ export function ImagePanel({ state, forcedLoading, onSample, onFile, ritual, ...
               ) : null}
               {rb === 3 ? (
                 <ol className="hcards" aria-label="Layout guesses, best first">
-                  {hyps.slice(0, 3).map((h, i) => (
+                  {top.map((h, i) => (
                     <li key={h.id} className={`hcard${i === 0 ? ' win' : ' lost'}`} style={{ '--c': h.confidence, '--i': i } as React.CSSProperties}>
                       <button
                         type="button"

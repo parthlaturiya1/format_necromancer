@@ -1,5 +1,6 @@
 import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
 import { expect, test, type Page } from '@playwright/test';
+import { DEFAULT } from './sample';
 
 const AXE = readFileSync('node_modules/axe-core/axe.min.js', 'utf8');
 const SCREENS = 'docs/verification/screens';
@@ -78,8 +79,8 @@ test('each beat shows its own content, taken from the engine result', async ({ p
   await expect(page.locator('.hex-bytes .b.s2')).toHaveCount(0);
   await page.goto('/?beat=5&p=0.5');
   await expect(page.locator('canvas.recovered')).toHaveAttribute('data-shown', '55');
-  await expect(page.getByText('Rows rebuilt 55 of 111')).toBeVisible();
-  expect(await page.locator('.dots i[data-s]').count()).toBe(111);
+  await expect(page.getByText(`Rows rebuilt ${Math.floor(0.5 * DEFAULT.height)} of ${DEFAULT.height}`)).toBeVisible();
+  expect(await page.locator('.dots i[data-s]').count()).toBe(DEFAULT.height);
 });
 
 test('speed 4x finishes in about a quarter of the time of 1x (F-01)', async ({ page }) => {
@@ -126,8 +127,8 @@ test('reduced motion: end state of each beat, Next beat steps, Skip to result fi
   expect(await page.evaluate(() => document.getAnimations().length)).toBe(0);
   await page.getByRole('button', { name: 'Skip to result' }).click();
   await done(page);
-  await expect(page.getByText('Rows rebuilt 111 of 111')).toBeVisible();
-  await expect(page.locator('canvas.recovered')).toHaveAttribute('data-shown', '111');
+  await expect(page.getByText(`Rows rebuilt ${DEFAULT.height} of ${DEFAULT.height}`)).toBeVisible();
+  await expect(page.locator('canvas.recovered')).toHaveAttribute('data-shown', String(DEFAULT.height));
   expect(await axe(page)).toEqual([]);
   expect(seen.errors).toEqual([]);
 });

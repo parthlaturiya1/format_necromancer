@@ -30,8 +30,8 @@ function measure(stage: HTMLElement, region: Region | null, cursor: number | nul
     const l1 = Math.floor((q.end - 1) / PER_ROW);
     const top = hr.top + ((l0 + l1 + 1) / 2) * ROW_H - hexv.scrollTop;
     if (top > hr.top && top < hr.bottom) {
-      const last = l0 === l1 ? hexv.querySelector(`[data-o="${q.end - 1}"]`) : hexv.querySelector('.hex-bytes');
-      const x0 = (last ? last.getBoundingClientRect().right : hr.right - 8) - st.left + 4;
+      // R-4 F2: leave from the right edge of the bytes panel, in clear space, never from inside a row of readable bytes.
+      const x0 = hr.right - st.left - 2;
       const y0 = top - st.top;
       const t = rows[0]!;
       const x1 = t.x + CAP_INSET;

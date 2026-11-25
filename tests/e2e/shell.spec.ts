@@ -46,6 +46,9 @@ test('shell: loading state, 404 page and 500 page are reachable', async ({ page,
   await page.goto('/404.html');
   await expect(page.getByRole('heading', { name: 'Nothing is buried here' })).toBeVisible();
   await page.goto('/');
+  // A hash set before the app has hydrated can be wiped by the router's first replaceState before any listener exists.
+  // The engine status leaves 'starting' only after the shell's effects ran, so the hook is listening from then on.
+  await expect(page.locator('output[data-engine-status]')).not.toHaveAttribute('data-engine-status', 'starting');
   await page.evaluate(() => { window.location.hash = 'crash'; });
   await expect(page.getByRole('heading', { name: 'The app stopped' })).toBeVisible();
   expect(seen.foreign).toEqual([]);

@@ -4,8 +4,9 @@ import type { ByteRange } from '../engine/types';
 import { L0Field } from './layers/L0Field';
 import { BytesPanel } from './panels/BytesPanel';
 import { ImagePanel } from './panels/ImagePanel';
-import { Hud, type GridLight } from './hud/Hud';
-import { probeEngine, runEngine, type EngineStatus } from './worker/client';
+import { Hud, type Check, type GridLight } from './hud/Hud';
+import { browserInflate, decodePng } from '../engine/png';
+import { probeEngine, runEngine, runVerify, type EngineStatus } from './worker/client';
 import { initialState, reducer } from './state';
 import { L3Evidence, type Draw } from './layers/L3Evidence';
 import { Inspector } from './panels/Inspector';
@@ -15,7 +16,8 @@ import type { Sel } from './selection';
 
 export const MAX_FILE_BYTES = 10 * 1024 * 1024; // same as the engine limit (maxInputBytes)
 
-type SampleIndex = { default: string; samples: { id: string; path: string; bytes: number; reference: string }[] };
+type SampleEntry = { id: string; path: string; bytes: number; reference: string; label?: string };
+type SampleIndex = { default: string; samples: SampleEntry[] };
 
 // Dev hooks so every state is reachable: #loading, #crash (shows error.tsx). Default is the empty state.
 const readHash = (): string => window.location.hash.slice(1);
@@ -44,6 +46,9 @@ export function Shell() {
   const [reducedPref, setReducedPref] = useState<boolean | null>(null);
   const [hold, setHold] = useState<Hold>(null);
   const [hover, setHover] = useState<ReadonlyArray<ByteRange> | null>(null);
+  const [check, setCheck] = useState<Check>({ k: 'none' });
+  const [blind, setBlind] = useState<string | null>(null);
+  const [samples, setSamples] = useState<SampleIndex | null>(null);
   const run = useRef(0); // a newer load makes older ones stop reporting
   const reduced = reducedPref ?? osReduced;
 
@@ -51,11 +56,14 @@ export function Shell() {
   const setReduced = useCallback((v: boolean) => { setReducedPref(v); store.set('fn.reduced', v ? '1' : '0'); }, []);
 
   useEffect(() => {
-    const sync = () => setHash(readHash());
+    // Read the hash from the event, not the address bar: on a cold load the router's first replaceState can wipe the
+    // hash between the change and this handler, which made the #crash hook miss about one load in four.
+    const sync = (e?: HashChangeEvent) => setHash(e ? new URL(e.newURL).hash.slice(1) : readHash());
     sync();
     window.addEventListener('hashchange', sync);
     let live = true;
     void probeEngine().then((s) => live && setEngine(s));
+    void fetch('/samples/index.json').then((r) => r.json() as Promise<SampleIndex>).then((i) => live && setSamples(i), () => undefined);
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
     const onMq = () => setOsReduced(mq.matches);
     onMq();
@@ -113,8 +121,10 @@ export function Shell() {
     return [{ region: found, role: 'main' }, ...(other && other.id !== found.id ? [{ region: other, role: 'alt' as const }] : [])];
   }, [rb, ritual.finished, playing, regions, found]);
 
-  const start = useCallback(async (name: string, read: () => Promise<ArrayBuffer>, referenceUrl?: string) => {
+  const start = useCallback(async (name: string, read: () => Promise<ArrayBuffer>, referenceUrl?: string, label?: string) => {
     const mine = ++run.current;
+    setCheck({ k: 'none' });
+    setBlind(label ?? null);
     dispatch({ type: 'load', name });
     try {
       const buf = await read();
@@ -123,10 +133,18 @@ export function Shell() {
       const result = await runEngine(buf.slice(0));
       if (mine !== run.current) return;
       dispatch({ type: 'result', result });
-      // R-U7: the reference is fetched only after recovery, and only for bundled samples. Its check arrives in T-17.
+      // R-U7: the reference is fetched only after recovery, and only for bundled samples. Every bundled sample has one.
       if (referenceUrl && result.recovered.status === 'ok') {
-        const ok = await fetch(referenceUrl).then((r) => (r.ok ? r.arrayBuffer().then(() => true) : false), () => false);
-        if (mine === run.current) dispatch({ type: 'reference', status: ok ? 'loaded' : 'missing' });
+        setCheck({ k: 'pending' });
+        try {
+          const r = await fetch(referenceUrl);
+          if (!r.ok) throw new Error('reference missing');
+          const ref = await decodePng(new Uint8Array(await r.arrayBuffer()), browserInflate);
+          const report = await runVerify(ref);
+          if (mine === run.current) setCheck({ k: 'done', report });
+        } catch {
+          if (mine === run.current) setCheck({ k: 'missing' });
+        }
       }
     } catch (e) {
       if (mine === run.current) dispatch({ type: 'fail', name, reason: e instanceof Error ? e.message : 'The file could not be read.' });
@@ -142,17 +160,17 @@ export function Shell() {
     void start(file.name, () => file.arrayBuffer());
   }, [start]);
 
-  const loadSample = useCallback(() => {
+  const loadSample = useCallback((id?: string) => {
     void (async () => {
       try {
         const index = (await (await fetch('/samples/index.json')).json()) as SampleIndex;
-        const s = index.samples.find((x) => x.id === index.default) ?? index.samples[0];
+        const s = index.samples.find((x) => x.id === (id ?? index.default)) ?? index.samples[0];
         if (!s) throw new Error('No bundled sample was found.');
         await start(`${s.id}.pcx`, async () => {
           const r = await fetch(s.path);
           if (!r.ok) throw new Error('The sample could not be loaded.');
           return r.arrayBuffer();
-        }, s.reference);
+        }, s.reference, s.label);
       } catch (e) {
         dispatch({ type: 'fail', name: 'sample', reason: e instanceof Error ? e.message : 'The sample could not be loaded.' });
       }
@@ -164,7 +182,7 @@ export function Shell() {
   useEffect(() => {
     if (auto1.current) return;
     const q = new URLSearchParams(window.location.search);
-    if (q.get('demo') === '1' || q.has('beat')) { auto1.current = true; loadSample(); }
+    if (q.get('demo') === '1' || q.has('beat')) { auto1.current = true; loadSample(q.get('sample') ?? undefined); }
   }, [loadSample]);
 
   if (hash === 'crash') throw new Error('Demo crash requested with #crash');
@@ -177,15 +195,6 @@ export function Shell() {
     : state.phase === 'failed' ? `${state.name}, could not be opened`
     : state.phase === 'analysing' ? `${state.name}, ${state.bytes.length.toLocaleString('en-US')} bytes, format unknown`
     : `${state.name}, ${state.bytes.length.toLocaleString('en-US')} bytes`;
-
-  const hasSample = state.phase === 'done' && state.reference !== 'none';
-  const verifyNote =
-    state.phase !== 'done' ? 'Waiting for a recovered image to check.'
-    : state.reference === 'loaded' ? 'Reference picture loaded after recovery. The check itself runs in a later step.'
-    : state.reference === 'missing' ? 'The reference picture could not be loaded.'
-    : hasSample ? 'Waiting for a recovered image to check.'
-    : state.result.recovered.status === 'ok' ? 'Your own file has no reference picture, so there is nothing to check against.'
-    : 'Nothing was recovered, so there is nothing to check.';
 
   const rowStatus = result && result.recovered.status === 'ok' ? result.recovered.rows.reduce<string[]>((a, r) => { a[r.index] = r.status; return a; }, []) : null;
   const light: GridLight = rb === 0 ? { mode: rowStatus ? 'on' : 'off' } : rb < 5 ? { mode: 'off' } : rb === 5 && ritual.fixed === null ? { mode: 'play', ms: ritual.ms } : rb === 5 && ritual.fixed !== null && ritual.fixed < 1 ? { mode: 'part', share: ritual.fixed } : { mode: 'on' };
@@ -227,12 +236,12 @@ export function Shell() {
             if (f) loadFile(f);
           }}
         >
-          <div className="col col-bytes"><BytesPanel state={state} onFile={loadFile} regions={regions} sel={shownSel} selected={selected} onPickByte={pickByte} beat={rb} hover={hover} />
+          <div className="col col-bytes"><BytesPanel state={state} onFile={loadFile} regions={regions} sel={shownSel} selected={selected} onPickByte={pickByte} beat={rb} hover={hover ?? (rb === 3 && result && result.analysis.status === 'ok' ? (result.analysis.hypotheses[0]?.ranges ?? null) : null)} />
             <Inspector regions={regions} selected={selected} sel={shownSel} onPick={pickRegion} />
           </div>
-          <ImagePanel state={state} forcedLoading={forcedLoading} onSample={loadSample} onFile={loadFile} regions={regions} selectedId={selected?.id ?? null} cursor={cursor} onCursor={setCursor} onPickRow={pickRow} ritual={{ ...ritual, speed, reduced, onHover: setHover }} />
+          <ImagePanel state={state} forcedLoading={forcedLoading} onSample={() => loadSample()} onFile={loadFile} regions={regions} selectedId={selected?.id ?? null} cursor={cursor} onCursor={setCursor} onPickRow={pickRow} ritual={{ ...ritual, speed, reduced, onHover: setHover }} />
           <L3Evidence draws={draws} cursor={cursor} imageHeight={imageHeight} />
-          <Hud note={verifyNote} rows={imageHeight} status={rowStatus} light={light} />
+          <Hud result={result} name={state.phase === 'done' ? state.name : ''} regions={regions} light={light} proof={rb === 6} check={check} blind={blind} fileBytes={state.phase === 'done' ? state.bytes.length : 0} selectedId={selected?.id ?? null} onPickRow={pickRow} />
         </main>
         <footer className="foot">
           <div className="foot-l">
@@ -240,6 +249,15 @@ export function Shell() {
             {phase === 'done' ? <p className="recovered-line" data-testid="recovered-line">Recovered without the format specification.</p> : null}
           </div>
           <div className="foot-r">
+            {samples && samples.samples.length > 1 ? (
+              <label className="sample-pick">
+                <span>Sample</span>
+                <select data-testid="sample-pick" value="" onChange={(e) => e.target.value && loadSample(e.target.value)}>
+                  <option value="">Choose a sample</option>
+                  {samples.samples.map((s) => <option key={s.id} value={s.id}>{s.label ? `${s.id} (${s.label})` : s.id}</option>)}
+                </select>
+              </label>
+            ) : null}
             <button type="button" className="toggle" aria-pressed={reduced} data-testid="reduce-motion" onClick={() => setReduced(!reduced)}>Reduce motion: {reduced ? 'on' : 'off'}</button>
             <p className="credit">Created by Parth Radheshyam Laturiya. Direction, product decisions and review by the owner; code written by Kiro.</p>
           </div>

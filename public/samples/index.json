@@ -88,6 +88,15 @@
       "reference": "/samples/tiny-rand-7x5.png",
       "width": 7,
       "height": 5
+    },
+    {
+      "id": "blind-heldout-01",
+      "path": "/samples/blind-heldout-01.pcx",
+      "bytes": 4019,
+      "reference": "/samples/blind-heldout-01.png",
+      "width": 150,
+      "height": 90,
+      "label": "Blind test: held-out file, never used for tuning"
     }
   ]
 }

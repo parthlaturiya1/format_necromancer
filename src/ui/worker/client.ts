@@ -1,5 +1,7 @@
 import type { WorkerRequest, WorkerResponse } from '../../engine/worker-protocol';
 import type { PipelineResult } from '../../engine/pipeline';
+import type { VerificationReport } from '../../engine/verify';
+import type { DecodedPng } from '../../engine/png';
 
 export type EngineStatus = 'starting' | 'ready' | 'error';
 
@@ -12,7 +14,7 @@ export function probeEngine(): Promise<EngineStatus> {
 }
 let shared: Worker | null = null;
 let seq = 100;
-const pending = new Map<number, { ok: (r: PipelineResult) => void; err: (reason: string) => void }>();
+const pending = new Map<number, { ok: (r: WorkerResponse) => void; err: (reason: string) => void }>();
 
 function failAll(reason: string) {
   shared?.terminate();
@@ -28,8 +30,8 @@ function engine(): Worker {
     const p = pending.get(e.data.id);
     if (!p) return;
     pending.delete(e.data.id);
-    if (e.data.kind === 'result') p.ok(e.data.result);
-    else p.err(e.data.kind === 'error' ? e.data.reason : 'The engine sent an unexpected reply.');
+    if (e.data.kind === 'error') p.err(e.data.reason);
+    else p.ok(e.data);
   };
   w.onerror = () => failAll('The engine stopped unexpectedly.');
   shared = w;
@@ -41,10 +43,28 @@ export function runEngine(buffer: ArrayBuffer, timeoutMs = 120000): Promise<Pipe
   return new Promise((ok, err) => {
     const id = ++seq;
     const timer = setTimeout(() => failAll('The engine took too long and was stopped.'), timeoutMs);
-    pending.set(id, { ok: (r) => { clearTimeout(timer); ok(r); }, err: (m) => { clearTimeout(timer); err(new Error(m)); } });
+    pending.set(id, { ok: (r) => { clearTimeout(timer); if (r.kind === 'result') ok(r.result); else err(new Error('The engine sent an unexpected reply.')); }, err: (m) => { clearTimeout(timer); err(new Error(m)); } });
     try {
       const req: WorkerRequest = { id, kind: 'run', bytes: buffer };
       engine().postMessage(req, [buffer]);
+    } catch {
+      clearTimeout(timer);
+      pending.delete(id);
+      err(new Error('The engine could not start in this browser.'));
+    }
+  });
+}
+
+/** Compares the last recovered picture (held by the worker) with a reference. The reference is sent only now, after recovery (R-U7). */
+export function runVerify(reference: DecodedPng, timeoutMs = 60000): Promise<VerificationReport> {
+  return new Promise((ok, err) => {
+    const id = ++seq;
+    const timer = setTimeout(() => failAll('The check took too long and was stopped.'), timeoutMs);
+    pending.set(id, { ok: (r) => { clearTimeout(timer); if (r.kind === 'verified') ok(r.verification); else err(new Error('The engine sent an unexpected reply.')); }, err: (m) => { clearTimeout(timer); err(new Error(m)); } });
+    try {
+      const rgb = reference.rgb.slice().buffer;
+      const req: WorkerRequest = { id, kind: 'verify', reference: { width: reference.width, height: reference.height, rgb } };
+      engine().postMessage(req, [rgb]);
     } catch {
       clearTimeout(timer);
       pending.delete(id);
