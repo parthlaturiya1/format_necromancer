@@ -33,6 +33,16 @@ const secretScan = () => {
 const run = (cmd) => () => spawnSync(cmd[0], cmd.slice(1), { stdio: 'inherit', env }).status ?? 1;
 const shell = (line) => () => spawnSync(line, { stdio: 'inherit', env, shell: true }).status ?? 1;
 
+// Warning only (provenance.md 9.3): UNATTRIBUTED lines are kept for latest.md, never fail the gate.
+const warnings = [];
+const provenanceCheck = () => {
+  const r = spawnSync(node, ['scripts/provenance/check.mjs'], { encoding: 'utf8', env });
+  process.stdout.write(r.stdout ?? '');
+  process.stderr.write(r.stderr ?? '');
+  warnings.push(...(r.stdout ?? '').split('\n').filter((l) => l.startsWith('UNATTRIBUTED')));
+  return r.status === 0 ? 0 : 1;
+};
+
 const steps = [
   ['1 Typecheck', run([...bin('node_modules/typescript/bin/tsc'), '--noEmit'])],
   ['2 Lint', run([...bin('node_modules/eslint/bin/eslint.js'), '.'])],
@@ -44,7 +54,7 @@ const steps = [
   ['8 Budgets', stub('engine timing, bundle size, Lighthouse CI not configured yet')],
   ['9a Audit (high/critical)', shell('npm audit --audit-level=high')],
   ['9b Secret scan', secretScan],
-  ['10 provenance:check', stub('provenance recorder not built yet')],
+  ['10 provenance:check', provenanceCheck],
 ];
 
 const results = [];
@@ -74,6 +84,10 @@ const md = [
   '| Step | Result |',
   '|---|---|',
   ...results.map(([n, r]) => `| ${n} | ${r} |`),
+  '',
+  `## Provenance warnings (${warnings.length})`,
+  '',
+  ...(warnings.length ? warnings.map((w) => `- ${w}`) : ['None.']),
   '',
   '## Feature register',
   '',

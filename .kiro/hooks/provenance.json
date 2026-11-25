@@ -1,0 +1,85 @@
+{
+    "version":  "v1",
+    "hooks":  [
+                  {
+                      "name":  "provenance-prompt-submit",
+                      "description":  "Append a ledger line on UserPromptSubmit (scripts/provenance/record.mjs). Payload arrives on stdin.",
+                      "trigger":  "UserPromptSubmit",
+                      "action":  {
+                                     "type":  "command",
+                                     "command":  "node scripts/provenance/record.mjs --agent kiro --event UserPromptSubmit --summary UserPromptSubmit"
+                                 },
+                      "timeout":  10
+                  },
+                  {
+                      "name":  "provenance-post-tool-use",
+                      "description":  "Append a ledger line on PostToolUse (scripts/provenance/record.mjs). Payload arrives on stdin.",
+                      "trigger":  "PostToolUse",
+                      "action":  {
+                                     "type":  "command",
+                                     "command":  "node scripts/provenance/record.mjs --agent kiro --event PostToolUse --summary PostToolUse"
+                                 },
+                      "timeout":  10
+                  },
+                  {
+                      "name":  "provenance-file-create",
+                      "description":  "Append a ledger line on PostFileCreate (scripts/provenance/record.mjs). Payload arrives on stdin.",
+                      "trigger":  "PostFileCreate",
+                      "action":  {
+                                     "type":  "command",
+                                     "command":  "node scripts/provenance/record.mjs --agent kiro --event PostFileCreate --summary PostFileCreate --path \"{{filePath}}\""
+                                 },
+                      "timeout":  10
+                  },
+                  {
+                      "name":  "provenance-file-save",
+                      "description":  "Append a ledger line on PostFileSave (scripts/provenance/record.mjs). Payload arrives on stdin.",
+                      "trigger":  "PostFileSave",
+                      "action":  {
+                                     "type":  "command",
+                                     "command":  "node scripts/provenance/record.mjs --agent kiro --event PostFileSave --summary PostFileSave --path \"{{filePath}}\""
+                                 },
+                      "timeout":  10
+                  },
+                  {
+                      "name":  "provenance-file-delete",
+                      "description":  "Append a ledger line on PostFileDelete (scripts/provenance/record.mjs). Payload arrives on stdin.",
+                      "trigger":  "PostFileDelete",
+                      "action":  {
+                                     "type":  "command",
+                                     "command":  "node scripts/provenance/record.mjs --agent kiro --event PostFileDelete --summary PostFileDelete --path \"{{filePath}}\""
+                                 },
+                      "timeout":  10
+                  },
+                  {
+                      "name":  "provenance-agent-stop",
+                      "description":  "Append a ledger line on Stop (scripts/provenance/record.mjs). Payload arrives on stdin.",
+                      "trigger":  "Stop",
+                      "action":  {
+                                     "type":  "command",
+                                     "command":  "node scripts/provenance/record.mjs --agent kiro --event Stop --summary Stop"
+                                 },
+                      "timeout":  10
+                  },
+                  {
+                      "name":  "provenance-pre-task",
+                      "description":  "Append a ledger line on PreTaskExec (scripts/provenance/record.mjs). Payload arrives on stdin.",
+                      "trigger":  "PreTaskExec",
+                      "action":  {
+                                     "type":  "command",
+                                     "command":  "node scripts/provenance/record.mjs --agent kiro --event PreTaskExec --summary PreTaskExec"
+                                 },
+                      "timeout":  10
+                  },
+                  {
+                      "name":  "provenance-post-task",
+                      "description":  "Append a ledger line on PostTaskExec (scripts/provenance/record.mjs). Payload arrives on stdin.",
+                      "trigger":  "PostTaskExec",
+                      "action":  {
+                                     "type":  "command",
+                                     "command":  "node scripts/provenance/record.mjs --agent kiro --event PostTaskExec --summary PostTaskExec"
+                                 },
+                      "timeout":  10
+                  }
+              ]
+}

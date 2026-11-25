@@ -10,7 +10,8 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "test": "vitest run",
-    "verify": "node scripts/verify.mjs"
+    "verify": "node scripts/verify.mjs",
+    "provenance:check": "node scripts/provenance/check.mjs"
   },
   "dependencies": {
     "next": "16.4.6",
