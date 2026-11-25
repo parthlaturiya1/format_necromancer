@@ -2,19 +2,19 @@
 
 ## Recovery (T-08): **11 of 11** tuning samples recovered exactly against the reference
 
-Reference pixels were loaded only after recovery, and compared in this test, not in the engine. The recoverer reads no reference. The run decoder (`src/engine/decoders/run-length-rows.ts`) is format-aware and disclosed. Row weights and thresholds in `src/engine/config.ts` are guesses. Exact on the tuning set is not a blind result (the blind test is T-12). Held-out file not read.
+Reference pixels were loaded only after recovery, and compared by the verifier (`src/engine/verify.ts`, T-09). The recoverer reads no reference. The run decoder (`src/engine/decoders/run-length-rows.ts`) is format-aware and disclosed. Row weights and thresholds in `src/engine/config.ts` are guesses. Exact on the tuning set is not a blind result (the blind test is T-12). Held-out file not read.
 
-- hgrad-gray-64x48: **exact**, rows ok 48 / uncertain 0 / unexplained 0, confidence 1.
-- vgrad-fire-97x61: **exact**, rows ok 61 / uncertain 0 / unexplained 0, confidence 1.
-- shapes-rand-128x96: **exact**, rows ok 96 / uncertain 0 / unexplained 0, confidence 1.
-- checker8-ocean-80x80: **exact**, rows ok 80 / uncertain 0 / unexplained 0, confidence 1.
-- checker1-gray-65x33: **exact**, rows ok 33 / uncertain 0 / unexplained 0, confidence 1.
-- stripes-rand-200x40: **exact**, rows ok 40 / uncertain 0 / unexplained 0, confidence 1.
-- text-fire-160x32: **exact**, rows ok 32 / uncertain 0 / unexplained 0, confidence 1.
-- rings-rand-111x111: **exact**, rows ok 111 / uncertain 0 / unexplained 0, confidence 1.
-- diag-ocean-256x16: **exact**, rows ok 16 / uncertain 0 / unexplained 0, confidence 1.
-- solid-gray-32x32: **exact**, rows ok 32 / uncertain 0 / unexplained 0, confidence 1.
-- tiny-rand-7x5: **exact**, rows ok 5 / uncertain 0 / unexplained 0, confidence 1.
+- hgrad-gray-64x48: verifier: **exact**, 0 mismatches; rows ok 48 / uncertain 0 / unexplained 0, confidence 1.
+- vgrad-fire-97x61: verifier: **exact**, 0 mismatches; rows ok 61 / uncertain 0 / unexplained 0, confidence 1.
+- shapes-rand-128x96: verifier: **exact**, 0 mismatches; rows ok 96 / uncertain 0 / unexplained 0, confidence 1.
+- checker8-ocean-80x80: verifier: **exact**, 0 mismatches; rows ok 80 / uncertain 0 / unexplained 0, confidence 1.
+- checker1-gray-65x33: verifier: **exact**, 0 mismatches; rows ok 33 / uncertain 0 / unexplained 0, confidence 1.
+- stripes-rand-200x40: verifier: **exact**, 0 mismatches; rows ok 40 / uncertain 0 / unexplained 0, confidence 1.
+- text-fire-160x32: verifier: **exact**, 0 mismatches; rows ok 32 / uncertain 0 / unexplained 0, confidence 1.
+- rings-rand-111x111: verifier: **exact**, 0 mismatches; rows ok 111 / uncertain 0 / unexplained 0, confidence 1.
+- diag-ocean-256x16: verifier: **exact**, 0 mismatches; rows ok 16 / uncertain 0 / unexplained 0, confidence 1.
+- solid-gray-32x32: verifier: **exact**, 0 mismatches; rows ok 32 / uncertain 0 / unexplained 0, confidence 1.
+- tiny-rand-7x5: verifier: **exact**, 0 mismatches; rows ok 5 / uncertain 0 / unexplained 0, confidence 1.
 
 ## Analysis (T-06)
 

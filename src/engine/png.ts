@@ -94,3 +94,59 @@ export async function decodePng(png: Uint8Array, inflate: Inflate): Promise<Deco
   }
   return { width, height, rgb };
 }
+
+export type Deflate = (data: Uint8Array) => Promise<Uint8Array>;
+
+/** Deflate (zlib format) with the browser's CompressionStream. Tests pass Node zlib instead. */
+export const browserDeflate: Deflate = async (data) => {
+  const stream = new Blob([data as BlobPart]).stream().pipeThrough(new CompressionStream('deflate'));
+  return new Uint8Array(await new Response(stream).arrayBuffer());
+};
+
+const CRC_TABLE = (() => {
+  const t = new Uint32Array(256);
+  for (let n = 0; n < 256; n++) {
+    let c = n;
+    for (let k = 0; k < 8; k++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1;
+    t[n] = c >>> 0;
+  }
+  return t;
+})();
+const crc32 = (b: Uint8Array) => {
+  let c = 0xffffffff;
+  for (let i = 0; i < b.length; i++) c = CRC_TABLE[(c ^ b[i]!) & 255]! ^ (c >>> 8);
+  return (c ^ 0xffffffff) >>> 0;
+};
+
+function chunk(type: string, data: Uint8Array): Uint8Array {
+  const out = new Uint8Array(12 + data.length);
+  const dv = new DataView(out.buffer);
+  dv.setUint32(0, data.length);
+  for (let i = 0; i < 4; i++) out[4 + i] = type.charCodeAt(i);
+  out.set(data, 8);
+  dv.setUint32(8 + data.length, crc32(out.subarray(4, 8 + data.length)));
+  return out;
+}
+
+/** Encode RGB pixels as an 8-bit RGB PNG (filter 0, one IDAT) for download. */
+export async function encodePng(width: number, height: number, rgb: Uint8Array, deflate: Deflate): Promise<Uint8Array> {
+  if (!(Number.isInteger(width) && Number.isInteger(height) && width > 0 && height > 0)) throw new Error('The picture size is not valid.');
+  if (rgb.length !== width * height * 3) throw new Error('The pixel data does not match the picture size.');
+  const raw = new Uint8Array((width * 3 + 1) * height);
+  for (let y = 0; y < height; y++) raw.set(rgb.subarray(y * width * 3, (y + 1) * width * 3), y * (width * 3 + 1) + 1);
+  const ihdr = new Uint8Array(13);
+  const dv = new DataView(ihdr.buffer);
+  dv.setUint32(0, width);
+  dv.setUint32(4, height);
+  ihdr[8] = 8;
+  ihdr[9] = 2;
+  const chunks = [chunk('IHDR', ihdr), chunk('IDAT', await deflate(raw)), chunk('IEND', new Uint8Array(0))];
+  const out = new Uint8Array(8 + chunks.reduce((a, c) => a + c.length, 0));
+  out.set(SIGNATURE);
+  let at = 8;
+  for (const c of chunks) {
+    out.set(c, at);
+    at += c.length;
+  }
+  return out;
+}
