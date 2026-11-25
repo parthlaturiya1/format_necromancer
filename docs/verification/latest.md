@@ -1,24 +1,28 @@
 # Verification
 
 Overall: **PASS**
-Run: 2026-11-25T10:34:49.989Z, Node v26.13.1
+Run: 2026-11-25T10:38:50.739Z, Node v26.13.1
 
 | Step | Result |
 |---|---|
-| 1 Typecheck | PASS (2.0s) |
-| 2 Lint | PASS (2.7s) |
-| 3 Unit tests | PASS (1.9s) |
-| 4 Property tests | PASS (0.8s) |
+| 1 Typecheck | PASS (1.9s) |
+| 2 Lint | PASS (3.1s) |
+| 3 Unit tests | PASS (2.0s) |
+| 4 Property tests | PASS (0.9s) |
 | 5 Golden corpus | PASS (stub, 0.1s) |
-| 6 Build | PASS (4.9s) |
-| 7 Playwright e2e | PASS (2.8s) |
+| 6 Build | PASS (5.9s) |
+| 7 Playwright e2e | PASS (4.2s) |
 | 8 Budgets | PASS (stub, 0.0s) |
-| 9a Audit (high/critical) | PASS (1.5s) |
+| 9a Audit (high/critical) | PASS (1.7s) |
 | 9b Secret scan | PASS (0.1s) |
 | 10 provenance:check | PASS (0.2s) |
 
-## Provenance warnings (73)
+## Provenance warnings (77)
 
+- UNATTRIBUTED 05dab4e .kiro/specs/engine/design.md
+- UNATTRIBUTED 05dab4e .kiro/specs/engine/requirements.md
+- UNATTRIBUTED 05dab4e .kiro/specs/engine/tasks.md
+- UNATTRIBUTED 1527778 docs/verification/latest.md
 - UNATTRIBUTED ada6685 corpus/README.md
 - UNATTRIBUTED ada6685 corpus/heldout/heldout-01.pcx
 - UNATTRIBUTED ada6685 corpus/manifest.schema.json
