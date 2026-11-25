@@ -22,6 +22,7 @@ export function Inspector({ regions, selected, sel, onPick }: { regions: Region[
       {selected ? (
         <>
           <h2 id="h-inspector">{selected.label}</h2>
+
           {selected.kind === 'row' ? null : <p className="insp-rows">{rowsText}</p>}
           <p className="insp-rule"><strong>Rule: {ruleName(selected)}.</strong> {shortRule(selected.rule)}</p>
           {shortRule(selected.rule) !== selected.rule ? (

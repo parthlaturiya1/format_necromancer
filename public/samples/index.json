@@ -121,6 +121,26 @@
       "width": 160,
       "height": 32,
       "label": "Changed file, recovered with lower confidence: the colour table was cut off"
+    },
+    {
+      "id": "real-abuse-end",
+      "path": "/samples/real-abuse-end.pcx",
+      "bytes": 49047,
+      "reference": "/samples/real-abuse-end.png",
+      "width": 320,
+      "height": 200,
+      "label": "Real game art (CC0)",
+      "real": true
+    },
+    {
+      "id": "real-abuse-credit",
+      "path": "/samples/real-abuse-credit.pcx",
+      "bytes": 83207,
+      "reference": "/samples/real-abuse-credit.png",
+      "width": 320,
+      "height": 200,
+      "label": "Real game art (CC0)",
+      "real": true
     }
   ]
 }

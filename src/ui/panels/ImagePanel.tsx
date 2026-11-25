@@ -211,7 +211,7 @@ function RecoveredCanvas({ width, height, rgb, status, reveal, bars, regions, se
 
 export type RitualProps = RitualView & { speed: number; reduced: boolean; onHover: (r: ReadonlyArray<ByteRange> | null) => void };
 
-export function ImagePanel({ state, forcedLoading, onSample, onFile, ritual, ...pick }: RowPick & { state: AppState; forcedLoading: boolean; onSample: () => void; onFile: (f: File) => void; ritual: RitualProps }) {
+export function ImagePanel({ state, forcedLoading, onSample, onFile, ritual, source, ...pick }: RowPick & { source: { text: string; href?: string } | null; state: AppState; forcedLoading: boolean; onSample: () => void; onFile: (f: File) => void; ritual: RitualProps }) {
   const busy = state.phase === 'loading' || state.phase === 'analysing' || forcedLoading;
   const rec = state.phase === 'done' ? state.result.recovered : null;
   const ok = rec && rec.status === 'ok' ? rec : null;
@@ -221,6 +221,8 @@ export function ImagePanel({ state, forcedLoading, onSample, onFile, ritual, ...
   const total = hyps.length;
   // R-4 F5: show distinct guesses only. A loser that reads exactly like one already shown goes into "more behind these".
   const top = hyps.filter((h, i, a) => a.findIndex((x) => describeShort(x.layout) === describeShort(h.layout) && x.confidence === h.confidence && (x.lostBecause ?? '') === (h.lostBecause ?? '')) === i).slice(0, 3);
+  // T-20: the failure list shows guesses that read differently only; the rest are counted.
+  const distinct = hyps.filter((h, i, a) => a.findIndex((x) => describeShort(x.layout) === describeShort(h.layout) && (x.lostBecause ?? '') === (h.lostBecause ?? '')) === i).slice(0, 3);
   const rb = ok ? ritual.beat : 0;
   const bytesN = state.phase === 'done' ? state.bytes.length : 0;
   const view = busy ? 'loading' : ok ? (rb >= 1 && rb <= 3 ? 'ritual' : 'done') : state.phase === 'idle' ? 'empty' : 'failed';
@@ -265,7 +267,7 @@ export function ImagePanel({ state, forcedLoading, onSample, onFile, ritual, ...
           <h2 id="h-image">Recovered image</h2>
           <p className={`meta${busy || ok ? ' live' : ''}`}>{meta}</p>
         </header>
-        <div className="image-stage" data-state={view}>
+        <div className="image-stage" data-state={view} style={ok ? ({ '--pic-h': `${ok.height + FRAME + 4}px` } as React.CSSProperties) : undefined}>
           {view === 'done' && ok ? (
             <RecoveredCanvas width={ok.width} height={ok.height} rgb={ok.rgb} status={rowStatus} reveal={reveal} bars={bars} {...pick} />
           ) : view === 'ritual' && ok ? (
@@ -312,17 +314,18 @@ export function ImagePanel({ state, forcedLoading, onSample, onFile, ritual, ...
                 <div className="failure-ghost" aria-hidden="true"><Ghost /></div>
                 <p className="failure-reason" role="alert" data-testid="failure-reason">{noImage}</p>
               </div>
-              {top.length > 0 ? (
+              {distinct.length > 0 ? (
                 <div className="found" data-testid="found">
                   <h3>Found before it failed</h3>
                   <ol>
-                    {top.map((h) => (
+                    {distinct.map((h) => (
                       <li key={h.id}>
                         <span className="found-what"><strong>Guess {h.rank}</strong> {describeShort(h.layout)} <span className="mono">{h.confidence.toFixed(2)}</span></span>
                         {h.lostBecause ? <span className="found-why">{h.lostBecause}</span> : null}
                       </li>
                     ))}
                   </ol>
+                  {total > distinct.length ? <p className="found-more" data-testid="found-more">{total - distinct.length} more like these</p> : null}
                 </div>
               ) : null}
               {buttons}
@@ -336,6 +339,9 @@ export function ImagePanel({ state, forcedLoading, onSample, onFile, ritual, ...
             </>
           )}
         </div>
+        {ok && source ? (
+          <p className="source-line" data-testid="source-line">{source.text}. <a href={source.href} target="_blank" rel="noopener noreferrer" data-testid="source-link">Abuse art on OpenGameArt<span className="sr-only"> (opens in a new tab)</span></a></p>
+        ) : null}
         {ok ? (
           <p className="beat-note" role="status" aria-live="polite" data-testid="beat-note">{note}</p>
         ) : null}

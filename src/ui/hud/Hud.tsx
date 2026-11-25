@@ -5,13 +5,12 @@ import { browserDeflate, encodePng } from '../../engine/png';
 import { buildEvidenceReport } from '../../engine/report';
 import type { VerificationReport } from '../../engine/verify';
 import { announce, type Region } from '../regions';
-import { coverage, mean, mismatchesByRow, rgbText, rowConfidences } from './stats';
+import { coverage, gridCols, mean, mismatchesByRow, rgbText, rowConfidences } from './stats';
 
 const DOTS = 14 * 5;
 // Empty state: a few rings pulse in turn so the grid looks alive. Opacity only.
 const PULSING = new Set([6, 21, 38, 52]);
 const PITCH = 17; // px per dot cell: a 12 px dot with room for its glow and a target to hit
-const MAX_COLS = 16;
 
 export type GridLight = { mode: 'off' } | { mode: 'play'; ms: number } | { mode: 'part'; share: number } | { mode: 'on' };
 /** How the picture was checked. none: the user's own file, nothing to check against. */
@@ -19,16 +18,6 @@ export type Check = { k: 'none' } | { k: 'pending' } | { k: 'missing' } | { k: '
 
 const f2 = (n: number) => n.toFixed(2);
 const num = (n: number) => n.toLocaleString('en-US');
-
-/** Columns for n dots: wide enough to stay compact, never above the cap, and the last row at least half full when possible. */
-export function gridCols(n: number): number {
-  if (n <= 0) return 1;
-  let best = Math.min(MAX_COLS, n);
-  for (let c = Math.min(MAX_COLS, n); c >= Math.max(4, Math.min(MAX_COLS, n) - 4); c--) {
-    if (n % c === 0 || n % c >= c / 2) { best = c; break; }
-  }
-  return best;
-}
 
 /** Hover and keyboard focus show one line, drawn where the pointer or focus is. `n` items, `text(i)` is the line. */
 function useScrub(n: number) {
@@ -67,7 +56,7 @@ function Dots({ regions, status, light, onPick, selectedId }: { regions: Region[
         aria-label={`Confidence grid, ${n} rows. ${count('ok')} confident, ${count('uncertain')} uncertain, ${count('unexplained')} unexplained. Arrow keys move, Enter jumps to the bytes.`}
         data-light={light.mode}
         data-testid="grid"
-        style={{ gridTemplateColumns: `repeat(${cols}, minmax(0, ${PITCH}px))`, maxWidth: cols * PITCH }}
+        style={{ gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`, maxWidth: cols * PITCH }}
         hidden={list}
         onPointerLeave={() => setTip(null)}
       >
@@ -205,6 +194,11 @@ function Spark({ byRow }: { byRow: number[] }) {
   );
 }
 
+/** Inline SVG icon (no icon library). d is the path. Decorative: the button has its own name. */
+function Icon({ d }: { d: string }) {
+  return <svg className="ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false"><path d={d} /></svg>;
+}
+
 function save(blob: Blob, filename: string) {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -216,7 +210,7 @@ function save(blob: Blob, filename: string) {
   setTimeout(() => URL.revokeObjectURL(url), 2000);
 }
 
-export type Note = { badge?: string; text: string };
+export type Note = { badge?: string; text: string; href?: string };
 
 function Verification({ result, name, check, blind, total }: { result: PipelineResult; name: string; check: Check; blind: Note | null; total: number }) {
   const rec = result.recovered;
@@ -251,7 +245,7 @@ function Verification({ result, name, check, blind, total }: { result: PipelineR
         <span className="badge" data-v={v} data-testid="badge"><i />{badge}</span>
         {compared && rep ? <p className="v-num"><span className="big-num" data-testid="mismatch-count">{num(rep.mismatchCount)}</span><small>{rep.mismatchCount === 1 ? 'mismatch' : 'mismatches'}</small></p> : null}
       </div>
-      {blind ? <p className="blind">{blind.badge ? <span className="pill-blind" data-testid="blind-badge">{blind.badge}</span> : null}<span data-testid="blind-label">{blind.text}</span></p> : null}
+      {blind ? <p className="blind">{blind.badge ? <span className="pill-blind" data-testid="blind-badge">{blind.badge}</span> : null}{blind.href ? null : <span data-testid="blind-label">{blind.text}</span>}</p> : null}
       {compared && rep ? <p className="v-of" data-testid="v-of">{`${num(rep.mismatchCount)} of ${num(total)} pixels differ`}</p> : null}
       {compared && rep ? (
         <>
@@ -277,8 +271,8 @@ function Verification({ result, name, check, blind, total }: { result: PipelineR
         </div>
       ) : null}
       <div className="downloads">
-        {rec.status === 'ok' ? <button type="button" className="btn btn-sm" onClick={() => void png()}>Download image</button> : null}
-        <button type="button" className={rec.status === 'ok' ? 'btn btn-sm ghost-btn' : 'btn btn-sm'} onClick={json}>Download evidence report</button>
+        {rec.status === 'ok' ? <button type="button" className="btn btn-sm" onClick={() => void png()} aria-label="Download image (PNG)"><Icon d="M12 3v12m0 0l-4-4m4 4l4-4M5 20h14" />Image (PNG)</button> : null}
+        <button type="button" className={rec.status === 'ok' ? 'btn btn-sm ghost-btn' : 'btn btn-sm'} onClick={json} aria-label="Download evidence report (JSON)"><Icon d="M7 3h7l5 5v13H7zM14 3v5h5M10 13h6M10 17h6" />Report (JSON)</button>
         {err ? <p className="hint">{err}</p> : null}
       </div>
     </div>

@@ -17,8 +17,9 @@ import type { Sel } from './selection';
 const REPO = 'https://github.com/parthlaturiya1/format_necromancer'; // the public README, section "The honest claim"
 export const MAX_FILE_BYTES = 10 * 1024 * 1024; // same as the engine limit (maxInputBytes)
 
-type SampleEntry = { id: string; path: string; bytes: number; reference?: string; label?: string };
-type Note = { badge?: string; text: string };
+type SampleEntry = { id: string; path: string; bytes: number; reference?: string; label?: string; real?: boolean };
+type Note = { badge?: string; text: string; href?: string };
+const ABUSE_PAGE = 'https://opengameart.org/content/abuse-art'; // a link only: the app never fetches it
 type SampleIndex = { default: string; samples: SampleEntry[] };
 
 // Dev hooks so every state is reachable: #loading, #crash (shows error.tsx). Default is the empty state.
@@ -174,7 +175,7 @@ export function Shell() {
           const r = await fetch(s.path);
           if (!r.ok) throw new Error('The sample could not be loaded.');
           return r.arrayBuffer();
-        }, s.reference, s.id.startsWith('blind-') ? { badge: 'Blind test', text: 'Held-out file, never used for tuning.' } : s.label ? { text: s.label } : undefined);
+        }, s.reference, s.id.startsWith('blind-') ? { badge: 'Blind test', text: 'Held-out file, never used for tuning.' } : s.real ? { badge: 'Real game art (CC0)', text: 'From the game Abuse by Crack dot Com, CC0, via OpenGameArt', href: ABUSE_PAGE } : s.label ? { text: s.label } : undefined);
       } catch (e) {
         dispatch({ type: 'fail', name: 'sample', reason: e instanceof Error ? e.message : 'The sample could not be loaded.' });
       }
@@ -245,7 +246,7 @@ export function Shell() {
           <div className="col col-bytes"><BytesPanel state={state} onFile={loadFile} samples={samples?.samples ?? []} onSample={loadSample} failed={failed} regions={regions} sel={shownSel} selected={failed ? null : selected} onPickByte={pickByte} beat={rb} hover={hover ?? (rb === 3 && result && result.analysis.status === 'ok' ? (result.analysis.hypotheses[0]?.ranges ?? null) : null)} />
             <Inspector regions={regions} selected={selected} sel={shownSel} onPick={pickRegion} />
           </div>
-          <ImagePanel state={state} forcedLoading={forcedLoading} onSample={() => loadSample()} onFile={loadFile} regions={regions} selectedId={selected?.id ?? null} cursor={cursor} onCursor={setCursor} onPickRow={pickRow} ritual={{ ...ritual, speed, reduced, onHover: setHover }} />
+          <ImagePanel source={blind?.href ? blind : null} state={state} forcedLoading={forcedLoading} onSample={() => loadSample()} onFile={loadFile} regions={regions} selectedId={selected?.id ?? null} cursor={cursor} onCursor={setCursor} onPickRow={pickRow} ritual={{ ...ritual, speed, reduced, onHover: setHover }} />
           <L3Evidence draws={draws} cursor={cursor} imageHeight={imageHeight} />
           <Hud failed={failed} result={result} name={state.phase === 'done' ? state.name : ''} regions={regions} light={light} proof={rb === 6} check={check} blind={blind} fileBytes={state.phase === 'done' ? state.bytes.length : 0} selectedId={selected?.id ?? null} onPickRow={pickRow} />
         </main>

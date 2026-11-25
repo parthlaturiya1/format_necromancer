@@ -7,7 +7,7 @@ import type { Sel } from '../selection';
 import type { ByteRange } from '../../engine/types';
 import { FilePick } from './FilePick';
 
-export const ROW_H = 22; // px, must match --row-h in shell.css
+export const ROW_H = 20; // px, must match --row-h in shell.css (T-20: 20 so more rows fit)
 const OVERSCAN = 6;
 const PER_ROW = 16;
 
@@ -82,6 +82,7 @@ function HexView({ bytes, name, regions, sel, selected, onPickByte, beat, hover 
     <div
       ref={box}
       className="hexv"
+      data-scrolled={view.top > 0 ? '' : undefined}
       role="region"
       tabIndex={0}
       aria-label={`Bytes of ${name}, ${bytes.length.toLocaleString('en-US')} bytes, 16 per row. Scroll with the arrow keys.`}
@@ -105,10 +106,11 @@ function HexView({ bytes, name, regions, sel, selected, onPickByte, beat, hover 
   );
 }
 
-export type SampleOpt = { id: string; label?: string };
+export type SampleOpt = { id: string; label?: string; real?: boolean };
 
 export function BytesPanel({ state, onFile, samples, onSample, failed, beat, hover, ...pick }: Pick & Ritual & { state: AppState; onFile: (f: File) => void; samples: SampleOpt[]; onSample: (id: string) => void; failed: boolean }) {
   const blind = samples.find((s) => s.id.startsWith('blind-'));
+  const real = samples.find((s) => s.real);
   const bytes = state.phase === 'analysing' || state.phase === 'done' ? state.bytes : null;
   const label =
     bytes ? `${bytes.length.toLocaleString('en-US')} bytes` :
@@ -127,10 +129,11 @@ export function BytesPanel({ state, onFile, samples, onSample, failed, beat, hov
             <span>Try a sample</span>
             <select data-testid="sample-pick" aria-label="Try a sample" value="" onChange={(e) => e.target.value && onSample(e.target.value)}>
               <option value="">Choose a sample</option>
-              {samples.map((s) => <option key={s.id} value={s.id}>{s.label ? `${s.id} (${s.label})` : s.id}</option>)}
+              {samples.map((s) => <option key={s.id} value={s.id}>{s.real ? `${s.label}: ${s.id.replace('real-abuse-', '')}` : s.label ? `${s.id} (${s.label})` : s.id}</option>)}
             </select>
           </label>
           {blind ? <button type="button" className="btn ghost-btn btn-sm" data-testid="load-blind" onClick={() => onSample(blind.id)}>Load the blind test</button> : null}
+          {real ? <button type="button" className="btn ghost-btn btn-sm" data-testid="load-real" onClick={() => onSample(real.id)}>Try real game art</button> : null}
         </div>
       ) : null}
       {bytes ? (

@@ -577,3 +577,80 @@ a { color: var(--accent); text-underline-offset: 3px; }
   .verify .downloads .btn { min-height: 32px; font-size: var(--fs-xs); }
   .panel-inspector .region-list { margin-top: 0; }
 }
+
+/* ===== T-20 depth polish (D1 to D10 from R-5) ===== */
+/* D2: more rows, a soft fade at the clipped edges instead of a hard cut. The top fade shows only after the view has scrolled. */
+.hexwrap > .hexv { -webkit-mask-image: linear-gradient(180deg, #000 calc(100% - 30px), transparent); mask-image: linear-gradient(180deg, #000 calc(100% - 30px), transparent); }
+.hexwrap > .hexv[data-scrolled] { -webkit-mask-image: linear-gradient(180deg, transparent, #000 20px, #000 calc(100% - 30px), transparent); mask-image: linear-gradient(180deg, transparent, #000 20px, #000 calc(100% - 30px), transparent); }
+/* D10: the sample picker is a pill from the tokens; the three controls stay on one line. */
+.sample-row .btn { white-space: nowrap; padding: 0 var(--sp-3); min-height: 2rem; }
+.col-bytes .sample-row { gap: var(--sp-2); }
+.sample-pick select { min-height: 2rem; padding: 0 var(--sp-4); background: var(--glass-fill); border-color: var(--glass-border); font: 500 var(--fs-sm) var(--font-sans); cursor: pointer; }
+.sample-pick select:hover { border-color: color-mix(in srgb, var(--accent) 45%, transparent); }
+.sample-pick select option { background: var(--bg-1); color: var(--text); }
+@media (min-width: 761px) { .col-bytes .sample-pick select { max-width: 7.5rem; } .sample-pick span { display: none; } }
+/* Inspector chips wrap instead of clipping at the edge. */
+.panel-inspector .region-list, .region-list { flex-wrap: wrap; overflow: visible; -webkit-mask-image: none; mask-image: none; }
+.region-list .chip { min-height: 1.75rem; padding: 0 var(--sp-3); font-size: var(--fs-xs); }
+.panel-inspector { gap: var(--sp-1); }
+/* D7: one dot is a share of the width, so 20 columns fit; the glow stays on hover, focus and beat 5 only. */
+.dots[data-testid='grid'] { width: 100%; }
+.dots[data-testid='grid'] .dot { width: 100%; height: auto; aspect-ratio: 1; }
+.dots[data-testid='grid'] i { --dot-size: min(11px, 68%); width: var(--dot-size); height: auto; aspect-ratio: 1; }
+/* D3: charts at least 120 px tall. */
+@media (min-width: 761px) { .col-hud .scrub { height: 7.5rem; margin-block: 1.2rem 1.2rem; } }
+@media (max-width: 760px) { .scrub { height: 7.5rem; margin-block: 1.2rem 0.4rem; } }
+/* D6: two short download buttons with an icon, equal weight. */
+.verify .downloads { grid-template-columns: 1fr 1fr; gap: var(--sp-2); }
+.verify .downloads .btn { gap: var(--sp-2); white-space: nowrap; justify-content: center; padding: 0 var(--sp-3); }
+.verify .downloads .btn .ico { flex: none; }
+.src-link { flex-basis: 100%; font-size: var(--fs-xs); }
+.blind > [data-testid='blind-label'] { flex-basis: 100%; font-size: var(--fs-xs); color: var(--muted); }
+.found-more { font-size: var(--fs-sm); color: var(--muted); }
+/* D9: phone. */
+@media (max-width: 760px) {
+  .fileline { white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; }
+  .verify .downloads { grid-template-columns: 1fr; }
+  .verify .downloads .btn { width: 100%; min-height: 40px; font-size: var(--fs-sm); }
+}
+.insp-head { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3); flex-wrap: wrap; }
+.source-line { font-size: var(--fs-xs); color: var(--muted); text-align: center; text-wrap: balance; }
+@media (min-width: 761px) {
+  .col-bytes .sample-pick select { max-width: 10rem; }
+  .col-hud .panel { padding: var(--sp-2) var(--sp-4); }
+  .col-hud .scrub { margin-block: 1rem 1.1rem; }
+  .col-hud .panel > header { margin-bottom: 0; }
+}
+.recovered { max-width: 100%; height: auto; } /* shortcut: below 1x the picture shrinks to fit (a phone is 308 px wide, the art is 320); upgrade if a smaller whole scale is wanted */
+@media (min-width: 761px) {
+  .col-hud { gap: 6px; }
+  .col-hud .panel { padding: 6px var(--sp-4); }
+  .col-hud .scrub { margin-block: 0.9rem 1rem; }
+  .col-hud .downloads .btn { min-height: 32px; }
+}
+@container (max-width: 480px) {
+  .hex-bytes { grid-template-columns: repeat(16, auto); justify-content: space-between; }
+  .hex-bytes .b:nth-child(4n):not(:last-child) { margin-inline-end: var(--sp-3); }
+}
+@media (max-width: 760px) {
+  .sample-row { flex-wrap: wrap; }
+  .sample-pick select { max-width: 100%; }
+  .scrub { height: 6rem; }
+  .dots[data-testid='grid'] { grid-template-columns: repeat(auto-fill, 11px) !important; }
+  .dots[data-testid='grid'] .dot { width: 11px; }
+  .dots[data-testid='grid'] i { --dot-size: 8px; }
+}
+@media (max-width: 760px) {
+  .stage-wrap .image-stage[data-state='done'] { min-height: var(--pic-h, 9rem); }
+  .sample-pick { flex: 1 1 100%; min-width: 0; }
+  .sample-pick select { width: 100%; }
+}
+@media (max-width: 760px) { .scrub { height: 5rem; } .scrub .mean { top: -1.1rem; } }
+/* shortcut: on a phone the picture stays at 1x so the page stays under 1500 px (hud.spec); a 2x phone picture costs about 110 px more. */
+@media (max-width: 760px) { .stage { gap: var(--sp-2); } .app { gap: var(--sp-2); } .col-hud { gap: var(--sp-2); } .foot { margin-top: 0; } }
+@media (max-width: 760px) { .cov .chart-label { display: none; } }
+@media (max-width: 760px) { .verify .downloads .btn { min-height: 36px; } }
+/* The confidence pill sits beside the card title (saves a line); in reading order it still follows the byte range. */
+.panel-inspector h2 { padding-right: 15rem; }
+.panel-inspector .insp-bytes .pill { position: absolute; top: var(--sp-3); right: var(--sp-4); }
+@media (max-width: 760px) { .panel-inspector h2 { padding-right: 13rem; } .panel-inspector .insp-bytes .pill { top: var(--sp-3); right: var(--sp-3); } }
