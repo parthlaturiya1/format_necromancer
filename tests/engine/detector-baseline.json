@@ -1,0 +1,277 @@
+{
+  "hgrad-gray-64x48": {
+    "evidenceTotal": 8,
+    "detectors": {
+      "repeat-runs": {
+        "records": 1,
+        "ranges": 3
+      },
+      "repeat-structures": {
+        "records": 0,
+        "ranges": 0
+      },
+      "run-pairs": {
+        "records": 0,
+        "ranges": 0
+      },
+      "palette": {
+        "records": 1,
+        "ranges": 2
+      },
+      "table-records": {
+        "records": 1,
+        "ranges": 2
+      }
+    }
+  },
+  "vgrad-fire-97x61": {
+    "evidenceTotal": 9,
+    "detectors": {
+      "repeat-runs": {
+        "records": 1,
+        "ranges": 3
+      },
+      "repeat-structures": {
+        "records": 0,
+        "ranges": 0
+      },
+      "run-pairs": {
+        "records": 1,
+        "ranges": 1
+      },
+      "palette": {
+        "records": 1,
+        "ranges": 16
+      },
+      "table-records": {
+        "records": 1,
+        "ranges": 16
+      }
+    }
+  },
+  "shapes-rand-128x96": {
+    "evidenceTotal": 7,
+    "detectors": {
+      "repeat-runs": {
+        "records": 1,
+        "ranges": 3
+      },
+      "repeat-structures": {
+        "records": 0,
+        "ranges": 0
+      },
+      "run-pairs": {
+        "records": 0,
+        "ranges": 0
+      },
+      "palette": {
+        "records": 0,
+        "ranges": 0
+      },
+      "table-records": {
+        "records": 1,
+        "ranges": 6
+      }
+    }
+  },
+  "checker8-ocean-80x80": {
+    "evidenceTotal": 10,
+    "detectors": {
+      "repeat-runs": {
+        "records": 1,
+        "ranges": 3
+      },
+      "repeat-structures": {
+        "records": 1,
+        "ranges": 10
+      },
+      "run-pairs": {
+        "records": 1,
+        "ranges": 1
+      },
+      "palette": {
+        "records": 1,
+        "ranges": 2
+      },
+      "table-records": {
+        "records": 1,
+        "ranges": 1
+      }
+    }
+  },
+  "checker1-gray-65x33": {
+    "evidenceTotal": 9,
+    "detectors": {
+      "repeat-runs": {
+        "records": 1,
+        "ranges": 3
+      },
+      "repeat-structures": {
+        "records": 1,
+        "ranges": 16
+      },
+      "run-pairs": {
+        "records": 1,
+        "ranges": 1
+      },
+      "palette": {
+        "records": 0,
+        "ranges": 0
+      },
+      "table-records": {
+        "records": 1,
+        "ranges": 1
+      }
+    }
+  },
+  "stripes-rand-200x40": {
+    "evidenceTotal": 8,
+    "detectors": {
+      "repeat-runs": {
+        "records": 1,
+        "ranges": 3
+      },
+      "repeat-structures": {
+        "records": 0,
+        "ranges": 0
+      },
+      "run-pairs": {
+        "records": 1,
+        "ranges": 1
+      },
+      "palette": {
+        "records": 0,
+        "ranges": 0
+      },
+      "table-records": {
+        "records": 1,
+        "ranges": 1
+      }
+    }
+  },
+  "text-fire-160x32": {
+    "evidenceTotal": 10,
+    "detectors": {
+      "repeat-runs": {
+        "records": 1,
+        "ranges": 3
+      },
+      "repeat-structures": {
+        "records": 1,
+        "ranges": 11
+      },
+      "run-pairs": {
+        "records": 1,
+        "ranges": 1
+      },
+      "palette": {
+        "records": 1,
+        "ranges": 3
+      },
+      "table-records": {
+        "records": 1,
+        "ranges": 2
+      }
+    }
+  },
+  "rings-rand-111x111": {
+    "evidenceTotal": 8,
+    "detectors": {
+      "repeat-runs": {
+        "records": 1,
+        "ranges": 3
+      },
+      "repeat-structures": {
+        "records": 0,
+        "ranges": 0
+      },
+      "run-pairs": {
+        "records": 1,
+        "ranges": 1
+      },
+      "palette": {
+        "records": 0,
+        "ranges": 0
+      },
+      "table-records": {
+        "records": 1,
+        "ranges": 16
+      }
+    }
+  },
+  "diag-ocean-256x16": {
+    "evidenceTotal": 9,
+    "detectors": {
+      "repeat-runs": {
+        "records": 1,
+        "ranges": 3
+      },
+      "repeat-structures": {
+        "records": 0,
+        "ranges": 0
+      },
+      "run-pairs": {
+        "records": 1,
+        "ranges": 1
+      },
+      "palette": {
+        "records": 1,
+        "ranges": 14
+      },
+      "table-records": {
+        "records": 1,
+        "ranges": 16
+      }
+    }
+  },
+  "solid-gray-32x32": {
+    "evidenceTotal": 9,
+    "detectors": {
+      "repeat-runs": {
+        "records": 1,
+        "ranges": 3
+      },
+      "repeat-structures": {
+        "records": 1,
+        "ranges": 1
+      },
+      "run-pairs": {
+        "records": 0,
+        "ranges": 0
+      },
+      "palette": {
+        "records": 1,
+        "ranges": 2
+      },
+      "table-records": {
+        "records": 1,
+        "ranges": 2
+      }
+    }
+  },
+  "tiny-rand-7x5": {
+    "evidenceTotal": 7,
+    "detectors": {
+      "repeat-runs": {
+        "records": 1,
+        "ranges": 3
+      },
+      "repeat-structures": {
+        "records": 0,
+        "ranges": 0
+      },
+      "run-pairs": {
+        "records": 0,
+        "ranges": 0
+      },
+      "palette": {
+        "records": 0,
+        "ranges": 0
+      },
+      "table-records": {
+        "records": 1,
+        "ranges": 1
+      }
+    }
+  }
+}
