@@ -17,6 +17,14 @@ Note: the official rules page (kiroween.devpost.com/rules) returned 403 to our f
 | Built with | typescript, react, next.js, web-workers, canvas, vitest, fast-check, playwright, axe-core, vercel, github-actions, kiro |
 | Student entry | **OWNER CHECK:** LinkedIn, student email, year, degree, school |
 
+## In 30 seconds (put this first in the description)
+
+- **What:** a browser app that rebuilds a picture from an old file nothing opens, from its bytes alone, and shows which bytes made every part.
+- **Who:** small museums, archives and anyone with old disks.
+- **Why it matters:** it proves its result (0 of 64,000 pixels differ on real 1990s game art) and refuses to guess when a file is too damaged.
+- **Built with Kiro:** specs, steering, custom agents (a builder and a checker that may not touch code) and Kiro Crew.
+- **Try it:** https://format-necromancer.vercel.app (no login).
+
 ## Inspiration
 
 Old files outlive the programs that wrote them. Small museums, archives and people with old disks find picture files that nothing on their computer opens, and the documentation is gone. Today they guess which tool might work. We wanted a tool that works out the layout from the bytes, shows its evidence for every part, and says plainly when it cannot be sure.

@@ -2,6 +2,10 @@
 
 Recovers a dead file from its bytes alone. No specification. Nothing uploaded.
 
+**For** small museums, archives and anyone with old disks whose files no program opens. **Why:** it shows the evidence for every part it rebuilds, so you know how far to trust it, and it refuses to guess when a file is too damaged.
+
+**Built with Kiro:** 3 specs, 7 steering files and 2 custom agents in [`.kiro/`](.kiro), work split across Kiro Crew sessions, and a judge-panel reviewer. Full list in [How Kiro built it](#how-kiro-built-it).
+
 https://format-necromancer.vercel.app
 
 [![verify](https://github.com/parthlaturiya1/format_necromancer/actions/workflows/verify.yml/badge.svg)](https://github.com/parthlaturiya1/format_necromancer/actions/workflows/verify.yml)
