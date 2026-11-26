@@ -17,7 +17,7 @@ Rules: no music with a copyright, captions on, every number on screen comes from
 
 ### 1. Hook (0:00 to 0:15)
 
-ON SCREEN: The live site. A dim wall of hex bytes. File name `real-abuse-end.pcx, 49,047 bytes`.
+ON SCREEN: The live site's first screen: a dim wall of hex bytes, the pixel ghost, "Drop a file nothing can open, or resurrect a sample". (Recorded clip: `fn-video/raw/01-hook.webm`.)
 
 SAY:
 > This file is from a game made in the 1990s. Most programs today won't open it. No manual. No specification. Just bytes.
