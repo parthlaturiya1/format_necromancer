@@ -6,7 +6,7 @@ https://format-necromancer.vercel.app
 
 [![verify](https://github.com/parthlaturiya1/format_necromancer/actions/workflows/verify.yml/badge.svg)](https://github.com/parthlaturiya1/format_necromancer/actions/workflows/verify.yml)
 
-![The finished screen: a recovered picture, the file's bytes with the matching rows lit, the Confidence Grid and the verification panel reading Exact match](docs/verification/screens/t17-done.png)
+![The finished screen: real CC0 art from the game Abuse rebuilt from a 49,047-byte PCX file, a line from the lit bytes to row 0 of the picture, a full Confidence Grid, and the verification panel reading Exact match, 0 of 64,000 pixels differ](docs/media/hero-real-art.png)
 
 - 5 of 5 real CC0 game files from Abuse rebuilt exact against Pillow: [wild-test.md](docs/verification/wild-test.md)
 - Blind test exact, 0 of 13,500 pixels differ: [blind-test.md](docs/verification/blind-test.md)
@@ -21,14 +21,19 @@ Today there is one layout family (PCX images), and every element of the result c
 ## Try it in 30 seconds
 
 1. Open https://format-necromancer.vercel.app (laptop or phone, no login).
-2. Press **Resurrect a sample**. A dead file's bytes turn into a picture in six steps. The sample may be a generated picture or real game art, depending on the build; the steps are the same. **Skip to result** jumps to the end.
+2. Press **Resurrect a sample**. The bytes of a real CC0 game file (real-abuse-end.pcx, 49,047 bytes, from the game Abuse) turn into a picture in six steps. **Skip to result** jumps to the end.
 3. Click a row of the picture, or a dot in the Confidence Grid (each dot is one row). The matching bytes light up, with the rule and a confidence value.
-4. Read the verification panel. It says **Exact match** and a line such as "0 of 12,321 pixels differ".
+4. Read the verification panel. It says **Exact match** and "0 of 64,000 pixels differ".
 5. Press **Load the blind test** (in the Bytes panel). This file was never used for tuning. Read its verification.
 6. Open **Try a sample** and pick corrupt-tail-cut. The file is cut short. The app shows "No picture was rebuilt" and the reason, and does not guess.
 7. In **Try a sample**, pick signature-changed. Its first byte was changed, so a standard decoder refuses it. The engine still recovers it exactly.
 
 Your own file: press **Choose file**. With no reference picture, the app says nothing here proves it correct. **Download image** and **Download evidence report** save the result. **Reduce motion** and **Speed** are in the page.
+
+| On a phone | When a file is too damaged |
+|---|---|
+| <img src="docs/media/phone-live.png" alt="The live site on a 390 px wide phone: the recovered Abuse picture with its CC0 credit, then the Bytes panel" width="260"> | <img src="docs/media/failure-honest.png" alt="corrupt-tail-cut.pcx: the app shows No picture was rebuilt, the reason (the best hypothesis has no size numbers), the guesses it found before it failed, and Nothing recovered in the verification panel" width="520"> |
+| The live site at 390 px wide. | No picture, the reason, and the guesses it found. It does not guess a picture. |
 ## What it is
 
 Format Necromancer recovers a picture from an old file that nothing opens, using only the file's bytes. It studies the bytes, works out the layout, rebuilds the picture, shows which bytes and which rule produced every part, and checks the result against a trusted reference. When a damaged file cannot be rebuilt, the app shows no picture and gives the reason in plain words. Everything runs in your browser. Nothing is uploaded.
