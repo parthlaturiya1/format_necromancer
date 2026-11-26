@@ -70,6 +70,7 @@ const steps = [
   ['5 Golden corpus', goldenCorpus],
   ['6 Build', run([...bin('node_modules/next/dist/bin/next'), 'build'])],
   ['7 Playwright e2e', run([...bin('node_modules/@playwright/test/cli.js'), 'test'])],
+  ['7b Perf bars (local; skipped on CI with a logged reason)', run([...bin('scripts/perf.mjs')])],
   ['8 Budgets', budgets],
   ['9a Audit (high/critical)', shell('npm audit --audit-level=high')],
   ['9b Secret scan', secretScan],
@@ -121,3 +122,4 @@ mkdirSync('docs/verification', { recursive: true });
 writeFileSync('docs/verification/latest.md', md);
 console.log(`\nverify: ${overall}. Wrote docs/verification/latest.md`);
 process.exit(failed ? 1 : 0);
+

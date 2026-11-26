@@ -15,6 +15,7 @@
     "lint": "eslint .",
     "test": "vitest run",
     "verify": "node scripts/verify.mjs",
+    "perf": "node scripts/perf.mjs",
     "provenance:check": "node scripts/provenance/check.mjs",
     "corpus:validate": "node scripts/corpus/validate.mjs",
     "golden:report": "vitest run tests/engine/golden-report.test.ts",
@@ -40,3 +41,4 @@
     "vitest": "5.1.1"
   }
 }
+

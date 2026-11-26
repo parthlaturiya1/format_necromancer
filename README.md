@@ -1,4 +1,4 @@
-﻿# Format Necromancer
+# Format Necromancer
 
 Recovers a dead file from its bytes alone. No specification. Nothing uploaded.
 
@@ -97,15 +97,18 @@ Different tools, with different goals. Each line below comes from the tool's own
 We have not benchmarked these tools; this is a description, not a comparison of results.
 ## Run locally
 
-Requires Node 22.12 or newer.
+Requires Node 22.12 or newer (CI pins Node 22).
 
 ```
 npm ci
-npm run verify
+npx playwright install chromium    # once; on a CI machine: npx playwright install --with-deps chromium
+npm run verify                     # about 5 minutes
 npm run dev
 ```
 
-`npm run verify` runs the full gate and writes `docs/verification/latest.md`. The end-to-end step needs Playwright's browser: run `npx playwright install chromium` once first.
+`npm run verify` runs the full gate and writes `docs/verification/latest.md`. The end-to-end step needs the Playwright browser from the install line above.
+
+The wall-clock bars (first result within 9 s, no hex task over 50 ms) run in the `npm run perf` step, which `verify` calls. On CI it skips itself and says why; see [docs/verification/c1-ci-green.md](docs/verification/c1-ci-green.md). On Windows with script execution disabled, use `npm.cmd` and `npx.cmd`.
 
 ## Privacy
 
