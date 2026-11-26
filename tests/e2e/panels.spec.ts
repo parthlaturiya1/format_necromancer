@@ -1,6 +1,5 @@
 import { readFileSync } from 'node:fs';
-import { type Page } from '@playwright/test';
-import { expect, test } from './throttle';
+import { expect, test, type Page } from '@playwright/test';
 import { DEFAULT } from './sample';
 
 const AXE = readFileSync('node_modules/axe-core/axe.min.js', 'utf8');
@@ -49,7 +48,7 @@ test('sample: the real engine rebuilds the picture, panels show it', async ({ pa
   expect(colours).toBeGreaterThan(4);
   // Hex: only a window of rows in the DOM, coloured from evidence.
   expect(await page.locator('.hex-row').count()).toBeLessThan(60);
-  await expect(page.locator('.hex-bytes .b.s2')).not.toHaveCount(0); // C-2: waits for the render (a one-shot count raced it on a 2-core runner)
+  expect(await page.locator('.hex-bytes .b.s2').count()).toBeGreaterThan(0);
   await expect(page.getByRole('region', { name: new RegExp(`^Bytes of ${DEFAULT.id}\\.pcx`) })).toBeVisible();
   expect(seen.errors).toEqual([]);
   expect(seen.foreign).toEqual([]);
@@ -122,7 +121,7 @@ test('1 MB file: hex keeps a small DOM and scrolls without long tasks', async ({
   expect(r.totalRows).toBe(65536);
   expect(r.rowsMax).toBeLessThan(80);
   expect(r.lastRow).toBe('0FFFF0');
-  expect(longMax).toBeLessThan(1000); // crash threshold only; the 50 ms bar is measured by perf.spec.ts (median of runs, not on CI software rendering)
+  expect(longMax).toBeLessThan(50);
 });
 
 test('screenshots of the built site after the default sample (only when SHOTS=1)', async ({ page }) => {
@@ -142,5 +141,3 @@ test('screenshots of the built site after the default sample (only when SHOTS=1)
     }
   }
 });
-
-

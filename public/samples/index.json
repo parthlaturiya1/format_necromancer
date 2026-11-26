@@ -1,5 +1,5 @@
 {
-  "default": "real-abuse-end",
+  "default": "rings-rand-111x111",
   "samples": [
     {
       "id": "hgrad-gray-64x48",
@@ -108,8 +108,6 @@
       "id": "signature-changed",
       "path": "/samples/signature-changed.pcx",
       "bytes": 5480,
-      "refusal": "UnidentifiedImageError: cannot identify image file 'signature-changed.pcx'",
-      "refusalSource": "Pillow 13.0.0, a widely used image library",
       "reference": "/samples/rings-rand-111x111.png",
       "width": 111,
       "height": 111,

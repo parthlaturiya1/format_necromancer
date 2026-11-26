@@ -1,127 +1,44 @@
 # Verification
 
 Overall: **PASS**
-Run: 2026-11-26T12:01:32.626Z, Node v26.13.1
+Run: 2026-11-25T15:11:42.164Z, Node v26.13.1
 
 | Step | Result |
 |---|---|
-| 1 Typecheck | PASS (2.8s) |
-| 2 Lint | PASS (6.5s) |
-| 3 Unit tests | PASS (1.9s) |
-| 4 Property tests | PASS (3.8s) |
-| 5 Golden corpus | PASS (2.0s) |
-| 6 Build | PASS (7.1s) |
-| 7 Playwright e2e | PASS (330.8s) |
-| 7b Perf bars (local; skipped on CI with a logged reason) | PASS (86.3s) |
-| 8 Budgets | PASS (1.0s) |
-| 9a Audit (high/critical) | PASS (1.4s) |
-| 9b Secret scan | PASS (0.9s) |
-| 10 provenance:check | PASS (0.3s) |
+| 1 Typecheck | PASS (2.4s) |
+| 2 Lint | PASS (6.1s) |
+| 3 Unit tests | PASS (2.2s) |
+| 4 Property tests | PASS (2.7s) |
+| 5 Golden corpus | PASS (1.6s) |
+| 6 Build | PASS (5.3s) |
+| 7 Playwright e2e | PASS (274.3s) |
+| 8 Budgets | PASS (1.1s) |
+| 9a Audit (high/critical) | PASS (1.5s) |
+| 9b Secret scan | PASS (0.7s) |
+| 10 provenance:check | PASS (0.2s) |
 
 ## Budgets (step 8)
 
-- JS / (landing): 202441 bytes gzipped, 11 files (limit 250000)
+- JS / (landing): 201904 bytes gzipped, 11 files (limit 250000)
 - JS /404: 181692 bytes gzipped, 9 files (limit 250000)
 - JS /_not-found: 181692 bytes gzipped, 9 files (limit 250000)
-- Engine generated 1 MiB noise: 4.7 ms for 1048576 bytes (limit 3000 ms)
-- Engine hgrad-gray-64x48 + noise to 1 MiB: 2.6 ms for 1048576 bytes (limit 3000 ms)
-- Engine hgrad-gray-64x48: 8.5 ms for 1053 bytes (limit 3000 ms)
-- Engine vgrad-fire-97x61: 21.2 ms for 8339 bytes (limit 3000 ms)
-- Engine shapes-rand-128x96: 6.9 ms for 2514 bytes (limit 3000 ms)
-- Engine checker8-ocean-80x80: 4.7 ms for 2497 bytes (limit 3000 ms)
-- Engine checker1-gray-65x33: 4.9 ms for 4147 bytes (limit 3000 ms)
-- Engine stripes-rand-200x40: 2.4 ms for 4097 bytes (limit 3000 ms)
-- Engine text-fire-160x32: 2.1 ms for 1968 bytes (limit 3000 ms)
+- Engine generated 1 MiB noise: 3.4 ms for 1048576 bytes (limit 3000 ms)
+- Engine hgrad-gray-64x48 + noise to 1 MiB: 2 ms for 1048576 bytes (limit 3000 ms)
+- Engine hgrad-gray-64x48: 5.7 ms for 1053 bytes (limit 3000 ms)
+- Engine vgrad-fire-97x61: 21.8 ms for 8339 bytes (limit 3000 ms)
+- Engine shapes-rand-128x96: 4 ms for 2514 bytes (limit 3000 ms)
+- Engine checker8-ocean-80x80: 2.6 ms for 2497 bytes (limit 3000 ms)
+- Engine checker1-gray-65x33: 2.6 ms for 4147 bytes (limit 3000 ms)
+- Engine stripes-rand-200x40: 3.1 ms for 4097 bytes (limit 3000 ms)
+- Engine text-fire-160x32: 2.3 ms for 1968 bytes (limit 3000 ms)
 - Engine rings-rand-111x111: 2.9 ms for 5480 bytes (limit 3000 ms)
-- Engine diag-ocean-256x16: 5.1 ms for 5849 bytes (limit 3000 ms)
-- Engine solid-gray-32x32: 3.2 ms for 961 bytes (limit 3000 ms)
-- Engine tiny-rand-7x5: 0.5 ms for 938 bytes (limit 3000 ms)
+- Engine diag-ocean-256x16: 3.8 ms for 5849 bytes (limit 3000 ms)
+- Engine solid-gray-32x32: 1.9 ms for 961 bytes (limit 3000 ms)
+- Engine tiny-rand-7x5: 0.3 ms for 938 bytes (limit 3000 ms)
 - Lighthouse: not configured (would add a dependency)
 
-## Provenance warnings (902)
+## Provenance warnings (820)
 
-- UNATTRIBUTED 9b79721 .github/workflows/verify.yml
-- UNATTRIBUTED 9b79721 README.md
-- UNATTRIBUTED 9b79721 docs/verification/c1-ci-green.md
-- UNATTRIBUTED 9b79721 docs/verification/latest.md
-- UNATTRIBUTED 9b79721 package.json
-- UNATTRIBUTED 9b79721 playwright.config.ts
-- UNATTRIBUTED 9b79721 scripts/perf.mjs
-- UNATTRIBUTED 9b79721 scripts/verify.mjs
-- UNATTRIBUTED 9b79721 tests/e2e/p1.spec.ts
-- UNATTRIBUTED 9b79721 tests/e2e/panels.spec.ts
-- UNATTRIBUTED 9b79721 tests/e2e/perf.spec.ts
-- UNATTRIBUTED 9b79721 tests/e2e/throttle.ts
-- UNATTRIBUTED c45eb6a docs/feature-register.md
-- UNATTRIBUTED c45eb6a docs/verification/final.md
-- UNATTRIBUTED c45eb6a docs/verification/screens/t25-live-desktop.png
-- UNATTRIBUTED c45eb6a docs/verification/screens/t25-live-phone.png
-- UNATTRIBUTED 8445a58 docs/verification/f1-fps.md
-- UNATTRIBUTED 8445a58 docs/verification/latest.md
-- UNATTRIBUTED 8445a58 src/ui/Shell.tsx
-- UNATTRIBUTED 8445a58 src/ui/hud/Hud.tsx
-- UNATTRIBUTED 8445a58 src/ui/layers/L0Field.tsx
-- UNATTRIBUTED 8445a58 src/ui/panels/ImagePanel.tsx
-- UNATTRIBUTED 8445a58 src/ui/shell.css
-- UNATTRIBUTED 8445a58 tests/e2e/f1-fps.spec.ts
-- UNATTRIBUTED 8858128 README.md
-- UNATTRIBUTED 8858128 docs/verification/t24c-related-work.md
-- UNATTRIBUTED 2ef71e7 docs/verification/latest.md
-- UNATTRIBUTED 2ef71e7 docs/verification/p1-first-impression.md
-- UNATTRIBUTED 2ef71e7 docs/verification/screens/p1-done.png
-- UNATTRIBUTED 2ef71e7 docs/verification/screens/p1-first.png
-- UNATTRIBUTED 2ef71e7 docs/verification/screens/p1-phone.png
-- UNATTRIBUTED 2ef71e7 docs/verification/screens/p1-signature.png
-- UNATTRIBUTED 2ef71e7 public/samples/index.json
-- UNATTRIBUTED 2ef71e7 scripts/samples/copy-samples.mjs
-- UNATTRIBUTED 2ef71e7 src/ui/Shell.tsx
-- UNATTRIBUTED 2ef71e7 src/ui/panels/BytesPanel.tsx
-- UNATTRIBUTED 2ef71e7 src/ui/panels/ImagePanel.tsx
-- UNATTRIBUTED 2ef71e7 src/ui/shell.css
-- UNATTRIBUTED 2ef71e7 tests/e2e/golden-run.spec.ts
-- UNATTRIBUTED 2ef71e7 tests/e2e/p1.spec.ts
-- UNATTRIBUTED 2ef71e7 tests/e2e/ritual.spec.ts
-- UNATTRIBUTED 2ef71e7 tests/e2e/t20.spec.ts
-- UNATTRIBUTED f2ef1bd AUTHORSHIP.md
-- UNATTRIBUTED f2ef1bd README.md
-- UNATTRIBUTED f2ef1bd docs/build-journal.md
-- UNATTRIBUTED f2ef1bd docs/verification/p2-docs-check.md
-- UNATTRIBUTED 558947a docs/rollback.md
-- UNATTRIBUTED 558947a docs/verification/screens/t22-live-1440-fm-1-idle.png
-- UNATTRIBUTED 558947a docs/verification/screens/t22-live-1440-fm-2-done.png
-- UNATTRIBUTED 558947a docs/verification/screens/t22-live-1440-fm-3-inspect.png
-- UNATTRIBUTED 558947a docs/verification/screens/t22-live-1440-fm-4-blind.png
-- UNATTRIBUTED 558947a docs/verification/screens/t22-live-1440-fm-5-failure.png
-- UNATTRIBUTED 558947a docs/verification/screens/t22-live-390-fm-1-idle.png
-- UNATTRIBUTED 558947a docs/verification/screens/t22-live-390-fm-2-done.png
-- UNATTRIBUTED 558947a docs/verification/screens/t22-live-390-fm-3-inspect.png
-- UNATTRIBUTED 558947a docs/verification/screens/t22-live-390-fm-4-blind.png
-- UNATTRIBUTED 558947a docs/verification/screens/t22-live-390-fm-5-failure.png
-- UNATTRIBUTED 558947a docs/verification/t22-deploy.md
-- UNATTRIBUTED 7aee359 docs/verification/judge-review-2.md
-- UNATTRIBUTED 160cb87 docs/verification/latest.md
-- UNATTRIBUTED 1c7a77b docs/verification/screens/t20-done.png
-- UNATTRIBUTED 1c7a77b docs/verification/screens/t20-failure.png
-- UNATTRIBUTED 1c7a77b docs/verification/screens/t20-phone.png
-- UNATTRIBUTED 1c7a77b docs/verification/screens/t20-realart-credit.png
-- UNATTRIBUTED 1c7a77b docs/verification/screens/t20-realart.png
-- UNATTRIBUTED 1c7a77b docs/verification/t20-polish.md
-- UNATTRIBUTED 1c7a77b public/samples/index.json
-- UNATTRIBUTED 1c7a77b public/samples/real-abuse-credit.pcx
-- UNATTRIBUTED 1c7a77b public/samples/real-abuse-credit.png
-- UNATTRIBUTED 1c7a77b public/samples/real-abuse-end.pcx
-- UNATTRIBUTED 1c7a77b public/samples/real-abuse-end.png
-- UNATTRIBUTED 1c7a77b scripts/samples/copy-samples.mjs
-- UNATTRIBUTED 1c7a77b src/ui/Shell.tsx
-- UNATTRIBUTED 1c7a77b src/ui/hud/Hud.tsx
-- UNATTRIBUTED 1c7a77b src/ui/hud/grid.test.ts
-- UNATTRIBUTED 1c7a77b src/ui/hud/stats.ts
-- UNATTRIBUTED 1c7a77b src/ui/panels/BytesPanel.tsx
-- UNATTRIBUTED 1c7a77b src/ui/panels/ImagePanel.tsx
-- UNATTRIBUTED 1c7a77b src/ui/panels/Inspector.tsx
-- UNATTRIBUTED 1c7a77b src/ui/shell.css
-- UNATTRIBUTED 1c7a77b src/ui/tokens.css
-- UNATTRIBUTED 1c7a77b tests/e2e/t20.spec.ts
 - UNATTRIBUTED 137f1f4 docs/verification/t21d-large-files.md
 - UNATTRIBUTED 137f1f4 src/engine/analyze.ts
 - UNATTRIBUTED 137f1f4 src/engine/config.ts
@@ -964,24 +881,4 @@ Maintained by the verifier. Updated at T-19 (HEAD 8bea62c, local build out/). PA
 | F-12 | Real states | 404, 500, empty and loading states | PASS: shell.spec.ts (loading, 404, 500 reachable; axe clean on 404); empty state is the idle page in golden-run.spec.ts step 1. |
 | F-13 | Proof Room (stretch) | /proof renders the ledger and captures, read-only, offline | NOT BUILT: build output has only / and /_not-found (route list from npm run build). |
 | F-14 | Judge quick-start | README opens with the URL, a 30-second try, where .kiro is, how Kiro was used | PARTIAL: the 5 try steps work on live and local (golden-run.spec.ts runs them). One wording mismatch (step 5, see t19-golden-run.md). Fresh-clone run (R-10) not done by me. |
-
-## T-25 update (HEAD 8445a58, 2026-11-26, verifier)
-Evidence: five consecutive fresh-clone verify greens (runs 2 to 6) and a live check, both in docs/verification/final.md. Live screenshots: docs/verification/screens/t25-live-desktop.png and t25-live-phone.png.
-
-| ID | T-25 status | Evidence |
-|---|---|---|
-| F-01 | PASS | Live golden run, 1440x900 and 390x844, full and reduced motion: 5 of 5 passed, beats 1..6, press to done 7.3 s (full) and 1.2 to 1.5 s (reduced). Fresh clone e2e green x5. |
-| F-02 | PASS (same limit as T-19) | Fresh clone e2e green x5 (panels.spec.ts, t18.spec.ts). 10 MB real file still not run end to end. |
-| F-03 | PASS | Golden 11 of 11 in verify step 5, x5 green. Live: grid_dots 200, rows rebuilt 200 of 200. |
-| F-04 | PASS | Property tests (step 4) green x5. Live: row click shows rule, confidence, lit bytes (golden run). |
-| F-05 | PASS | Live: badge "Exact match", "0 of 64,000 pixels differ". |
-| F-06 | PASS | Live golden run beats 1..6; speed pill shows 2x then reaches 1x (p1.spec.ts live). 0.5x and 4x not run live. |
-| F-07 | PASS | Live golden run row selected, axe clean. Phone: highlight only, by design. |
-| F-08 | PASS | Live t18.spec.ts: corrupted sample ends red with reason; phone failure screen fits. |
-| F-09 | PASS | Live reduced-motion runs match full-motion values; 3 s to 1.2 s faster. |
-| F-10 | PASS | Live grid 200 dots, 0 uncertain on the default sample. Amber only tested in t18 changed-file test. |
-| F-11 | PASS | Live blind test: "0 of 13,500 pixels differ". |
-| F-12 | PASS | Live /nope returns HTTP 404; shell.spec.ts green x5. |
-| F-13 | NOT BUILT | Unchanged. |
-| F-14 | PARTIAL | README quick-start steps work on live. Fresh-clone "Run locally" works, with the defects listed in final.md. |
 

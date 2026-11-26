@@ -2,7 +2,6 @@
 // Runs against the built out/ (default config) or any URL: BASE_URL=https://... npx playwright test -c tests/e2e/live.config.ts
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { expect, test, type Page } from '@playwright/test';
-import { DEFAULT } from './sample';
 
 const AXE = readFileSync('node_modules/axe-core/axe.min.js', 'utf8');
 const OUT = process.env.T19_OUT ?? 'local';
@@ -147,7 +146,7 @@ for (const reduced of [false, true]) {
       await expect(card.locator('h2')).toHaveText(`Row ${r}`);
       await expect(card).toContainText(/Rule: .+\./);
       await expect(card).toContainText(/Confidence \d\.\d\d/);
-      await expect(page.locator('.hex-bytes .b.sel')).not.toHaveCount(0); // C-2: waits for the render (a one-shot count raced it on a 2-core runner)
+      expect(await page.locator('.hex-bytes .b.sel').count()).toBeGreaterThan(0);
       nums.lit_bytes = await page.locator('.hex-bytes .b.sel').count();
       if (w >= 760) {
         await expect(page.locator('[data-testid="evidence-line"] path.l3-line')).toHaveCount(1);
@@ -193,12 +192,12 @@ for (const reduced of [false, true]) {
       const failed = page.locator('.timeline li[data-state="failed"]');
       await expect(failed).toHaveText('Resurrection');
       expect(await failed.evaluate((e) => getComputedStyle(e).color)).toBe(FAILURE_RED);
-      await expect(page.locator('.app[data-failed]')).toHaveCount(1); // C-2b: waiting count
+      expect(await page.locator('.app[data-failed]').count()).toBe(1);
       await page.waitForTimeout(800);
       bad(await axe(page, 'axe failure', log));
       if (SHOTS && !reduced) await page.screenshot({ path: `${SCREENS}/t19-${tag}-5-failure.png`, fullPage: w < 700 });
       // The page is still alive: load the good sample again.
-      await page.getByTestId('sample-pick').selectOption(DEFAULT.id);
+      await page.getByTestId('sample-pick').selectOption('rings-rand-111x111');
       await page.getByRole('button', { name: 'Skip to result' }).click({ timeout: 8000 }).catch(() => undefined);
       await expect(page.getByTestId('badge')).toHaveText('Exact match', { timeout: 60000 });
 
