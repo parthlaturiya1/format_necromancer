@@ -33,3 +33,5 @@ After the freeze only these may land: the video, the write-up, fixes for a faili
 
 ## Results added after this file
 
+- **R-05 preview: PASS.** Branch `r05-preview-check` (commit `de13ada`) got its own Vercel deployment: GitHub commit status "Vercel success, Deployment has completed" at 2026-11-26T12:51:37Z. Production stayed on `main` (live default unchanged). The preview URL itself sits behind the Vercel login; the status proves the build. The branch was deleted after the check.
+- **R-06 drill CI:** `verify` success on `bfbc4b2` (the good-1 rollback commit) and on `3e0f020` (before the drill).
