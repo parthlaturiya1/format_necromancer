@@ -1,0 +1,35 @@
+name: uptime
+# R-07: checks the live site every 30 minutes. A failed run makes GitHub email the repo owner.
+# GitHub may delay scheduled runs by some minutes. Run it by hand from the Actions tab (workflow_dispatch).
+on:
+  schedule:
+    - cron: '7,37 * * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  live:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      SITE: https://format-necromancer.vercel.app
+    steps:
+      - name: Home page answers 200 with security headers
+        run: |
+          set -euo pipefail
+          code=$(curl -sS -o /dev/null -D headers.txt -w '%{http_code}' --max-time 20 --retry 2 --retry-delay 10 "$SITE/")
+          echo "home: $code"
+          test "$code" = 200 || { echo "::error title=uptime::home page returned $code"; exit 1; }
+          grep -qi "^content-security-policy:.*worker-src 'self'" headers.txt || { echo "::error title=uptime::CSP header missing worker-src 'self'"; exit 1; }
+          grep -qi '^x-frame-options: *deny' headers.txt || { echo "::error title=uptime::X-Frame-Options DENY missing"; exit 1; }
+          grep -qi '^strict-transport-security:' headers.txt || { echo "::error title=uptime::HSTS header missing"; exit 1; }
+      - name: Default sample and its reference load
+        run: |
+          set -euo pipefail
+          id=$(curl -sS --max-time 20 --retry 2 --retry-delay 10 "$SITE/samples/index.json" | python3 -c 'import json,sys; print(json.load(sys.stdin)["default"])')
+          echo "default sample: $id"
+          for f in "$id.pcx" "$id.png"; do
+            code=$(curl -sS -o /dev/null -w '%{http_code}' --max-time 20 --retry 2 --retry-delay 10 "$SITE/samples/$f")
+            echo "$f: $code"
+            test "$code" = 200 || { echo "::error title=uptime::/samples/$f returned $code"; exit 1; }
+          done
