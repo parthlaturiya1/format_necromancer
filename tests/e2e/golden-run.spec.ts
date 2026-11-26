@@ -193,7 +193,7 @@ for (const reduced of [false, true]) {
       const failed = page.locator('.timeline li[data-state="failed"]');
       await expect(failed).toHaveText('Resurrection');
       expect(await failed.evaluate((e) => getComputedStyle(e).color)).toBe(FAILURE_RED);
-      expect(await page.locator('.app[data-failed]').count()).toBe(1);
+      await expect(page.locator('.app[data-failed]')).toHaveCount(1); // C-2b: waiting count
       await page.waitForTimeout(800);
       bad(await axe(page, 'axe failure', log));
       if (SHOTS && !reduced) await page.screenshot({ path: `${SCREENS}/t19-${tag}-5-failure.png`, fullPage: w < 700 });

@@ -41,7 +41,7 @@ test('default sample: exact badge, 0 mismatches, full bar, charts, grid, no cons
   await expect(page.getByTestId('badge')).toHaveText('Exact match', { timeout: 20000 });
   await expect(page.getByTestId('mismatch-count')).toHaveText('0');
   await expect(page.locator('.v-bar')).toHaveAttribute('aria-label', `${(DEFAULT.width * DEFAULT.height).toLocaleString('en-US')} of ${(DEFAULT.width * DEFAULT.height).toLocaleString('en-US')} pixels match the reference`);
-  expect(await page.locator('.dots i[data-s]').count()).toBe(DEFAULT.height);
+  await expect(page.locator('.dots i[data-s]')).toHaveCount(DEFAULT.height); // C-2b: waiting count
   await expect(page.getByTestId('mean')).toHaveText(/^mean \d\.\d\d$/);
   await expect(page.getByTestId('coverage')).toContainText('Explained');
   await page.waitForTimeout(1200); // let the draw-in finish
@@ -57,7 +57,7 @@ test('text-fire (a non-default bundled sample) is checked and exact', async ({ p
   await open(page, s.id);
   await expect(page.getByTestId('badge')).toHaveText('Exact match', { timeout: 20000 });
   await expect(page.getByText('Your own file has no reference picture')).toHaveCount(0);
-  expect(await page.locator('.dots i[data-s]').count()).toBe(s.height);
+  await expect(page.locator('.dots i[data-s]')).toHaveCount(s.height); // C-2b: waiting count
 });
 
 test('picker: choosing a sample verifies it; the blind test is labelled and exact', async ({ page, baseURL }) => {

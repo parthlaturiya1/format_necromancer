@@ -80,7 +80,7 @@ test('each beat shows its own content, taken from the engine result', async ({ p
   await page.goto('/?beat=5&p=0.5');
   await expect(page.locator('canvas.recovered')).toHaveAttribute('data-shown', String(Math.floor(0.5 * DEFAULT.height)));
   await expect(page.getByText(`Rows rebuilt ${Math.floor(0.5 * DEFAULT.height)} of ${DEFAULT.height}`)).toBeVisible();
-  expect(await page.locator('.dots i[data-s]').count()).toBe(DEFAULT.height);
+  await expect(page.locator('.dots i[data-s]')).toHaveCount(DEFAULT.height); // C-2b: waiting count
 });
 
 test('speed 4x finishes in about a quarter of the time of 1x (F-01)', async ({ page }) => {

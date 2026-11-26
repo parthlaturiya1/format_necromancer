@@ -73,7 +73,7 @@ for (const reduced of [false, true]) {
       await expect(page.locator('.hexv .b.s0')).not.toHaveCount(0); // C-2: waits for the render (a one-shot count raced it on a 2-core runner)
       expect(await page.locator('.hexv .b.s2').count()).toBe(0);
       // Failure red is on the screen only because of the failure.
-      expect(await page.locator('.app[data-failed]').count()).toBe(1);
+      await expect(page.locator('.app[data-failed]')).toHaveCount(1); // C-2b: waiting count
       expect(await axe(page)).toEqual([]);
       expect(seen.errors).toEqual([]);
       expect(seen.foreign).toEqual([]);

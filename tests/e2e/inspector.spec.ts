@@ -60,14 +60,14 @@ test('click a row: bytes lit, line drawn, card text right; click a byte: its row
   await expect(card).toContainText(/Bytes 0x[0-9A-F]{4} to 0x[0-9A-F]{4}.* Confidence \d\.\d\d/);
   await expect(page.getByTestId('announce')).toHaveText(/^Row 7, run rule, confidence \d\.\d\d, bytes 0x[0-9A-F]{4} to 0x[0-9A-F]{4}$/);
   const lit = page.locator('.hex-bytes .b.sel');
-  expect(await lit.count()).toBeGreaterThan(0);
+  await expect(lit).not.toHaveCount(0); // C-2b: waits for the render (a one-shot count raced it on CI run 45816097656)
   // The line: a cubic path that starts at the bytes (left) and ends at the picture's left edge, 1.5 px wide.
   const line = page.locator('[data-testid="evidence-line"] path.l3-line');
   await expect(line).toHaveCount(1);
   const d = (await line.getAttribute('d'))!;
   expect(d).toMatch(/^M[\d.]+,[\d.]+ C/);
   expect(await line.evaluate((e) => getComputedStyle(e).strokeWidth)).toBe('2px');
-  expect(await page.locator('.l3-row').count()).toBe(1);
+  await expect(page.locator('.l3-row')).toHaveCount(1); // C-2b: waiting count
   // Pick another row, then click one of the first row's lit bytes: row 7 comes back.
   const off = await lit.first().getAttribute('data-o');
   await clickRow(page, 20);
