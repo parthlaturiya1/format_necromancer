@@ -101,7 +101,7 @@ test('a mutated sample is Not exact, with a count and the first mismatches', asy
   await expect(page.getByTestId('badge')).toHaveText('Not exact', { timeout: 20000 });
   const n = Number(((await page.getByTestId('mismatch-count').textContent()) ?? '0').replace(/,/g, ''));
   expect(n).toBeGreaterThan(0);
-  expect(await page.locator('.mm li').count()).toBeGreaterThan(0);
+  await expect(page.locator('.mm li')).not.toHaveCount(0); // C-2: waits for the render (a one-shot count raced it on a 2-core runner)
   expect(await page.locator('.mm li').first().textContent()).toMatch(/^row \d+, col \d+: rgb\(.*\) expected, rgb\(.*\) found$/);
 });
 
@@ -136,7 +136,7 @@ test('grid keyboard path: arrows move, Enter jumps to the row bytes, tooltip sho
   await expect(page.getByTestId('grid-tip')).toHaveText(/^Row 2, run rule, confidence \d\.\d\d, bytes 0x/);
   await page.keyboard.press('Enter');
   await expect(page.getByTestId('inspector').locator('h2')).toHaveText('Row 2');
-  expect(await page.locator('.hex-bytes .b.sel').count()).toBeGreaterThan(0);
+  await expect(page.locator('.hex-bytes .b.sel')).not.toHaveCount(0); // C-2: waits for the render (a one-shot count raced it on a 2-core runner)
   await page.getByRole('button', { name: 'List view' }).click();
   await expect(page.locator('.grid-list li')).toHaveCount(DEFAULT.height);
 });

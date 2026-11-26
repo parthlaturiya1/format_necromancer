@@ -1,45 +1,57 @@
 # Verification
 
 Overall: **PASS**
-Run: 2026-11-26T10:57:17.883Z, Node v26.13.1
+Run: 2026-11-26T12:01:32.626Z, Node v26.13.1
 
 | Step | Result |
 |---|---|
-| 1 Typecheck | PASS (1.3s) |
-| 2 Lint | PASS (3.7s) |
-| 3 Unit tests | PASS (1.4s) |
-| 4 Property tests | PASS (2.1s) |
-| 5 Golden corpus | PASS (1.1s) |
-| 6 Build | PASS (4.1s) |
-| 7 Playwright e2e | PASS (236.7s) |
-| 7b Perf bars (local; skipped on CI with a logged reason) | PASS (58.9s) |
-| 8 Budgets | PASS (0.7s) |
-| 9a Audit (high/critical) | PASS (0.9s) |
-| 9b Secret scan | PASS (0.6s) |
-| 10 provenance:check | PASS (0.2s) |
+| 1 Typecheck | PASS (2.8s) |
+| 2 Lint | PASS (6.5s) |
+| 3 Unit tests | PASS (1.9s) |
+| 4 Property tests | PASS (3.8s) |
+| 5 Golden corpus | PASS (2.0s) |
+| 6 Build | PASS (7.1s) |
+| 7 Playwright e2e | PASS (330.8s) |
+| 7b Perf bars (local; skipped on CI with a logged reason) | PASS (86.3s) |
+| 8 Budgets | PASS (1.0s) |
+| 9a Audit (high/critical) | PASS (1.4s) |
+| 9b Secret scan | PASS (0.9s) |
+| 10 provenance:check | PASS (0.3s) |
 
 ## Budgets (step 8)
 
 - JS / (landing): 202441 bytes gzipped, 11 files (limit 250000)
 - JS /404: 181692 bytes gzipped, 9 files (limit 250000)
 - JS /_not-found: 181692 bytes gzipped, 9 files (limit 250000)
-- Engine generated 1 MiB noise: 2.4 ms for 1048576 bytes (limit 3000 ms)
-- Engine hgrad-gray-64x48 + noise to 1 MiB: 1.5 ms for 1048576 bytes (limit 3000 ms)
-- Engine hgrad-gray-64x48: 3.8 ms for 1053 bytes (limit 3000 ms)
-- Engine vgrad-fire-97x61: 10.5 ms for 8339 bytes (limit 3000 ms)
-- Engine shapes-rand-128x96: 2 ms for 2514 bytes (limit 3000 ms)
-- Engine checker8-ocean-80x80: 1.8 ms for 2497 bytes (limit 3000 ms)
-- Engine checker1-gray-65x33: 1.3 ms for 4147 bytes (limit 3000 ms)
-- Engine stripes-rand-200x40: 1.4 ms for 4097 bytes (limit 3000 ms)
-- Engine text-fire-160x32: 1.2 ms for 1968 bytes (limit 3000 ms)
-- Engine rings-rand-111x111: 1.5 ms for 5480 bytes (limit 3000 ms)
-- Engine diag-ocean-256x16: 2.6 ms for 5849 bytes (limit 3000 ms)
-- Engine solid-gray-32x32: 1.1 ms for 961 bytes (limit 3000 ms)
-- Engine tiny-rand-7x5: 0.3 ms for 938 bytes (limit 3000 ms)
+- Engine generated 1 MiB noise: 4.7 ms for 1048576 bytes (limit 3000 ms)
+- Engine hgrad-gray-64x48 + noise to 1 MiB: 2.6 ms for 1048576 bytes (limit 3000 ms)
+- Engine hgrad-gray-64x48: 8.5 ms for 1053 bytes (limit 3000 ms)
+- Engine vgrad-fire-97x61: 21.2 ms for 8339 bytes (limit 3000 ms)
+- Engine shapes-rand-128x96: 6.9 ms for 2514 bytes (limit 3000 ms)
+- Engine checker8-ocean-80x80: 4.7 ms for 2497 bytes (limit 3000 ms)
+- Engine checker1-gray-65x33: 4.9 ms for 4147 bytes (limit 3000 ms)
+- Engine stripes-rand-200x40: 2.4 ms for 4097 bytes (limit 3000 ms)
+- Engine text-fire-160x32: 2.1 ms for 1968 bytes (limit 3000 ms)
+- Engine rings-rand-111x111: 2.9 ms for 5480 bytes (limit 3000 ms)
+- Engine diag-ocean-256x16: 5.1 ms for 5849 bytes (limit 3000 ms)
+- Engine solid-gray-32x32: 3.2 ms for 961 bytes (limit 3000 ms)
+- Engine tiny-rand-7x5: 0.5 ms for 938 bytes (limit 3000 ms)
 - Lighthouse: not configured (would add a dependency)
 
-## Provenance warnings (890)
+## Provenance warnings (902)
 
+- UNATTRIBUTED 9b79721 .github/workflows/verify.yml
+- UNATTRIBUTED 9b79721 README.md
+- UNATTRIBUTED 9b79721 docs/verification/c1-ci-green.md
+- UNATTRIBUTED 9b79721 docs/verification/latest.md
+- UNATTRIBUTED 9b79721 package.json
+- UNATTRIBUTED 9b79721 playwright.config.ts
+- UNATTRIBUTED 9b79721 scripts/perf.mjs
+- UNATTRIBUTED 9b79721 scripts/verify.mjs
+- UNATTRIBUTED 9b79721 tests/e2e/p1.spec.ts
+- UNATTRIBUTED 9b79721 tests/e2e/panels.spec.ts
+- UNATTRIBUTED 9b79721 tests/e2e/perf.spec.ts
+- UNATTRIBUTED 9b79721 tests/e2e/throttle.ts
 - UNATTRIBUTED c45eb6a docs/feature-register.md
 - UNATTRIBUTED c45eb6a docs/verification/final.md
 - UNATTRIBUTED c45eb6a docs/verification/screens/t25-live-desktop.png

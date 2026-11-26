@@ -147,7 +147,7 @@ for (const reduced of [false, true]) {
       await expect(card.locator('h2')).toHaveText(`Row ${r}`);
       await expect(card).toContainText(/Rule: .+\./);
       await expect(card).toContainText(/Confidence \d\.\d\d/);
-      expect(await page.locator('.hex-bytes .b.sel').count()).toBeGreaterThan(0);
+      await expect(page.locator('.hex-bytes .b.sel')).not.toHaveCount(0); // C-2: waits for the render (a one-shot count raced it on a 2-core runner)
       nums.lit_bytes = await page.locator('.hex-bytes .b.sel').count();
       if (w >= 760) {
         await expect(page.locator('[data-testid="evidence-line"] path.l3-line')).toHaveCount(1);

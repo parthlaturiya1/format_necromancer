@@ -49,7 +49,7 @@ test('sample: the real engine rebuilds the picture, panels show it', async ({ pa
   expect(colours).toBeGreaterThan(4);
   // Hex: only a window of rows in the DOM, coloured from evidence.
   expect(await page.locator('.hex-row').count()).toBeLessThan(60);
-  expect(await page.locator('.hex-bytes .b.s2').count()).toBeGreaterThan(0);
+  await expect(page.locator('.hex-bytes .b.s2')).not.toHaveCount(0); // C-2: waits for the render (a one-shot count raced it on a 2-core runner)
   await expect(page.getByRole('region', { name: new RegExp(`^Bytes of ${DEFAULT.id}\\.pcx`) })).toBeVisible();
   expect(seen.errors).toEqual([]);
   expect(seen.foreign).toEqual([]);

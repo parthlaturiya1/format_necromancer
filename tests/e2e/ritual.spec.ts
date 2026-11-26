@@ -74,7 +74,7 @@ test('each beat shows its own content, taken from the engine result', async ({ p
   // Losers show the engine's own reason, and hovering a card lights bytes.
   await expect(cards.nth(1).locator('.hc-why')).not.toHaveText('');
   await cards.nth(1).locator('button').hover();
-  expect(await page.locator('.hex-bytes .b.sel').count()).toBeGreaterThan(0);
+  await expect(page.locator('.hex-bytes .b.sel')).not.toHaveCount(0); // C-2: waits for the render (a one-shot count raced it on a 2-core runner)
   await page.goto('/?beat=1');
   await expect(page.locator('.hex-bytes .b.s2')).toHaveCount(0);
   await page.goto('/?beat=5&p=0.5');

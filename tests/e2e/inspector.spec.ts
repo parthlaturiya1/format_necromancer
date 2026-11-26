@@ -44,7 +44,7 @@ test('a region is picked when the run ends, with its card, lit bytes and a line 
   await page.setViewportSize({ width: 1440, height: 900 });
   await openSample(page);
   await expect(page.getByTestId('inspector')).toContainText(/Bytes 0x[0-9A-F]{4} to 0x[0-9A-F]{4}/);
-  expect(await page.locator('.hex-bytes .b.sel').count()).toBeGreaterThan(0);
+  await expect(page.locator('.hex-bytes .b.sel')).not.toHaveCount(0); // C-2: waits for the render (a one-shot count raced it on a 2-core runner)
   expect(seen.errors).toEqual([]);
   expect(seen.foreign).toEqual([]);
 });
@@ -80,7 +80,7 @@ test('click a row: bytes lit, line drawn, card text right; click a byte: its row
   await page.locator('.hex-bytes .b[data-o="0"]').click();
   await expect(card.locator('h2')).toHaveText(/header/i);
   await expect(card).toContainText('Part of the layout');
-  expect(await page.locator('.hex-bytes .b.sel').count()).toBeGreaterThan(0);
+  await expect(page.locator('.hex-bytes .b.sel')).not.toHaveCount(0); // C-2: waits for the render (a one-shot count raced it on a 2-core runner)
   expect(seen.errors).toEqual([]);
   expect(seen.foreign).toEqual([]);
 });
@@ -145,7 +145,7 @@ test('phone: highlight only, no cross-panel line; axe clean at both sizes', asyn
   await clickRow(page, 7);
   await expect(page.getByTestId('inspector').locator('h2')).toHaveText('Row 7');
   expect(await page.locator('[data-testid="evidence-line"]').count()).toBe(0);
-  expect(await page.locator('.hex-bytes .b.sel').count()).toBeGreaterThan(0);
+  await expect(page.locator('.hex-bytes .b.sel')).not.toHaveCount(0); // C-2: waits for the render (a one-shot count raced it on a 2-core runner)
   await expect(page.locator('.l3-row')).toHaveCount(1);
   expect(await axe(page), 'axe 390').toEqual([]);
   await page.setViewportSize({ width: 1440, height: 900 });
