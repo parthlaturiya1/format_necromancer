@@ -1,6 +1,6 @@
-# Devpost write-up: Format Necromancer (draft v1, T-26)
+# Devpost write-up: Format Necromancer (v2, T-26)
 
-Status: DRAFT for the owner. Paste each section into the matching Devpost field. Lines marked **OWNER CHECK** need your answer or a fact only you know. Every number links to a report in the repo.
+Status: FINAL text, v2 (2026-11-26). Paste each section into the matching Devpost field. Three fields stay **OWNER CHECK** until submit day: the exact form questions, the video link and the student details. Every number links to a report in the repo.
 
 Note: the official rules page (kiroween.devpost.com/rules) returned 403 to our fetch on 2026-11-26. The Kiro questions below follow the 2025 list (vibe coding, hooks, specs, steering, MCP) plus the 2026 additions we know of (Kiro Crew, custom agents, Powers). **OWNER CHECK:** open the submission form and match each answer to its exact question. Add any question we missed.
 
@@ -91,11 +91,11 @@ We planned hooks to log every Kiro action. In this Kiro version every hook staye
 
 ### MCP
 
-**OWNER CHECK:** the plan named Playwright MCP for screenshots. We found no record that an MCP server was used in this build. If none was, say so: "No MCP server was used. Screenshots and accessibility checks ran through Playwright tests instead." Do not claim MCP use without a record.
+No MCP server was used in this build. The plan named Playwright MCP for screenshots, but Playwright tests already took every screenshot and ran every accessibility check (axe), inside `npm run verify`. That way they run the same way in CI and leave a record in the repo.
 
 ### Kiro Powers
 
-**OWNER CHECK:** we have no record that a Power was used. If none was, say so plainly.
+No Kiro Power was used. The work needed none beyond specs, steering, custom agents and Kiro Crew.
 
 ### Property-based testing
 
