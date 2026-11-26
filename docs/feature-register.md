@@ -17,3 +17,23 @@ Maintained by the verifier. Updated at T-19 (HEAD 8bea62c, local build out/). PA
 | F-12 | Real states | 404, 500, empty and loading states | PASS: shell.spec.ts (loading, 404, 500 reachable; axe clean on 404); empty state is the idle page in golden-run.spec.ts step 1. |
 | F-13 | Proof Room (stretch) | /proof renders the ledger and captures, read-only, offline | NOT BUILT: build output has only / and /_not-found (route list from npm run build). |
 | F-14 | Judge quick-start | README opens with the URL, a 30-second try, where .kiro is, how Kiro was used | PARTIAL: the 5 try steps work on live and local (golden-run.spec.ts runs them). One wording mismatch (step 5, see t19-golden-run.md). Fresh-clone run (R-10) not done by me. |
+
+## T-25 update (HEAD 8445a58, 2026-11-26, verifier)
+Evidence: five consecutive fresh-clone verify greens (runs 2 to 6) and a live check, both in docs/verification/final.md. Live screenshots: docs/verification/screens/t25-live-desktop.png and t25-live-phone.png.
+
+| ID | T-25 status | Evidence |
+|---|---|---|
+| F-01 | PASS | Live golden run, 1440x900 and 390x844, full and reduced motion: 5 of 5 passed, beats 1..6, press to done 7.3 s (full) and 1.2 to 1.5 s (reduced). Fresh clone e2e green x5. |
+| F-02 | PASS (same limit as T-19) | Fresh clone e2e green x5 (panels.spec.ts, t18.spec.ts). 10 MB real file still not run end to end. |
+| F-03 | PASS | Golden 11 of 11 in verify step 5, x5 green. Live: grid_dots 200, rows rebuilt 200 of 200. |
+| F-04 | PASS | Property tests (step 4) green x5. Live: row click shows rule, confidence, lit bytes (golden run). |
+| F-05 | PASS | Live: badge "Exact match", "0 of 64,000 pixels differ". |
+| F-06 | PASS | Live golden run beats 1..6; speed pill shows 2x then reaches 1x (p1.spec.ts live). 0.5x and 4x not run live. |
+| F-07 | PASS | Live golden run row selected, axe clean. Phone: highlight only, by design. |
+| F-08 | PASS | Live t18.spec.ts: corrupted sample ends red with reason; phone failure screen fits. |
+| F-09 | PASS | Live reduced-motion runs match full-motion values; 3 s to 1.2 s faster. |
+| F-10 | PASS | Live grid 200 dots, 0 uncertain on the default sample. Amber only tested in t18 changed-file test. |
+| F-11 | PASS | Live blind test: "0 of 13,500 pixels differ". |
+| F-12 | PASS | Live /nope returns HTTP 404; shell.spec.ts green x5. |
+| F-13 | NOT BUILT | Unchanged. |
+| F-14 | PARTIAL | README quick-start steps work on live. Fresh-clone "Run locally" works, with the defects listed in final.md. |

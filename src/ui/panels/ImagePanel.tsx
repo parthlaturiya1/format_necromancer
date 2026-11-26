@@ -93,11 +93,16 @@ function RecoveredCanvas({ width, height, rgb, status, reveal, bars, regions, se
     const accent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
 
     let k = 1;
+    // What the last frame left on the canvas: rows from lo to n carry the scan edge or amber, so only they and the new rows are redrawn.
+    let inc: { n: number; lo: number } | null = null;
+    let shownN = -1;
     const size = () => {
       const dpr = Math.min(window.devicePixelRatio || 1, MAX_DPR);
       k = Math.max(1, Math.min(64, Math.floor(Math.min(((box.clientWidth - FRAME) * dpr) / width, ((box.clientHeight - FRAME) * dpr) / height))));
       canvas.width = width * k;
       canvas.height = height * k;
+      inc = null;
+      shownN = -1;
       canvas.style.width = `${(width * k) / dpr}px`;
       canvas.style.height = `${(height * k) / dpr}px`;
     };
@@ -107,8 +112,17 @@ function RecoveredCanvas({ width, height, rgb, status, reveal, bars, regions, se
       if (!ctx) return;
       const n = Math.min(height, Math.floor(f * height));
       ctx.imageSmoothingEnabled = false;
-      ctx.drawImage(grey, 0, 0, canvas.width, canvas.height);
-      if (n > 0) ctx.drawImage(src, 0, 0, width, n, 0, 0, canvas.width, n * k);
+      if (!inc || n < inc.n) {
+        ctx.drawImage(grey, 0, 0, canvas.width, canvas.height);
+        if (n > 0) ctx.drawImage(src, 0, 0, width, n, 0, 0, canvas.width, n * k);
+      } else {
+        // Put back the rows the last frame marked, then add the new ones.
+        const a = inc.lo;
+        const e = Math.min(height, n + 1);
+        ctx.drawImage(grey, 0, a, width, e - a, 0, a * k, canvas.width, (e - a) * k);
+        if (n > a) ctx.drawImage(src, 0, a, width, n - a, 0, a * k, canvas.width, (n - a) * k);
+      }
+      let lo = n;
       if (f < 1) {
         // The scan edge: one row of accent where colour meets grey.
         ctx.globalAlpha = 0.85;
@@ -119,7 +133,8 @@ function RecoveredCanvas({ width, height, rgb, status, reveal, bars, regions, se
         const dur = (elapsed / Math.max(f, 1e-6));
         const settle = SETTLE_MS / speed;
         ctx.fillStyle = amber;
-        for (let r = Math.max(0, n - Math.ceil((settle / dur) * height)); r < n; r++) {
+        lo = Math.max(0, n - Math.ceil((settle / dur) * height));
+        for (let r = lo; r < n; r++) {
           if (status[r] === 'ok') continue;
           const age = elapsed - (r / height) * dur;
           if (age < 0 || age > settle) continue;
@@ -128,6 +143,9 @@ function RecoveredCanvas({ width, height, rgb, status, reveal, bars, regions, se
         }
         ctx.globalAlpha = 1;
       }
+      inc = { n, lo };
+      if (n === shownN) return;
+      shownN = n;
       setText(bars.count.current, `Rows rebuilt ${n} of ${height}`);
       setText(bars.pct.current, `${Math.round((n / height) * 100)}%`);
       if (bars.bar.current) bars.bar.current.style.setProperty('--s', String(n / height));
@@ -211,7 +229,9 @@ function RecoveredCanvas({ width, height, rgb, status, reveal, bars, regions, se
 
 export type RitualProps = RitualView & { speed: number; reduced: boolean; onHover: (r: ReadonlyArray<ByteRange> | null) => void };
 
-export function ImagePanel({ state, forcedLoading, onSample, onFile, ritual, source, ...pick }: RowPick & { source: { text: string; href?: string } | null; state: AppState; forcedLoading: boolean; onSample: () => void; onFile: (f: File) => void; ritual: RitualProps }) {
+export type Compare = { refusal: string; source: string };
+
+export function ImagePanel({ state, forcedLoading, onSample, onFile, ritual, source, compare, ...pick }: RowPick & { source: { text: string; href?: string } | null; compare?: Compare | null; state: AppState; forcedLoading: boolean; onSample: () => void; onFile: (f: File) => void; ritual: RitualProps }) {
   const busy = state.phase === 'loading' || state.phase === 'analysing' || forcedLoading;
   const rec = state.phase === 'done' ? state.result.recovered : null;
   const ok = rec && rec.status === 'ok' ? rec : null;
@@ -348,7 +368,22 @@ export function ImagePanel({ state, forcedLoading, onSample, onFile, ritual, sou
         {ok && rb > 0 && !ritual.finished ? (
           <div className="ritual-ctl">
             {ritual.reduced ? <button type="button" className="btn ghost-btn btn-sm" onClick={ritual.next}>Next beat</button> : null}
-            <button type="button" className="btn ghost-btn btn-sm" onClick={ritual.skip}>Skip to result</button>
+            <button type="button" className="btn btn-sm skip-btn" onClick={ritual.skip}>Skip to result</button>
+          </div>
+        ) : null}
+        {ok && compare && ritual.finished ? (
+          <div className="versus" data-testid="versus">
+            <div className="vs-side" data-side="standard">
+              <p className="vs-title">A standard decoder</p>
+              <p className="vs-verdict">refuses this file</p>
+              <p className="vs-msg mono" data-testid="vs-refusal">{compare.refusal}</p>
+              <p className="vs-src">{compare.source}</p>
+            </div>
+            <div className="vs-side" data-side="necro">
+              <p className="vs-title">Format Necromancer</p>
+              <p className="vs-verdict">recovered, exact</p>
+              <p className="vs-src">Compared with the reference picture, pixel by pixel.</p>
+            </div>
           </div>
         ) : null}
         {ok ? (

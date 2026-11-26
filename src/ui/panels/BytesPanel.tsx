@@ -48,6 +48,7 @@ function HexView({ bytes, name, regions, sel, selected, onPickByte, beat, hover 
     const el = box.current;
     if (!sel || sel.from === 'byte' || !q || !el) return;
     el.scrollTop = Math.max(0, ((q.start + q.end - 1) / 2 / PER_ROW) * ROW_H - el.clientHeight / 2);
+    setView((v) => ({ ...v, top: el.scrollTop })); // render the new rows now, not one frame later via onScroll
   }, [sel, selected]);
 
   // Hovering a hypothesis card brings its first range into view.

@@ -41,7 +41,7 @@ test('default sample: exact badge, 0 mismatches, full bar, charts, grid, no cons
   await expect(page.getByTestId('badge')).toHaveText('Exact match', { timeout: 20000 });
   await expect(page.getByTestId('mismatch-count')).toHaveText('0');
   await expect(page.locator('.v-bar')).toHaveAttribute('aria-label', `${(DEFAULT.width * DEFAULT.height).toLocaleString('en-US')} of ${(DEFAULT.width * DEFAULT.height).toLocaleString('en-US')} pixels match the reference`);
-  expect(await page.locator('.dots i[data-s]').count()).toBe(DEFAULT.height);
+  await expect(page.locator('.dots i[data-s]')).toHaveCount(DEFAULT.height); // C-2b: waiting count
   await expect(page.getByTestId('mean')).toHaveText(/^mean \d\.\d\d$/);
   await expect(page.getByTestId('coverage')).toContainText('Explained');
   await page.waitForTimeout(1200); // let the draw-in finish
@@ -57,7 +57,7 @@ test('text-fire (a non-default bundled sample) is checked and exact', async ({ p
   await open(page, s.id);
   await expect(page.getByTestId('badge')).toHaveText('Exact match', { timeout: 20000 });
   await expect(page.getByText('Your own file has no reference picture')).toHaveCount(0);
-  expect(await page.locator('.dots i[data-s]').count()).toBe(s.height);
+  await expect(page.locator('.dots i[data-s]')).toHaveCount(s.height); // C-2b: waiting count
 });
 
 test('picker: choosing a sample verifies it; the blind test is labelled and exact', async ({ page, baseURL }) => {
@@ -101,7 +101,7 @@ test('a mutated sample is Not exact, with a count and the first mismatches', asy
   await expect(page.getByTestId('badge')).toHaveText('Not exact', { timeout: 20000 });
   const n = Number(((await page.getByTestId('mismatch-count').textContent()) ?? '0').replace(/,/g, ''));
   expect(n).toBeGreaterThan(0);
-  expect(await page.locator('.mm li').count()).toBeGreaterThan(0);
+  await expect(page.locator('.mm li')).not.toHaveCount(0); // C-2: waits for the render (a one-shot count raced it on a 2-core runner)
   expect(await page.locator('.mm li').first().textContent()).toMatch(/^row \d+, col \d+: rgb\(.*\) expected, rgb\(.*\) found$/);
 });
 
@@ -136,7 +136,7 @@ test('grid keyboard path: arrows move, Enter jumps to the row bytes, tooltip sho
   await expect(page.getByTestId('grid-tip')).toHaveText(/^Row 2, run rule, confidence \d\.\d\d, bytes 0x/);
   await page.keyboard.press('Enter');
   await expect(page.getByTestId('inspector').locator('h2')).toHaveText('Row 2');
-  expect(await page.locator('.hex-bytes .b.sel').count()).toBeGreaterThan(0);
+  await expect(page.locator('.hex-bytes .b.sel')).not.toHaveCount(0); // C-2: waits for the render (a one-shot count raced it on a 2-core runner)
   await page.getByRole('button', { name: 'List view' }).click();
   await expect(page.locator('.grid-list li')).toHaveCount(DEFAULT.height);
 });

@@ -1,8 +1,17 @@
 // The one gate (testing.md 8.1). Runs steps in order, stops at the first red,
 // writes docs/verification/latest.md. STUB steps print "STUB" and pass until their task lands.
 import { spawnSync } from 'node:child_process';
+// C-2: every step's output is echoed and kept, so a red step can print a public ::error annotation (CI logs need a sign-in, annotations do not).
+let tail = '';
+const sp = (cmd, args, opts = {}) => {
+  const r = spawnSync(cmd, args, { encoding: 'utf8', maxBuffer: 1 << 28, ...opts, stdio: ['inherit', 'pipe', 'pipe'] });
+  process.stdout.write(r.stdout ?? '');
+  process.stderr.write(r.stderr ?? '');
+  tail += (r.stdout ?? '') + (r.stderr ?? '');
+  return r;
+};
 import { execFileSync } from 'node:child_process';
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { appendFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 
 const node = process.execPath;
 const bin = (p) => [node, p];
@@ -25,15 +34,13 @@ const secretScan = () => {
   return bad ? 1 : 0;
 };
 
-const run = (cmd) => () => spawnSync(cmd[0], cmd.slice(1), { stdio: 'inherit', env }).status ?? 1;
-const shell = (line) => () => spawnSync(line, { stdio: 'inherit', env, shell: true }).status ?? 1;
+const run = (cmd) => () => sp(cmd[0], cmd.slice(1), { stdio: 'inherit', env }).status ?? 1;
+const shell = (line) => () => sp(line, { stdio: 'inherit', env, shell: true }).status ?? 1;
 
 // Warning only (provenance.md 9.3): UNATTRIBUTED lines are kept for latest.md, never fail the gate.
 const warnings = [];
 const provenanceCheck = () => {
-  const r = spawnSync(node, ['scripts/provenance/check.mjs'], { encoding: 'utf8', env });
-  process.stdout.write(r.stdout ?? '');
-  process.stderr.write(r.stderr ?? '');
+  const r = sp(node, ['scripts/provenance/check.mjs'], { encoding: 'utf8', env });
   warnings.push(...(r.stdout ?? '').split('\n').filter((l) => l.startsWith('UNATTRIBUTED')));
   return r.status === 0 ? 0 : 1;
 };
@@ -41,17 +48,17 @@ const provenanceCheck = () => {
 // T-10: step 4 runs the fuzz set (tests/property/fuzz.test.ts); step 5 runs the mutation rule check (R-X3) and fails on a rule break.
 // Validation (T-03) plus the golden report (T-06): the test regenerates docs/verification/golden-report.md and fails if rank 1 differs from the spike layout.
 const goldenCorpus = () => {
-  const code = spawnSync(node, ['scripts/corpus/validate.mjs'], { stdio: 'inherit', env }).status ?? 1;
+  const code = sp(node, ['scripts/corpus/validate.mjs'], { stdio: 'inherit', env }).status ?? 1;
   if (code !== 0) return code;
-  return spawnSync(node, ['node_modules/vitest/vitest.mjs', 'run', 'tests/engine/golden-report.test.ts', 'tests/engine/golden-v2.test.ts', 'tests/engine/png.test.ts', 'tests/engine/recover.test.ts', 'tests/engine/mutations.test.ts'], { stdio: 'inherit', env }).status ?? 1;
+  return sp(node, ['node_modules/vitest/vitest.mjs', 'run', 'tests/engine/golden-report.test.ts', 'tests/engine/golden-v2.test.ts', 'tests/engine/png.test.ts', 'tests/engine/recover.test.ts', 'tests/engine/mutations.test.ts'], { stdio: 'inherit', env }).status ?? 1;
 };
 
 // T-21c: step 8 is real. Page JS (gzipped, per route) and engine timing (1 MiB + every tuning sample) fail the gate when over D-10 limits.
 // Lighthouse: not configured (would add a dependency, D-14).
 const budgetLines = [];
 const budgets = () => {
-  let code = spawnSync(node, ['scripts/budgets/js-size.mjs'], { stdio: 'inherit', env }).status ?? 1;
-  const t = spawnSync(node, ['node_modules/vitest/vitest.mjs', 'run', '--config', 'scripts/budgets/vitest.config.mts'], { stdio: 'inherit', env }).status ?? 1;
+  let code = sp(node, ['scripts/budgets/js-size.mjs'], { stdio: 'inherit', env }).status ?? 1;
+  const t = sp(node, ['node_modules/vitest/vitest.mjs', 'run', '--config', 'scripts/budgets/vitest.config.mts'], { stdio: 'inherit', env }).status ?? 1;
   code = code || t;
   const read = (f) => (existsSync(f) ? JSON.parse(readFileSync(f, 'utf8')) : null);
   const js = read('test-results/budgets-js.json');
@@ -70,12 +77,21 @@ const steps = [
   ['5 Golden corpus', goldenCorpus],
   ['6 Build', run([...bin('node_modules/next/dist/bin/next'), 'build'])],
   ['7 Playwright e2e', run([...bin('node_modules/@playwright/test/cli.js'), 'test'])],
+  ['7b Perf bars (local; skipped on CI with a logged reason)', run([...bin('scripts/perf.mjs')])],
   ['8 Budgets', budgets],
   ['9a Audit (high/critical)', shell('npm audit --audit-level=high')],
   ['9b Secret scan', secretScan],
   ['10 provenance:check', provenanceCheck],
 ];
 
+// First lines that look like a failure (Playwright, Vitest, tsc, eslint, node), else the last lines. Short enough for an annotation.
+const esc = (s) => s.replace(/%/g, '%25').replace(/\r/g, '%0D').replace(/\n/g, '%0A');
+const reasonFrom = (out) => {
+  const lines = out.replace(/\x1b\[[0-9;]*m/g, '').split('\n').map((l) => l.trim()).filter(Boolean);
+  const hit = lines.filter((l) => /(^\d+\) )|\u2718|\bfailed\b|\bFAIL\b|error TS|\berror\b|Error:|expect\(|Timeout|exit code/i.test(l));
+  return (hit.length ? hit.slice(0, 4) : lines.slice(-4)).join(' | ').slice(0, 600) || 'no output';
+};
+let failure = null;
 const results = [];
 let failed = false;
 for (const [name, fn] of steps) {
@@ -85,11 +101,16 @@ for (const [name, fn] of steps) {
   }
   console.log(`\n=== ${name} ===`);
   const t = Date.now();
+  tail = '';
   const code = fn();
   const secs = ((Date.now() - t) / 1000).toFixed(1);
   const isStub = fn.toString().includes('STUB');
   results.push([name, code === 0 ? (isStub ? `PASS (stub, ${secs}s)` : `PASS (${secs}s)`) : `FAIL (exit ${code})`]);
-  if (code !== 0) failed = true;
+  if (code !== 0) {
+    failed = true;
+    failure = { name, code, reason: reasonFrom(tail), tail };
+    console.log(`::error title=verify step ${name.replace(/[,:]/g, ' ')}::${esc(failure.reason)}`);
+  }
 }
 
 const register = existsSync('docs/feature-register.md') ? readFileSync('docs/feature-register.md', 'utf8') : 'No feature register found.';
@@ -119,5 +140,12 @@ const md = [
 ].join('\n');
 mkdirSync('docs/verification', { recursive: true });
 writeFileSync('docs/verification/latest.md', md);
+// GitHub step summary (public on the run page, no sign-in needed to read the annotation, summary needs the run page only).
+if (process.env.GITHUB_STEP_SUMMARY) {
+  const head = ['## verify: ' + overall, '', '| Step | Result |', '|---|---|', ...results.map(([n, r]) => `| ${n} | ${r} |`)];
+  if (failure) head.push('', `Failed: **${failure.name}** (exit ${failure.code}). ${failure.reason}`, '', '```', ...failure.tail.replace(/\x1b\[[0-9;]*m/g, '').split('\n').slice(-40), '```');
+  appendFileSync(process.env.GITHUB_STEP_SUMMARY, head.join('\n') + '\n');
+}
 console.log(`\nverify: ${overall}. Wrote docs/verification/latest.md`);
 process.exit(failed ? 1 : 0);
+

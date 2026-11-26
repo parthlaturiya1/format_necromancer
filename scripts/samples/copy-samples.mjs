@@ -1,13 +1,16 @@
 // Copies the tuning samples and their reference PNGs into public/samples/ and writes index.json.
 // Tuning samples come from listTuningSamples, which never returns held-out entries. The one held-out file (F-11) is
 // copied byte for byte with its trusted reference; this script never parses or analyses it (size and 150x90 are file facts from blind-test.md).
-import { copyFileSync, mkdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
+import { copyFileSync, existsSync, mkdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { basename } from 'node:path';
 import { listTuningSamples } from '../corpus/list-tuning-samples.mjs';
 
 const OUT = 'public/samples';
-const DEFAULT_ID = 'rings-rand-111x111'; // the most striking: concentric colour rings
+const DEFAULT_ID = 'real-abuse-end'; // P-1: real game art (the figure in fire), not a generated pattern
+// Read before the folder is rebuilt: the committed refusal text is the fallback when Python or Pillow is missing (CI).
+const PILLOW_FALLBACK = existsSync(`${OUT}/index.json`) ? JSON.parse(readFileSync(`${OUT}/index.json`, 'utf8')).samples?.find((s) => s.id === 'signature-changed')?.refusal : undefined;
 
 rmSync(OUT, { recursive: true, force: true });
 mkdirSync(OUT, { recursive: true });
@@ -45,7 +48,15 @@ const tuning = (id) => {
   const bytes = readFileSync(`${OUT}/${basename(src.path)}`);
   bytes[0] = (bytes[0] + 1) & 255; // the signature byte plus 1
   writeFileSync(`${OUT}/signature-changed.pcx`, bytes);
-  samples.push({ id: 'signature-changed', path: '/samples/signature-changed.pcx', bytes: bytes.length, reference: src.reference, width: src.width, height: src.height, label: 'The first byte was changed; a standard decoder refuses this file' });
+  // P-1: the standard decoder's real refusal, recorded once here by running Pillow on this exact file.
+  let refusal = PILLOW_FALLBACK;
+  try {
+    const code = ['import PIL.Image as I', 'try:', '    I.open("signature-changed.pcx").load()', 'except Exception as e:', '    print(type(e).__name__ + ": " + str(e))'].join('\n');
+    const out = execFileSync('python', ['-c', code], { cwd: OUT, encoding: 'utf8' }).trim();
+    if (out) refusal = out;
+  } catch { /* no Python or Pillow here: keep the committed text */ }
+  if (!refusal) throw new Error('no Pillow refusal text: run this script once where Python and Pillow exist');
+  samples.push({ id: 'signature-changed', path: '/samples/signature-changed.pcx', bytes: bytes.length, refusal, refusalSource: 'Pillow 13.0.0, a widely used image library', reference: src.reference, width: src.width, height: src.height, label: 'The first byte was changed; a standard decoder refuses this file' });
 }
 {
   // D8: the colour table and its lead byte (769 bytes) cut off. The engine still recovers it, but every row is uncertain.

@@ -74,13 +74,13 @@ test('each beat shows its own content, taken from the engine result', async ({ p
   // Losers show the engine's own reason, and hovering a card lights bytes.
   await expect(cards.nth(1).locator('.hc-why')).not.toHaveText('');
   await cards.nth(1).locator('button').hover();
-  expect(await page.locator('.hex-bytes .b.sel').count()).toBeGreaterThan(0);
+  await expect(page.locator('.hex-bytes .b.sel')).not.toHaveCount(0); // C-2: waits for the render (a one-shot count raced it on a 2-core runner)
   await page.goto('/?beat=1');
   await expect(page.locator('.hex-bytes .b.s2')).toHaveCount(0);
   await page.goto('/?beat=5&p=0.5');
-  await expect(page.locator('canvas.recovered')).toHaveAttribute('data-shown', '55');
+  await expect(page.locator('canvas.recovered')).toHaveAttribute('data-shown', String(Math.floor(0.5 * DEFAULT.height)));
   await expect(page.getByText(`Rows rebuilt ${Math.floor(0.5 * DEFAULT.height)} of ${DEFAULT.height}`)).toBeVisible();
-  expect(await page.locator('.dots i[data-s]').count()).toBe(DEFAULT.height);
+  await expect(page.locator('.dots i[data-s]')).toHaveCount(DEFAULT.height); // C-2b: waiting count
 });
 
 test('speed 4x finishes in about a quarter of the time of 1x (F-01)', async ({ page }) => {
@@ -99,12 +99,12 @@ test('speed 4x finishes in about a quarter of the time of 1x (F-01)', async ({ p
 test('the speed pill is a button: Enter changes it, and the choice stays for the session', async ({ page }) => {
   await page.goto('/');
   const pill = page.getByTestId('speed');
-  await expect(pill).toHaveText('Speed 1x');
+  await expect(pill).toHaveText('Speed 2x'); // P-1: the first run plays at 2x
   await pill.focus();
   await page.keyboard.press('Enter');
-  await expect(pill).toHaveText('Speed 2x');
+  await expect(pill).toHaveText('Speed 4x');
   await page.reload();
-  await expect(pill).toHaveText('Speed 2x');
+  await expect(pill).toHaveText('Speed 4x');
 });
 
 test('reduced motion: end state of each beat, Next beat steps, Skip to result finishes (F-09)', async ({ page, baseURL }) => {

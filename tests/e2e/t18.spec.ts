@@ -70,10 +70,10 @@ for (const reduced of [false, true]) {
       // What was found before it failed, with the engine's own reasons.
       await expect(page.getByTestId('found')).toContainText('Guess 1');
       // Bytes: only what the engine explained is lit. For this file every piece of evidence is below the explained threshold, so every byte is dim (nothing is lit to look better).
-      expect(await page.locator('.hexv .b.s0').count()).toBeGreaterThan(0);
+      await expect(page.locator('.hexv .b.s0')).not.toHaveCount(0); // C-2: waits for the render (a one-shot count raced it on a 2-core runner)
       expect(await page.locator('.hexv .b.s2').count()).toBe(0);
       // Failure red is on the screen only because of the failure.
-      expect(await page.locator('.app[data-failed]').count()).toBe(1);
+      await expect(page.locator('.app[data-failed]')).toHaveCount(1); // C-2b: waiting count
       expect(await axe(page)).toEqual([]);
       expect(seen.errors).toEqual([]);
       expect(seen.foreign).toEqual([]);
@@ -104,7 +104,7 @@ for (const reduced of [false, true]) {
       await pick(page, 'changed-lower-confidence');
       await finish(page);
       await expect(page.getByTestId('blind-label')).toContainText('lower confidence');
-      expect(await page.locator('.dots i[data-s="uncertain"]').count()).toBeGreaterThan(0);
+      await expect(page.locator('.dots i[data-s="uncertain"]')).not.toHaveCount(0); // C-2: waits for the render (a one-shot count raced it on a 2-core runner)
       await expect(page.getByTestId('badge')).toHaveText(/Exact match|Not exact/, { timeout: 20000 });
       await page.waitForTimeout(1200);
       expect(seen.errors).toEqual([]);

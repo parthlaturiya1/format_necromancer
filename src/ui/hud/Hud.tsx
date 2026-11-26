@@ -1,5 +1,5 @@
 'use client';
-import { useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type { PipelineResult } from '../../engine/pipeline';
 import { browserDeflate, encodePng } from '../../engine/png';
 import { buildEvidenceReport } from '../../engine/report';
@@ -47,6 +47,25 @@ function Dots({ regions, status, light, onPick, selectedId }: { regions: Region[
     }
   };
   const count = (s: string) => status.filter((x) => x === s).length;
+  // F-1: beat 5 lights the dots from one frame loop. Each frame marks only the dots whose time has come ('on'), and a
+  // short CSS transition fades each in. 200 delayed CSS animations held 200 compositor layers all beat long and cost a frame in three.
+  const playMs = light.mode === 'play' ? light.ms : 0;
+  useEffect(() => {
+    const el = box.current;
+    if (!playMs || !el) return;
+    const dots = el.querySelectorAll<HTMLElement>('i[data-s]');
+    let raf = 0;
+    let lit = 0;
+    let t0 = -1;
+    const tick = (t: number) => {
+      if (t0 < 0) t0 = t;
+      const f = Math.min(1, (t - t0) / playMs);
+      for (const want = Math.min(dots.length, Math.ceil(f * n)); lit < want; lit++) dots[lit]!.classList.add('on');
+      if (f < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => { cancelAnimationFrame(raf); dots.forEach((d) => d.classList.remove('on')); };
+  }, [playMs, n]);
   return (
     <>
       <div
@@ -75,7 +94,7 @@ function Dots({ regions, status, light, onPick, selectedId }: { regions: Region[
             onKeyDown={(e) => move(e, i)}
             onClick={(e) => onPick(i, e.detail === 0)}
           >
-            <i data-s={s} className={light.mode === 'off' || (light.mode === 'part' && i >= light.share * n) ? 'dark' : 'lit'} style={light.mode === 'play' ? ({ '--d': `${(i / n) * light.ms}ms` } as React.CSSProperties) : undefined} />
+            <i data-s={s} className={light.mode === 'off' || (light.mode === 'part' && i >= light.share * n) ? 'dark' : 'lit'} />
           </button>
         ))}
       </div>
