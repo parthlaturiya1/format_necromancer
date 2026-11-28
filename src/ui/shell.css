@@ -488,6 +488,10 @@ a { color: var(--accent); text-underline-offset: 3px; }
 
 /* T-18: honest failure (R-U23). Failure red appears only when nothing was recovered. Calm: one frame, one reason, what was found. */
 .failure { display: grid; gap: var(--sp-4); justify-items: center; width: 100%; max-width: 34rem; text-align: left; }
+/* Owner report 2026-11-27: on a short window the failure content is taller than the stage. Centred overflow pushed the
+   title up over the panel heading and the buttons below the panel. Keep it centred when it fits, start-aligned and
+   scrollable when it does not. */
+.image-stage[data-state='failed'], .image-stage[data-state='empty'] { align-content: start; align-content: safe center; overflow-y: auto; overscroll-behavior: contain; }
 .failure-title { font-size: var(--fs-md); font-weight: 650; color: var(--failure); justify-self: start; }
 .failure-frame { position: relative; width: 100%; min-height: 10rem; display: grid; place-items: center; gap: var(--sp-3); padding: var(--sp-5); border: 1.5px dashed color-mix(in srgb, var(--failure) 65%, transparent); border-radius: var(--radius-md); background: color-mix(in srgb, var(--failure) 5%, transparent); }
 .failure-ghost { width: 3.5rem; opacity: 0.35; }

@@ -147,6 +147,28 @@ test('phone: the failure screen fits and reads', async ({ page }) => {
   if (SHOTS) await page.screenshot({ path: `${SCREENS}/t18-phone-failure.png`, fullPage: true });
 });
 
+// Owner report 2026-11-27: on a short laptop window the failure title rose over the "Recovered image" heading and the
+// buttons fell below the panel. The title must start below the heading, and the buttons must be reachable.
+for (const [w, h] of [[1568, 830], [1366, 650], [1280, 600]] as const) {
+  test(`short window ${w}x${h}: the failure screen does not overlap the panel heading`, async ({ page }) => {
+    await page.setViewportSize({ width: w, height: h });
+    await page.goto('/?speed=4');
+    await page.getByTestId('sample-pick').selectOption('corrupt-tail-cut');
+    await expect(page.getByTestId('failure')).toBeVisible({ timeout: 20000 });
+    const heading = (await page.locator('#h-image').boundingBox())!;
+    const stage = (await page.locator('.image-stage').boundingBox())!;
+    const title = (await page.locator('.failure-title').boundingBox())!;
+    expect(title.y).toBeGreaterThanOrEqual(heading.y + heading.height);
+    expect(title.y).toBeGreaterThanOrEqual(stage.y);
+    const again = page.getByTestId('failure').getByRole('button', { name: 'Resurrect a sample' });
+    await again.scrollIntoViewIfNeeded();
+    await expect(again).toBeInViewport();
+    const btn = (await again.boundingBox())!;
+    const stageNow = (await page.locator('.image-stage').boundingBox())!;
+    expect(btn.y + btn.height).toBeLessThanOrEqual(stageNow.y + stageNow.height + 1);
+  });
+}
+
 test('picture scale: the whole-number size is the largest that fits (F7)', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   for (const [id, w, h] of [['text-fire-160x32', 160, 32], ['rings-rand-111x111', 111, 111], ['tiny-rand-7x5', 7, 5]] as const) {
